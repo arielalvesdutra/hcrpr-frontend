@@ -1,16 +1,14 @@
-import React from 'react'
-import Content from '../../layouts/Content'
+import React, { Component} from 'react'
+import { connect } from 'react-redux'
 
+import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import List, {ListItem} from '../../components/List'
 import Technique from '../../models/Technique'
+import { fetchAllTechniques } from '../../redux/actions/techniques'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Técnicas", "/techniques")
-]
-
-const fakeTechniques = [
-  new Technique(1, "Técnica X", "A técnica X")
 ]
 
 const mapTechniquesToItems = (parameterTechniques:Technique[]):ListItem[] => {
@@ -22,16 +20,45 @@ const mapTechniquesToItems = (parameterTechniques:Technique[]):ListItem[] => {
   })
 }
 
-const Techniques = () =>           
-  <Content 
-      title="Técnicas"
-      breadcrumbLinks={breadcrumbLinks}>
-        
-    <section className="list_techniques">
-      <h2 className="content_subtitle">Lista de técnicas</h2>
+interface ITechniquesProps {
+  onFetchAllTechniques: any
+  techniques: Technique[]
+}
 
-      <List items={mapTechniquesToItems(fakeTechniques)} />
-    </section>
-  </Content>
+class Techniques extends Component<ITechniquesProps> {
 
-export default Techniques
+  componentDidMount = () => {
+    this.props.onFetchAllTechniques()
+  }
+
+  render() {
+    return (
+        <Content 
+            title="Técnicas"
+            breadcrumbLinks={breadcrumbLinks}>
+              
+          <section className="list_techniques">
+            <h2 className="content_subtitle">Lista de técnicas</h2>
+            
+            {this.props.techniques && (
+              <List items={mapTechniquesToItems(this.props.techniques)} />
+            )}
+          </section>
+        </Content>
+    )
+  }
+}
+
+const mapStateToProps = (props: any) => {
+  return {
+    techniques: props.techniques.techniques
+   }
+}
+
+const mapDispatchToProps = (dispatch:any) => {
+  return {
+    onFetchAllTechniques: () => dispatch(fetchAllTechniques())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Techniques)

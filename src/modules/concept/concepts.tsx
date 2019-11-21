@@ -1,17 +1,14 @@
-import React from 'react'
-import Content from '../../layouts/Content'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
+import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import List, {ListItem} from '../../components/List'
 import Concept from '../../models/Concept'
+import { fetchAllConcepts } from '../../redux/actions/concepts'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Conceitos", "/concepts")
-]
-
-const fakeConcepts = [
-  new Concept(1, "Grandes numeros", "Os grandes numeros"),
-  new Concept(2, "Regressão à média", "Esse conceito procura...")
 ]
 
 const mapConceptsToItems = (parameterConcepts:Concept[]):ListItem[] => {
@@ -23,16 +20,46 @@ const mapConceptsToItems = (parameterConcepts:Concept[]):ListItem[] => {
   })
 }
 
-const Concepts = () => 
-    <Content
-        title="Conceitos"
-        breadcrumbLinks={breadcrumbLinks}>
-    <section className="list_concepts">
-      <h2 className="content_subtitle">Lista de conceitos</h2>
+interface IConceptsProps {
+  onFetchAllConcepts: any
+  concepts: Concept[]
+}
 
-      <List items={mapConceptsToItems(fakeConcepts)} />
-    </section>
+class Concepts extends Component<IConceptsProps> {
 
-    </Content>
+  componentDidMount = () => {
+    this.props.onFetchAllConcepts()
+  }
 
-export default Concepts
+  render() {
+
+    return (
+      <Content
+          title="Conceitos"
+          breadcrumbLinks={breadcrumbLinks}>
+
+        <section className="list_concepts">
+          <h2 className="content_subtitle">Lista de conceitos</h2>
+          
+          {this.props.concepts && (
+            <List items={mapConceptsToItems(this.props.concepts)} />
+          )}
+        </section>
+      </Content>
+    )
+  }
+}
+
+const mapStateToProps = (props: any) => {
+  return {
+    concepts: props.concepts.concepts
+   }
+}
+
+const mapDispatchToProps = (dispatch:any) => {
+  return {
+    onFetchAllConcepts: () => dispatch(fetchAllConcepts())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Concepts)
