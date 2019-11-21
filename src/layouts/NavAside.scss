@@ -1,0 +1,25 @@
+@import 'src/assets/sass/_colors.scss';
+
+.navAside {
+  width: 230px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 35px 5px 10px 25px;
+  border-right: 2px solid #888;
+}
+
+.navAside li {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+}
+
+.navAside li a {
+  padding: 12px 15px;
+  color: $primary-color-3;
+  text-decoration: none;
+}
+
+.navAside li a.active {
+  background: #f3f1f1; 
+}

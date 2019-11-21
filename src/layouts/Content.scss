@@ -1,0 +1,14 @@
+@import 'src/assets/sass/_colors.scss';
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 35px 30px 10px 30px;
+}
+
+.content__title {
+  font-size:  2rem;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
