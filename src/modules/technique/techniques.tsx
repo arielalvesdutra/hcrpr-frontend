@@ -13,9 +13,11 @@ const breadcrumbLinks = [
 
 const mapTechniquesToItems = (parameterTechniques:Technique[]):ListItem[] => {
 
-  return parameterTechniques.map((someTechnique, key) => {
+  return parameterTechniques.map((parameterTechnique, key) => {
     return {
-      title: someTechnique.name
+      id: parameterTechnique.id,
+      title: parameterTechnique.name,
+      link: `/techniques/${parameterTechnique.id}`
     }
   })
 }

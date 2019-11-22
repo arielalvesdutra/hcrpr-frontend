@@ -13,9 +13,11 @@ const breadcrumbLinks = [
 
 const mapProblemsToItems = (parameterProblems:Problem[]):ListItem[] => {
 
-  return parameterProblems.map((someProblem, key) => {
+  return parameterProblems.map((parameterProblem, key) => {
     return {
-      title: someProblem.name
+      id: parameterProblem.id,
+      title: parameterProblem.name,
+      link: `/problems/${parameterProblem.id}`
     }
   })
 }

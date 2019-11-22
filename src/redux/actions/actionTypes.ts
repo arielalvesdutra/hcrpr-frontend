@@ -7,5 +7,7 @@ export enum TechniquesActions {
 }
 
 export enum ConceptsActions {
-  SET_CONCEPTS = "SET_CONCEPTS"
+  LOADING_CONCEPTS = "LOADING_CONCEPTS",
+  SET_CONCEPTS = "SET_CONCEPTS",
+  SET_CURRENT_CONCEPT = "SET_CURRENT_CONCEPT"
 }

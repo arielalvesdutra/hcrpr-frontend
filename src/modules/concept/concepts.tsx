@@ -5,7 +5,10 @@ import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import List, {ListItem} from '../../components/List'
 import Concept from '../../models/Concept'
-import { fetchAllConcepts } from '../../redux/actions/concepts'
+import { fetchAllConcepts, deleteById } from '../../redux/actions/concepts'
+
+import AddConcept from '../../components/AddConcept'
+import './concepts.scss'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Conceitos", "/concepts")
@@ -13,36 +16,62 @@ const breadcrumbLinks = [
 
 const mapConceptsToItems = (parameterConcepts:Concept[]):ListItem[] => {
 
-  return parameterConcepts.map((someConcept, key) => {
+  return parameterConcepts.map((parameterConcept, key) => {
     return {
-      title: someConcept.name
+      id: parameterConcept.id,
+      title: parameterConcept.name,
+      link: `/concepts/${parameterConcept.id}`
     }
   })
 }
 
 interface IConceptsProps {
   onFetchAllConcepts: any
-  concepts: Concept[]
+  onDeleteById: any
+  concepts: Concept[],
+  loadingConcepts: boolean
 }
 
 class Concepts extends Component<IConceptsProps> {
 
+  state = {
+    modal: false
+  }
+
   componentDidMount = () => {
     this.props.onFetchAllConcepts()
   }
-
+  
   render() {
 
+    const {concepts, loadingConcepts, onDeleteById } = this.props
+
+    const buttonToDeleteConcept = (id:number) =>
+       <button onClick={() => onDeleteById(id)} 
+          className="list__concepts__deleteButton">
+         Deletar
+       </button>
+     
     return (
       <Content
           title="Conceitos"
           breadcrumbLinks={breadcrumbLinks}>
 
+        <AddConcept />
         <section className="list_concepts">
           <h2 className="content_subtitle">Lista de conceitos</h2>
           
-          {this.props.concepts && (
-            <List items={mapConceptsToItems(this.props.concepts)} />
+          {concepts && (
+            <List actionButtons={[buttonToDeleteConcept]}
+                items={mapConceptsToItems(concepts)} />
+          )}
+
+          {loadingConcepts === false && concepts && concepts.length <= 0 && (
+            <div>
+              <strong>
+                Não há coceitos cadastrados
+              </strong>
+            </div>
           )}
         </section>
       </Content>
@@ -52,13 +81,15 @@ class Concepts extends Component<IConceptsProps> {
 
 const mapStateToProps = (props: any) => {
   return {
-    concepts: props.concepts.concepts
+    concepts: props.concepts.concepts,
+    loadingConcepts: props.concepts.loadingConcepts
    }
 }
 
 const mapDispatchToProps = (dispatch:any) => {
   return {
-    onFetchAllConcepts: () => dispatch(fetchAllConcepts())
+    onFetchAllConcepts: () => dispatch(fetchAllConcepts()),
+    onDeleteById: (id:number) => dispatch(deleteById(id))
   }
 }
 

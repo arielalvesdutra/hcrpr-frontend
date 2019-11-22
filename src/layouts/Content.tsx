@@ -12,7 +12,9 @@ interface IContentProps {
 
 const Content = (props: IContentProps) => 
   <main className="content">
-    <Breadcrumb links={props.breadcrumbLinks}/>
+    <div>
+      <Breadcrumb links={props.breadcrumbLinks}/>
+    </div>
     <h1 className="content__title">{props.title}</h1>
 
     {props.children}

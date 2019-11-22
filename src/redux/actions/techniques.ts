@@ -5,9 +5,7 @@ export const fetchAllTechniques = () => {
   return (dispatch: any) => {
     axios.get('/techniques')
     .then(response => {
-      const data = response.data
-      console.log('resposta:', data);
-      
+      const data = response.data      
       dispatch(setTechniques(data))
     })
     .catch(error => error)

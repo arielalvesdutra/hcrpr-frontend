@@ -1,0 +1,14 @@
+.list__concepts__deleteButton {
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  transition: opacity 0.3s;
+  font-weight: bold;
+  opacity: 1;
+}
+
+.list__concepts__deleteButton:hover {
+  opacity: 0.7;
+}
+

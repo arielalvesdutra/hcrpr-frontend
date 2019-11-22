@@ -4,18 +4,37 @@ import './List.scss'
 
 interface IListProps {
   items: ListItem[]
+  actionButtons?: any
 }
 
 export interface ListItem {
+  id?: number,
   title: string,
-  description?: string
+  description?: string,
+  link?: string
 }
 
-const List = (props: IListProps) => 
+const parseItemLink = (item: ListItem, content: any) => {
+  return item.hasOwnProperty("link") === true
+    ? (<a href={item.link} className="list__item__link">{content}</a>)
+    : (<>{content}</>)
+}
+
+const List = ({items, actionButtons}:IListProps) => 
   <ul className="list">
-    {props.items.map((item, key) => (
+    {items.map((item, key) => (
       <li className="list__item" key={key}>
-        {item.title}
+        {parseItemLink(item, (
+          <span className="list__item__content">          
+            {item.id && (<span><strong>{item.id} # </strong> </span>)}
+            {item.title}
+          </span>
+        ))}
+        {actionButtons && actionButtons.map((buttonWithCallback:any ,buttonKey:any) =>
+          <span key={buttonKey} className="list__item__actionButtonArea">
+            {buttonWithCallback(item.id)}
+          </span>
+        )}
       </li>
     ))}
   </ul>
