@@ -33,7 +33,7 @@ class ConceptById extends Component<IConceptByIdProps> {
           breadcrumbLinks={breadcrumbLinks}>
 
         <section className="detail__concept">
-          <h2 className="content_subtitle">Descrição</h2>
+          <h2 className="content_subtitle">Informações</h2>
           <div className="detail__concept__infos">
             <div className="row">
                 <strong>ID # </strong> {this.props.currentConcept.id}
