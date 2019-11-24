@@ -15,7 +15,7 @@ let initialState:IConceptsInitialState = {
   concepts: [],
   currentConcept: {} as Concept,
   currentPage: 1,
-  loadingConcepts: false,
+  loadingConcepts: true,
   totalItems: 0,
   itemsPerPage: 0,
   totalPages: 0

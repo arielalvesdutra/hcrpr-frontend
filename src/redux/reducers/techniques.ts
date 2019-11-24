@@ -15,7 +15,7 @@ let initialState:ITechniquesInitialState = {
   techniques: [],
   currentTechnique: {} as Technique,
   currentPage: 1,
-  loadingTechniques: false,
+  loadingTechniques: true,
   totalItems: 0,
   itemsPerPage: 0,
   totalPages: 0
