@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Problem from '../models/Problem'
-import './ProblemBasicInfos.scss'
-import { updateProblem } from '../redux/actions/problems'
+import Concept from '../../models/Concept'
+import './ConceptBasicInfos.scss'
+import { updateConcept } from '../../redux/actions/conceptsActions'
 
-interface IProblemBasicInfosProps {
-  problem: Problem,
-  onUpdateProblem: any
+interface IConceptBasicInfosProps {
+  concept: Concept,
+  onUpdateConcept: any
 }
 
-interface IProblemBasicInfosState {
+interface IConceptBasicInfosState {
   isEditing: boolean
   name: string
   description: string
   fieldErrors: any
 }
 
-class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasicInfosState> {
+class ConceptBasicInfos extends Component<IConceptBasicInfosProps, IConceptBasicInfosState> {
 
   state = {
     isEditing: false,
@@ -38,7 +38,7 @@ class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasic
   }
   
   componentDidMount = () => {  
-    const { description, name } = this.props.problem
+    const { description, name } = this.props.concept
     this.setState({
       name: name ? name : '',
       description: description ? description : '' 
@@ -91,14 +91,14 @@ class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasic
       this.clearErrors()
       this.validForm()
       const { name, description } = this.state
-      const { onUpdateProblem, problem } = this.props
-      onUpdateProblem(problem.id, new Problem(name, description))
+      const { onUpdateConcept, concept } = this.props
+      onUpdateConcept(concept.id, new Concept(name, description))
       this.toogleEditing()
     } catch(error) { console.log(error) }
   }
 
   render() {
-    const { problem }  = this.props
+    const { concept }  = this.props
     const { isEditing, name, description, fieldErrors } = this.state
     const { toogleEditing, onSubmit: handleSubmit } = this    
 
@@ -106,75 +106,75 @@ class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasic
       <div key={key} className="row errorMessage">{err}</div>
     )
 
-    const ShowProblemBasicInfos = (
-      <div className="problemBasicInfos__show">
+    const ShowConceptBasicInfos = (
+      <div className="conceptBasicInfos__show">
         <div className="row flex justifyBetween">
           <span>
-            <strong>ID # </strong> {problem.id}
+            <strong>ID # </strong> {concept.id}
           </span>
           <span>
             <button onClick={toogleEditing}
-              className="problemBasicInfos__show__editButton">Editar</button>
+              className="conceptBasicInfos__show__editButton">Editar</button>
           </span>
         </div>
         <div className="row">
-          <span className="problemBasicInfos__show__title">
+          <span className="conceptBasicInfos__show__title">
             Nome: 
           </span>
-          {problem.name}
+          {concept.name}
         </div>
         <div className="row">
-          <span className="problemBasicInfos__show__title">
+          <span className="conceptBasicInfos__show__title">
             Descrição: 
           </span>
-          {problem.description}
+          {concept.description}
         </div>
       </div>
     )
 
-    const EditProblemBasicInfos = (
+    const EditConceptBasicInfos = (
       <form onSubmit={handleSubmit}
-        className="problemBasicInfos__edit">
+        className="conceptBasicInfos__edit">
         <div className="row">
           <span>
-            <strong>ID # </strong> {problem.id}
+            <strong>ID # </strong> {concept.id}
           </span>
         </div>
         <div className="row">
-          <label className="problemBasicInfos__edit__label">Nome:</label>
+          <label className="conceptBasicInfos__edit__label">Nome:</label>
           <input type="text" name="name"
               value={name}
               onChange={this.change}
-              placeholder="Digite o nome do problema"
-              className="problemBasicInfos__edit__input"/>
+              placeholder="Digite o nome do conceito"
+              className="conceptBasicInfos__edit__input"/>
           {fieldErrors.name && showFieldErrors(fieldErrors.name)}
 
         </div>
         <div className="row">
-          <label className="problemBasicInfos__edit__label">Descrição:</label>
+          <label className="conceptBasicInfos__edit__label">Descrição:</label>
           <textarea name="description"
               value={description}
               onChange={this.change}
-              maxLength={254} rows={3} placeholder="Digite a descrição do problema"
-              className="problemBasicInfos__edit__textArea"></textarea>
+              maxLength={254} rows={3} placeholder="Digite a descrição do conceito"
+              className="conceptBasicInfos__edit__textArea"></textarea>
           {fieldErrors.description && showFieldErrors(fieldErrors.description)}
 
         </div>
         <div className="row">
           <button type="submit"
-            className="problemBasicInfos__edit__saveButton">Salvar</button>
-          <button className="problemBasicInfos__edit__cancelButton"
+            className="conceptBasicInfos__edit__saveButton">Salvar</button>
+          <button className="conceptBasicInfos__edit__cancelButton"
             onClick={toogleEditing}>Cancelar edição</button>
         </div>
       </form>
     )
 
     const contentToDisplay = isEditing
-        ? EditProblemBasicInfos
-        : ShowProblemBasicInfos
+        ? EditConceptBasicInfos
+        : ShowConceptBasicInfos
 
     return (
-      <section className="problemBasicInfos">
+      <section className="conceptBasicInfos">
           <h2 className="content_subtitle">Informações básicas</h2>
 
           {contentToDisplay}
@@ -185,8 +185,8 @@ class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasic
 
 const mapDispatchToProps = (dispatch:any) => {
   return {
-    onUpdateProblem: (id:number, problem: Problem) => dispatch(updateProblem(id, problem))
+    onUpdateConcept: (id:number, concept: Concept) => dispatch(updateConcept(id, concept))
   }
 }
 
-export default connect(null, mapDispatchToProps)(ProblemBasicInfos)
+export default connect(null, mapDispatchToProps)(ConceptBasicInfos)

@@ -1,0 +1,28 @@
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+.add__problem {
+  margin: 0 0 15px 0;
+}
+
+.add__problem__form {
+  @extend %container;
+}
+
+.add__problem__label {
+  @extend %formLabel;
+}
+
+.add__problem__input {
+  @extend %formInput;
+}
+
+.add__problem__textarea {
+  @extend %formTextArea;
+}
+
+.add__problem__button {
+  @extend %formButton;
+  background: #626262;
+  color: #ffffff;
+}

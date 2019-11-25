@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Technique from '../models/Technique'
-import './TechniqueBasicInfos.scss'
-import { updateTechnique } from '../redux/actions/techniques'
+import Problem from '../../models/Problem'
+import './ProblemBasicInfos.scss'
+import { updateProblem } from '../../redux/actions/problemsActions'
 
-interface ITechniqueBasicInfosProps {
-  technique: Technique,
-  onUpdateTechnique: any
+interface IProblemBasicInfosProps {
+  problem: Problem,
+  onUpdateProblem: any
 }
 
-interface ITechniqueBasicInfosState {
+interface IProblemBasicInfosState {
   isEditing: boolean
   name: string
   description: string
   fieldErrors: any
 }
 
-class TechniqueBasicInfos extends Component<ITechniqueBasicInfosProps, ITechniqueBasicInfosState> {
+class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasicInfosState> {
 
   state = {
     isEditing: false,
@@ -38,7 +38,7 @@ class TechniqueBasicInfos extends Component<ITechniqueBasicInfosProps, ITechniqu
   }
   
   componentDidMount = () => {  
-    const { description, name } = this.props.technique
+    const { description, name } = this.props.problem
     this.setState({
       name: name ? name : '',
       description: description ? description : '' 
@@ -91,14 +91,14 @@ class TechniqueBasicInfos extends Component<ITechniqueBasicInfosProps, ITechniqu
       this.clearErrors()
       this.validForm()
       const { name, description } = this.state
-      const { onUpdateTechnique, technique } = this.props
-      onUpdateTechnique(technique.id, new Technique(name, description))
+      const { onUpdateProblem, problem } = this.props
+      onUpdateProblem(problem.id, new Problem(name, description))
       this.toogleEditing()
     } catch(error) { console.log(error) }
   }
 
   render() {
-    const { technique }  = this.props
+    const { problem }  = this.props
     const { isEditing, name, description, fieldErrors } = this.state
     const { toogleEditing, onSubmit: handleSubmit } = this    
 
@@ -106,75 +106,75 @@ class TechniqueBasicInfos extends Component<ITechniqueBasicInfosProps, ITechniqu
       <div key={key} className="row errorMessage">{err}</div>
     )
 
-    const ShowTechniqueBasicInfos = (
-      <div className="techniqueBasicInfos__show">
+    const ShowProblemBasicInfos = (
+      <div className="problemBasicInfos__show">
         <div className="row flex justifyBetween">
           <span>
-            <strong>ID # </strong> {technique.id}
+            <strong>ID # </strong> {problem.id}
           </span>
           <span>
             <button onClick={toogleEditing}
-              className="techniqueBasicInfos__show__editButton">Editar</button>
+              className="problemBasicInfos__show__editButton">Editar</button>
           </span>
         </div>
         <div className="row">
-          <span className="techniqueBasicInfos__show__title">
+          <span className="problemBasicInfos__show__title">
             Nome: 
           </span>
-          {technique.name}
+          {problem.name}
         </div>
         <div className="row">
-          <span className="techniqueBasicInfos__show__title">
+          <span className="problemBasicInfos__show__title">
             Descrição: 
           </span>
-          {technique.description}
+          {problem.description}
         </div>
       </div>
     )
 
-    const EditTechniqueBasicInfos = (
+    const EditProblemBasicInfos = (
       <form onSubmit={handleSubmit}
-        className="techniqueBasicInfos__edit">
+        className="problemBasicInfos__edit">
         <div className="row">
           <span>
-            <strong>ID # </strong> {technique.id}
+            <strong>ID # </strong> {problem.id}
           </span>
         </div>
         <div className="row">
-          <label className="techniqueBasicInfos__edit__label">Nome:</label>
+          <label className="problemBasicInfos__edit__label">Nome:</label>
           <input type="text" name="name"
               value={name}
               onChange={this.change}
-              placeholder="Digite o nome da técnica"
-              className="techniqueBasicInfos__edit__input"/>
+              placeholder="Digite o nome do problema"
+              className="problemBasicInfos__edit__input"/>
           {fieldErrors.name && showFieldErrors(fieldErrors.name)}
 
         </div>
         <div className="row">
-          <label className="techniqueBasicInfos__edit__label">Descrição:</label>
+          <label className="problemBasicInfos__edit__label">Descrição:</label>
           <textarea name="description"
               value={description}
               onChange={this.change}
-              maxLength={254} rows={3} placeholder="Digite a descrição da técnica"
-              className="techniqueBasicInfos__edit__textArea"></textarea>
+              maxLength={254} rows={3} placeholder="Digite a descrição do problema"
+              className="problemBasicInfos__edit__textArea"></textarea>
           {fieldErrors.description && showFieldErrors(fieldErrors.description)}
 
         </div>
         <div className="row">
           <button type="submit"
-            className="techniqueBasicInfos__edit__saveButton">Salvar</button>
-          <button className="techniqueBasicInfos__edit__cancelButton"
+            className="problemBasicInfos__edit__saveButton">Salvar</button>
+          <button className="problemBasicInfos__edit__cancelButton"
             onClick={toogleEditing}>Cancelar edição</button>
         </div>
       </form>
     )
 
     const contentToDisplay = isEditing
-        ? EditTechniqueBasicInfos
-        : ShowTechniqueBasicInfos
+        ? EditProblemBasicInfos
+        : ShowProblemBasicInfos
 
     return (
-      <section className="techniqueBasicInfos">
+      <section className="problemBasicInfos">
           <h2 className="content_subtitle">Informações básicas</h2>
 
           {contentToDisplay}
@@ -185,8 +185,8 @@ class TechniqueBasicInfos extends Component<ITechniqueBasicInfosProps, ITechniqu
 
 const mapDispatchToProps = (dispatch:any) => {
   return {
-    onUpdateTechnique: (id:number, technique: Technique) => dispatch(updateTechnique(id, technique))
+    onUpdateProblem: (id:number, problem: Problem) => dispatch(updateProblem(id, problem))
   }
 }
 
-export default connect(null, mapDispatchToProps)(TechniqueBasicInfos)
+export default connect(null, mapDispatchToProps)(ProblemBasicInfos)

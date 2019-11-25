@@ -1,0 +1,6 @@
+@import 'src/assets/sass/_extends.scss';
+
+.list__techniques__deleteButton {
+  @extend %listActionButton;
+  background: red;
+}

@@ -46,3 +46,8 @@ button, textarea, input {
 .justifyBetween {
   justify-content: space-between;
 }
+
+
+.flex1 {
+  flex:1;
+}

@@ -2,6 +2,7 @@ import { ProblemsActions } from './actionTypes'
 import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
 import Problem from '../../models/Problem'
+import ProblemComment from '../../models/ProblemComment'
 
 
 const getCurrentPageFromProblemsReducer = (problemsReducer: any) => {
@@ -31,6 +32,20 @@ export const createProblem = (problem:Problem) => {
   }
 }
 
+export const createProblemComment = (problemId:number, comment:ProblemComment) => {
+  return (dispatch:any, getState:any) => {
+    dispatch(loadingProblems())
+
+    axios.post(`/problems/${problemId}/comments`, {
+      content: comment.content
+    })
+    .then(response => {
+      
+      dispatch(fetchAllProblemComments(problemId))
+    })
+  }
+}
+
 export const deleteById = (problemId: number) => {
   return (dispatch:any, getState:any) => {
     dispatch(loadingProblems())
@@ -40,6 +55,16 @@ export const deleteById = (problemId: number) => {
       const  page = getCurrentPageFromProblemsReducer(getState().problems)
 
       dispatch(fetchAllProblems({ page }))
+    })
+  }
+}
+
+export const deleteProblemComment = (problemId: number, commentId:number) => {
+  return (dispatch:any) => {
+
+    axios.delete(`/problems/${problemId}/comments/${commentId}`)
+    .then(response => {
+      dispatch(fetchAllProblemComments(problemId))
     })
   }
 }
@@ -58,6 +83,22 @@ export const fetchAllProblems = (filters:any = {}) => {
     .catch(error => error)
   }
 }
+
+export const fetchAllProblemComments = (problemId:number, filters:any = {}) => {
+  return (dispatch: any) => {
+
+    if (filters.sort === undefined) filters.sort = 'createdAt,desc'
+    const queryString = buildQueryString(filters)
+
+    axios.get(`/problems/${problemId}/comments${queryString}`)
+    .then(response => {
+      const data = response.data
+      dispatch(setCurrentProblemComments(data))
+    })
+    .catch(error => error)
+  }
+}
+
 
 export const setProblems = (problems: any) => {
   return {
@@ -112,5 +153,19 @@ export const setCurrentProblem = (problems: Problem) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM,
     data: problems
+  }
+}
+
+export const setCurrentProblemComments = (problemComments: ProblemComment) => {
+  return {
+    type: ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS,
+    data: problemComments
+  }
+}
+
+export const setCurrentProblemCommentsPage = (page: number) => {
+  return {
+    type: ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS_PAGE,
+    currentPage: page
   }
 }

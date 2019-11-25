@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import './AddProblem.scss'
-import Problem from '../models/Problem'
-import { createProblem } from '../redux/actions/problems'
+import Problem from '../../models/Problem'
+import { createProblem } from '../../redux/actions/problemsActions'
 
 interface IAddProblemProps {
   onCreateProblem(problem: Problem): any

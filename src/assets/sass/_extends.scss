@@ -15,3 +15,43 @@
   padding: 7px 4px;
   font-size: 1.01rem;
 }
+
+%simpleContainer {
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  border-radius: 2px;
+  margin-bottom: 15px;
+}
+
+%formButton {
+  border: none;
+  border-radius: 2px;
+  font-size: 1.01rem;
+  padding: 10px 15px;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+%formButton:hover {
+  opacity: 0.8;
+}
+
+%listActionButton {
+  color: white;
+  border: none;
+  border-radius: 2px;
+  transition: opacity 0.3s;
+  font-weight: bold;
+  opacity: 1;
+  padding: 10px 7px;
+}
+
+%listActionButton:hover {
+  opacity: 0.7;
+}
+
+%container {
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  border-radius: 2px;;
+}
