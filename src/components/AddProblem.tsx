@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import './AddConcept.scss'
-import Concept from '../models/Concept'
-import { createConcept } from '../redux/actions/concepts'
+import './AddProblem.scss'
+import Problem from '../models/Problem'
+import { createProblem } from '../redux/actions/problems'
 
-interface IAddConceptProps {
-  onCreateConcept(concept: Concept): any
+interface IAddProblemProps {
+  onCreateProblem(problem: Problem): any
 }
 
-interface IAddConceptState {
+interface IAddProblemState {
   name: string
   description: string
   fieldErrors: any
 }
-class AddConcept extends Component<IAddConceptProps> {
-  state: IAddConceptState = {
+class AddProblem extends Component<IAddProblemProps> {
+  state: IAddProblemState = {
     name: '',
     description: '',
     fieldErrors: {}
@@ -72,7 +72,7 @@ class AddConcept extends Component<IAddConceptProps> {
       this.clearErrors()
       this.validForm()
       const { name, description } = this.state
-      this.props.onCreateConcept(new Concept(name, description))
+      this.props.onCreateProblem(new Problem(name, description))
     } catch(error) { console.log(error) }
   }
 
@@ -84,29 +84,29 @@ class AddConcept extends Component<IAddConceptProps> {
     )
     
     return (
-      <section className="add__concept">
-        <h2 className="content_subtitle">Cadastrar Conceito</h2>
-        <form className="add__concept__form" onSubmit={this.onSubmit}>
+      <section className="add__problem">
+        <h2 className="content_subtitle">Cadastrar Problema</h2>
+        <form className="add__problem__form" onSubmit={this.onSubmit}>
           <div className="row">
-            <label className="add__concept__label">Nome:</label>
+            <label className="add__problem__label">Nome:</label>
             <input value={this.state.name} onChange={this.change}
-             type="text" placeholder="Digite o nome do conceito"
-              name="name" className="add__concept__input" />
+             type="text" placeholder="Digite o nome do problema"
+              name="name" className="add__problem__input" />
 
             {fieldErrors.name  && showFieldErrors(fieldErrors.name)}
           </div>
           <div className="row">
-            <label className="add__concept__label">Descrição:</label>
+            <label className="add__problem__label">Descrição:</label>
             <textarea name="description" id="description" 
               value={this.state.description} onChange={this.change}
-              maxLength={254} rows={3} placeholder="Digite a descrição do conceito"
-              className="add__concept__textarea"></textarea>
+              maxLength={254} rows={3} placeholder="Digite a descrição do problema"
+              className="add__problem__textarea"></textarea>
 
             {fieldErrors.description && showFieldErrors(fieldErrors.description)}
           </div>
           <div className="row">
             <button type="submit"
-              className="add__concept__button">Cadastrar</button>
+              className="add__problem__button">Cadastrar</button>
           </div>
         </form>
       </section>
@@ -116,8 +116,8 @@ class AddConcept extends Component<IAddConceptProps> {
 
 const mapDispatchToProps = (dispatch:any) => {
   return {
-    onCreateConcept: (concept: Concept) => dispatch(createConcept(concept))
+    onCreateProblem: (problem: Problem) => dispatch(createProblem(problem))
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddConcept)
+export default connect(null, mapDispatchToProps)(AddProblem)

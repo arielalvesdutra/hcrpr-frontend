@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import './AddConcept.scss'
-import Concept from '../models/Concept'
-import { createConcept } from '../redux/actions/concepts'
+import './AddTechnique.scss'
+import Technique from '../models/Technique'
+import { createTechnique } from '../redux/actions/techniques'
 
-interface IAddConceptProps {
-  onCreateConcept(concept: Concept): any
+interface IAddTechniqueProps {
+  onCreateTechnique(technique: Technique): any
 }
 
-interface IAddConceptState {
+interface IAddTechniqueState {
   name: string
   description: string
   fieldErrors: any
 }
-class AddConcept extends Component<IAddConceptProps> {
-  state: IAddConceptState = {
+
+class AddTechnique extends Component<IAddTechniqueProps> {
+  state: IAddTechniqueState = {
     name: '',
     description: '',
     fieldErrors: {}
@@ -72,7 +73,7 @@ class AddConcept extends Component<IAddConceptProps> {
       this.clearErrors()
       this.validForm()
       const { name, description } = this.state
-      this.props.onCreateConcept(new Concept(name, description))
+      this.props.onCreateTechnique(new Technique(name, description))
     } catch(error) { console.log(error) }
   }
 
@@ -84,29 +85,29 @@ class AddConcept extends Component<IAddConceptProps> {
     )
     
     return (
-      <section className="add__concept">
-        <h2 className="content_subtitle">Cadastrar Conceito</h2>
-        <form className="add__concept__form" onSubmit={this.onSubmit}>
+      <section className="add__technique">
+        <h2 className="content_subtitle">Cadastrar Técnica</h2>
+        <form className="add__technique__form" onSubmit={this.onSubmit}>
           <div className="row">
-            <label className="add__concept__label">Nome:</label>
+            <label className="add__technique__label">Nome:</label>
             <input value={this.state.name} onChange={this.change}
-             type="text" placeholder="Digite o nome do conceito"
-              name="name" className="add__concept__input" />
+             type="text" placeholder="Digite o nome da técnica"
+              name="name" className="add__technique__input" />
 
             {fieldErrors.name  && showFieldErrors(fieldErrors.name)}
           </div>
           <div className="row">
-            <label className="add__concept__label">Descrição:</label>
+            <label className="add__technique__label">Descrição:</label>
             <textarea name="description" id="description" 
               value={this.state.description} onChange={this.change}
-              maxLength={254} rows={3} placeholder="Digite a descrição do conceito"
-              className="add__concept__textarea"></textarea>
+              maxLength={254} rows={3} placeholder="Digite a descrição da técnica"
+              className="add__technique__textarea"></textarea>
 
             {fieldErrors.description && showFieldErrors(fieldErrors.description)}
           </div>
           <div className="row">
             <button type="submit"
-              className="add__concept__button">Cadastrar</button>
+              className="add__technique__button">Cadastrar</button>
           </div>
         </form>
       </section>
@@ -116,8 +117,8 @@ class AddConcept extends Component<IAddConceptProps> {
 
 const mapDispatchToProps = (dispatch:any) => {
   return {
-    onCreateConcept: (concept: Concept) => dispatch(createConcept(concept))
+    onCreateTechnique: (technique: Technique) => dispatch(createTechnique(technique))
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddConcept)
+export default connect(null, mapDispatchToProps)(AddTechnique)

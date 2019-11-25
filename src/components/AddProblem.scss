@@ -1,0 +1,43 @@
+.add__problem {
+  margin: 0 0 15px 0;
+}
+
+.add__problem__form {
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  border-radius: 2px;;
+}
+
+.add__problem__label {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  display: block;
+}
+
+.add__problem__input {
+  width: 98%;
+  padding: 7px 4px;
+  font-size: 1.01rem;
+}
+
+
+.add__problem__textarea {
+  width: 98%;
+  padding: 7px 4px;
+  font-size: 1.01rem;
+}
+
+.add__problem__button {
+  background: #626262;
+  border: none;
+  border-radius: 2px;
+  color: #ffffff;
+  font-size: 1.01rem;
+  padding: 10px 15px;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.add__problem__button:hover {
+  opacity: 0.8;
+}
