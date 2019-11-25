@@ -77,6 +77,24 @@ export const fetchProblemById = (id: number) => {
   }
 }
 
+export const updateProblem = (id:number, problem:Problem) => {
+  return (dispatch:any, getState:any) => {
+    dispatch(loadingProblems())
+
+    axios.put(`/problems/${id}`, {
+      name: problem.name,
+      description: problem.description
+    })
+    .then(response => {
+
+      const page = getCurrentPageFromProblemsReducer(getState().problems)
+
+      dispatch(fetchAllProblems({ page }))
+      dispatch(fetchProblemById(id))
+    })
+  }
+}
+
 export const loadingProblems = () => {
   return {
     type: ProblemsActions.LOADING_PROBLEMS

@@ -5,7 +5,7 @@ import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Problem from '../../models/Problem'
 import {  fetchProblemById } from '../../redux/actions/problems'
-import './problem-by-id.scss'
+import ProblemBasicInfos from '../../components/ProblemBasicInfos'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Problemas", "/problems"),
@@ -27,35 +27,14 @@ class ProblemById extends Component<IProblemByIdProps> {
 
   render() {
 
-    console.log('prosp', this.props);
-    
-    
+    const { currentProblem } = this.props
+
     return (
       <Content
           title="Detalhe do Problema"
           breadcrumbLinks={breadcrumbLinks}>
 
-        <section className="detail__problem">
-          <h2 className="content_subtitle">Informações</h2>
-          <div className="detail__problem__infos">
-            <div className="row">
-                <strong>ID # </strong> {this.props.currentProblem.id}
-            </div>
-            <div className="row">
-              <span className="detail__problem__infos__title">
-                Nome: 
-              </span>
-              {this.props.currentProblem.name}
-            </div>
-            <div className="row">
-
-            <span className="detail__problem__infos__title">
-                Descrição: 
-              </span>
-              {this.props.currentProblem.description}
-            </div>
-          </div>
-        </section>
+        <ProblemBasicInfos problem={currentProblem} key={currentProblem.id} />
       </Content>
     )
   }

@@ -1,0 +1,55 @@
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+%techniqueBasicInfos__button {
+  border: none;
+  border-radius: 2px;
+  font-size: 1.01rem;
+  padding: 10px 15px;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+%techniqueBasicInfos__button:hover {
+  opacity: 0.8;
+}
+
+.techniqueBasicInfos__edit,
+.techniqueBasicInfos__show {
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  border-radius: 2px;;
+}
+
+.techniqueBasicInfos__show__title {
+  font-weight: bold;
+  font-size: 1.3rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.techniqueBasicInfos__edit__cancelButton,
+.techniqueBasicInfos__show__editButton {
+  @extend %techniqueBasicInfos__button;
+  background: #626262;
+  color: #ffffff;
+}
+
+.techniqueBasicInfos__edit__saveButton {
+  @extend %techniqueBasicInfos__button;
+  background: $button-background-success;
+  color: white;
+  margin-right: 5px;
+}
+
+.techniqueBasicInfos__edit__label {
+  @extend %formLabel;
+}
+
+.techniqueBasicInfos__edit__input {
+  @extend %formInput;
+}
+
+.techniqueBasicInfos__edit__textArea {
+  @extend %formTextArea;
+}

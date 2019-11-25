@@ -37,7 +37,7 @@ export const deleteById = (techniqueId: number) => {
 
     axios.delete(`/techniques/${techniqueId}`)
     .then(response => {
-      const  page = getCurrentPageFromTechniquesReducer(getState().techniques)
+      const page = getCurrentPageFromTechniquesReducer(getState().techniques)
 
       dispatch(fetchAllTechniques({ page }))
     })
@@ -67,6 +67,24 @@ export const fetchTechniqueById = (id: number) => {
       dispatch(setCurrentTechnique(data))
     })
     .catch(error => error)
+  }
+}
+
+export const updateTechnique = (id:number, technique:Technique) => {
+  return (dispatch:any, getState:any) => {
+    dispatch(loadingTechniques())
+
+    axios.put(`/techniques/${id}`, {
+      name: technique.name,
+      description: technique.description
+    })
+    .then(response => {
+
+      const page = getCurrentPageFromTechniquesReducer(getState().techniques)
+
+      dispatch(fetchAllTechniques({ page }))
+      dispatch(fetchTechniqueById(id))
+    })
   }
 }
 
