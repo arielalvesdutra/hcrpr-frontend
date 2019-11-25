@@ -5,7 +5,7 @@ import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Concept from '../../models/Concept'
 import {  fetchConceptById } from '../../redux/actions/concepts'
-import './concept-by-id.scss'
+import ConceptBasicInfos from '../../components/ConceptBasicInfos'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Conceitos", "/concepts"),
@@ -26,41 +26,26 @@ class ConceptById extends Component<IConceptByIdProps> {
   }
 
   render() {
+
+    const { currentConcept } = this.props
     
     return (
       <Content
           title="Detalhe do Conceito"
           breadcrumbLinks={breadcrumbLinks}>
 
-        <section className="detail__concept">
-          <h2 className="content_subtitle">Informações</h2>
-          <div className="detail__concept__infos">
-            <div className="row">
-                <strong>ID # </strong> {this.props.currentConcept.id}
-            </div>
-            <div className="row">
-              <span className="detail__concept__infos__title">
-                Nome: 
-              </span>
-              {this.props.currentConcept.name}
-            </div>
-            <div className="row">
-
-            <span className="detail__concept__infos__title">
-                Descrição: 
-              </span>
-              {this.props.currentConcept.description}
-            </div>
-          </div>
-        </section>
+        <ConceptBasicInfos key={currentConcept.id} concept={currentConcept} />
       </Content>
     )
   }
 }
 
 const mapStateToProps = (props: any) => {
+
+  const { currentConcept } = props.concepts
+
   return {
-    currentConcept: props.concepts.currentConcept
+    currentConcept
    }
 }
 

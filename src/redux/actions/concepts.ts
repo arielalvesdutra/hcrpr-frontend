@@ -69,6 +69,24 @@ export const fetchConceptById = (id: number) => {
   }
 }
 
+export const updateConcept = (id:number, concept:Concept) => {
+  return (dispatch:any, getState:any) => {
+    dispatch(loadingConcepts())
+
+    axios.put(`/concepts/${id}`, {
+      name: concept.name,
+      description: concept.description
+    })
+    .then(response => {
+
+      const page = getCurrentPageFromConceptsReducer(getState().concepts)
+
+      dispatch(fetchAllConcepts({ page }))
+      dispatch(fetchConceptById(id))
+    })
+  }
+}
+
 export const loadingConcepts = () => {
   return {
     type: ConceptsActions.LOADING_CONCEPTS
