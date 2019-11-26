@@ -1,0 +1,28 @@
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+.add__technique {
+  margin: 0 0 15px 0;
+}
+
+.add__technique__form {
+  @extend %container;
+}
+
+.add__technique__label {
+  @extend %formLabel;
+}
+
+.add__technique__input {
+  @extend %formInput;
+}
+
+.add__technique__textarea {
+  @extend %formTextArea;
+}
+
+.add__technique__button {
+  @extend %formButton;
+  background: #626262;
+  color: #ffffff;
+}

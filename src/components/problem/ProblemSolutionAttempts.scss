@@ -1,0 +1,34 @@
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+.problemSolutionAttempts__container {
+  @extend %simpleContainer;
+}
+
+.problemSolutionAttempts__addAttempt {
+  margin-bottom: 20px;
+}
+
+.problemSolutionAttempts__addAttempt__label {
+  @extend %formLabel;
+}
+
+.problemSolutionAttempts__addAttempt__input {
+  @extend %formInput;
+}
+
+.problemSolutionAttempts__addAttempt__contentTextArea {
+  @extend %formTextArea;
+}
+
+.problemSolutionAttempts__addAttempt__addButton {
+  @extend %formButton;
+  background: $button-background-success;
+  color: white;
+}
+
+
+.problemSolutionAttempts__list__deleteButton {
+  @extend %listActionButton;
+  background: red;
+}

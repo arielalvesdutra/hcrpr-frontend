@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Concept from '../../models/Concept'
-import {  fetchConceptById } from '../../redux/actions/concepts'
-import ConceptBasicInfos from '../../components/ConceptBasicInfos'
+import {  fetchConceptById } from '../../redux/actions/conceptsActions'
+import ConceptBasicInfos from '../../components/concept/ConceptBasicInfos'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Conceitos", "/concepts"),

@@ -1,0 +1,28 @@
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+.add__concept {
+  margin: 0 0 15px 0;
+}
+
+.add__concept__form {
+  @extend %container;
+}
+
+.add__concept__label {
+  @extend %formLabel;
+}
+
+.add__concept__input {
+  @extend %formInput;
+}
+
+.add__concept__textarea {
+  @extend %formTextArea;
+}
+
+.add__concept__button {
+  @extend %formButton;
+  background: #626262;
+  color: #ffffff;
+}

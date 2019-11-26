@@ -6,11 +6,9 @@ import {
 } from 'redux'
 import thunk from 'redux-thunk';
 
-import conceptsReducer from './reducers/concepts'
-import tehcniquesReducer from './reducers/techniques'
-import problemsReducer from './reducers/problems'
-
-// export default createStore(conceptsReducer, applyMiddleware(thunk))
+import conceptsReducer from './reducers/conceptsReducer'
+import tehcniquesReducer from './reducers/techniquesReducer'
+import problemsReducer from './reducers/problemsReducer'
 
 const reducers = combineReducers({
   concepts: conceptsReducer,

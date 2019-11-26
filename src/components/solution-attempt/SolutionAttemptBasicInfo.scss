@@ -1,0 +1,41 @@
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+.solutionAttemptBasicInfos__edit,
+.solutionAttemptBasicInfos__show {
+  @extend %container;
+  margin-bottom: 15px;
+}
+
+.solutionAttemptBasicInfos__show__title {
+  font-weight: bold;
+  font-size: 1.3rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.solutionAttemptBasicInfos__edit__cancelButton,
+.solutionAttemptBasicInfos__show__editButton {
+  @extend %formButton;
+  background: #626262;
+  color: #ffffff;
+}
+
+.solutionAttemptBasicInfos__edit__saveButton {
+  @extend %formButton;
+  background: $button-background-success;
+  color: white;
+  margin-right: 5px;
+}
+
+.solutionAttemptBasicInfos__edit__label {
+  @extend %formLabel;
+}
+
+.solutionAttemptBasicInfos__edit__input {
+  @extend %formInput;
+}
+
+.solutionAttemptBasicInfos__edit__textArea {
+  @extend %formTextArea;
+}

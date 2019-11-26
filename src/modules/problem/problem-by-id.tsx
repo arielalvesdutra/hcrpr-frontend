@@ -4,8 +4,10 @@ import { connect } from 'react-redux'
 import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Problem from '../../models/Problem'
-import {  fetchProblemById } from '../../redux/actions/problems'
-import ProblemBasicInfos from '../../components/ProblemBasicInfos'
+import {  fetchProblemById } from '../../redux/actions/problemsActions'
+import ProblemBasicInfos from '../../components/problem/ProblemBasicInfos'
+import ProblemComments from '../../components/problem/ProblemComments'
+import ProblemSolutionAttempts from '../../components/problem/ProblemSolutionAttempts'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Problemas", "/problems"),
@@ -28,13 +30,16 @@ class ProblemById extends Component<IProblemByIdProps> {
   render() {
 
     const { currentProblem } = this.props
+    const { id } = currentProblem
 
     return (
       <Content
           title="Detalhe do Problema"
           breadcrumbLinks={breadcrumbLinks}>
 
-        <ProblemBasicInfos problem={currentProblem} key={currentProblem.id} />
+        <ProblemBasicInfos problem={currentProblem} key={id} />
+        <ProblemComments problem={currentProblem} key={(id !== undefined ? id + 1 : id)} />
+        <ProblemSolutionAttempts problem={currentProblem} key={(id !== undefined ? id + 2 : id)} />
       </Content>
     )
   }
