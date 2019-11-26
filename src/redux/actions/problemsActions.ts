@@ -184,6 +184,17 @@ export const fetchProblemById = (id: number) => {
   }
 }
 
+export const fetchSolutionAttemptById = (problemId: number, solutionAttemptId: number) => {
+  return (dispatch: any) => {
+    axios.get(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`)
+    .then(response => {
+      const data = response.data
+      dispatch(setCurrentProblemSolutionAttempt(data))
+    })
+    .catch(error => error)
+  }
+}
+
 export const updateProblem = (id:number, problem:Problem) => {
   return (dispatch:any, getState:any) => {
     dispatch(loadingProblems())
@@ -198,6 +209,20 @@ export const updateProblem = (id:number, problem:Problem) => {
 
       dispatch(fetchAllProblems({ page }))
       dispatch(fetchProblemById(id))
+    })
+  }
+}
+
+export const updateSolutionAttempt = (problemId:number, solutionAttemptId:number, attempt: SolutionAttempt) => {
+  return (dispatch:any, getState:any) => {
+
+    axios.put(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`, {
+      name: attempt.name,
+      description: attempt.description
+    })
+    .then(response => {
+
+      dispatch(fetchSolutionAttemptById(problemId, solutionAttemptId))
     })
   }
 }
@@ -233,6 +258,13 @@ export const setCurrentProblem = (problems: Problem) => {
 export const setCurrentProblemComments = (data: any) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS,
+    data
+  }
+}
+
+export const setCurrentProblemSolutionAttempt = (data: any) => {
+  return {
+    type: ProblemsActions.SET_CURRENT_PROBLEM_SOLUTION_ATTEMPT,
     data
   }
 }

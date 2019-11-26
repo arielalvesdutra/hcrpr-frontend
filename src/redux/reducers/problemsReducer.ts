@@ -16,6 +16,7 @@ interface IProblemsInitialState {
   currentProblemCommentsTotalItems: number
   currentProblemCommentsTotalPages: number
   currentProblemCommentsItemsPerPage: number
+  currentProblemSolutionAttempt: SolutionAttempt
   currentProblemSolutionAttempts: SolutionAttempt[]
   currentProblemSolutionAttemptsPage: number
   currentProblemSolutionAttemptsTotalItems: number
@@ -24,7 +25,7 @@ interface IProblemsInitialState {
 }
 
 let initialState:IProblemsInitialState = {
-  problems: [],
+  problems: [] as Problem[],
   currentProblem: {} as Problem,
   currentPage: 1,
   loadingProblems: true,
@@ -36,6 +37,7 @@ let initialState:IProblemsInitialState = {
   currentProblemCommentsTotalItems: 0,
   currentProblemCommentsTotalPages: 0,
   currentProblemCommentsItemsPerPage: 0,
+  currentProblemSolutionAttempt: {} as SolutionAttempt,
   currentProblemSolutionAttempts: {} as SolutionAttempt[],
   currentProblemSolutionAttemptsPage: 1,
   currentProblemSolutionAttemptsTotalItems: 0,
@@ -111,6 +113,12 @@ export default (state: IProblemsInitialState = initialState, action:any) => {
       return {
         ...state,
         currentProblemSolutionAttemptsPage: action.currentPage
+      }
+    }
+    case ProblemsActions.SET_CURRENT_PROBLEM_SOLUTION_ATTEMPT: {
+      return {
+        ...state,
+        currentProblemSolutionAttempt: action.data
       }
     }
     default: 
