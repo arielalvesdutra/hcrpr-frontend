@@ -1,35 +1,46 @@
 import { ProblemsActions } from '../actions/actionTypes'
 import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
+import SolutionAttempt from '../../models/SolutionAttempt'
 
 interface IProblemsInitialState {
   problems: Problem[]
   currentProblem: Problem
   currentPage: number
-  currentProblemCommentsPage: number
   loadingProblems: boolean
   totalItems: number
   itemsPerPage: number
   totalPages: number
   currentProblemComments: ProblemComment[]
+  currentProblemCommentsPage: number
   currentProblemCommentsTotalItems: number
   currentProblemCommentsTotalPages: number
   currentProblemCommentsItemsPerPage: number
+  currentProblemSolutionAttempts: SolutionAttempt[]
+  currentProblemSolutionAttemptsPage: number
+  currentProblemSolutionAttemptsTotalItems: number
+  currentProblemSolutionAttemptsTotalPages: number
+  currentProblemSolutionAttemptsItemsPerPage: number
 }
 
 let initialState:IProblemsInitialState = {
   problems: [],
   currentProblem: {} as Problem,
   currentPage: 1,
-  currentProblemCommentsPage: 1,
   loadingProblems: true,
   totalItems: 0,
   itemsPerPage: 0,
   totalPages: 0,
   currentProblemComments: {} as ProblemComment[],
+  currentProblemCommentsPage: 1,
   currentProblemCommentsTotalItems: 0,
   currentProblemCommentsTotalPages: 0,
-  currentProblemCommentsItemsPerPage: 0
+  currentProblemCommentsItemsPerPage: 0,
+  currentProblemSolutionAttempts: {} as SolutionAttempt[],
+  currentProblemSolutionAttemptsPage: 1,
+  currentProblemSolutionAttemptsTotalItems: 0,
+  currentProblemSolutionAttemptsTotalPages: 0,
+  currentProblemSolutionAttemptsItemsPerPage: 0,
 }
 
 export default (state: IProblemsInitialState = initialState, action:any) => {
@@ -81,6 +92,25 @@ export default (state: IProblemsInitialState = initialState, action:any) => {
       return {
         ...state,
         currentProblemCommentsPage: action.currentPage
+      }
+    }
+    case ProblemsActions.SET_CURRENT_PROBLEM_SOLUTION_ATTEMPTS: {      
+      return {
+        ...state,
+        currentProblemSolutionAttempts: action.data.content,
+        currentProblemSolutionAttemptsTotalItems: action.data.totalElements,
+        currentProblemSolutionAttemptsItemsPerPage: action.data.size,
+        currentProblemSolutionAttemptsTotalPages: action.data.totalPages,
+        currentProblemSolutionAttemptsPage: action.data.totalPages < state.currentProblemSolutionAttemptsPage
+              ? action.data.totalPages
+              : state.currentProblemSolutionAttemptsPage
+        
+      }
+    }
+    case ProblemsActions.SET_CURRENT_PROBLEM_SOLUTION_ATTEMPTS_PAGE: {
+      return {
+        ...state,
+        currentProblemSolutionAttemptsPage: action.currentPage
       }
     }
     default: 

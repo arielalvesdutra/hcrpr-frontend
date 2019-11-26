@@ -3,6 +3,7 @@ import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
 import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
+import SolutionAttempt from '../../models/SolutionAttempt'
 
 
 const getCurrentPageFromProblemsReducer = (problemsReducer: any) => {
@@ -12,6 +13,29 @@ const getCurrentPageFromProblemsReducer = (problemsReducer: any) => {
   const page = (maxOfPages < currentPage)
           ? maxOfPages 
           : currentPage 
+  return page
+}
+
+const getCurrentCommentPageFromProblemsReducer = (problemsReducer: any) => {
+  const { currentProblemCommentsPage, currentProblemCommentsTotalItems, 
+    currentProblemCommentsItemsPerPage } = problemsReducer
+  const currentTotalItems = currentProblemCommentsTotalItems -1
+  const maxOfPages = Math.ceil(currentTotalItems / currentProblemCommentsItemsPerPage)
+  const page = (maxOfPages < currentProblemCommentsPage)
+          ? maxOfPages 
+          : currentProblemCommentsPage 
+  return page
+}
+
+const getCurrentProblemSolutionAttemptsPageFromProblemsReducer = (problemsReducer: any) => {
+  const { currentProblemSolutionAttemptsPage, 
+    currentProblemSolutionAttemptsTotalItems, 
+    currentProblemSolutionAttemptsItemsPerPage } = problemsReducer
+  const currentTotalItems = currentProblemSolutionAttemptsTotalItems -1
+  const maxOfPages = Math.ceil(currentTotalItems / currentProblemSolutionAttemptsItemsPerPage)
+  const page = (maxOfPages < currentProblemSolutionAttemptsPage)
+          ? maxOfPages 
+          : currentProblemSolutionAttemptsPage 
   return page
 }
 
@@ -40,8 +64,27 @@ export const createProblemComment = (problemId:number, comment:ProblemComment) =
       content: comment.content
     })
     .then(response => {
+
+      const page = getCurrentCommentPageFromProblemsReducer(getState().problems)
       
-      dispatch(fetchAllProblemComments(problemId))
+      dispatch(fetchAllProblemComments(problemId, {page}))
+    })
+  }
+}
+
+export const createSolutionAttempt = (problemId:number, solutionAttempt:SolutionAttempt) => {
+  return (dispatch:any, getState:any) => {
+    dispatch(loadingProblems())
+
+    axios.post(`/problems/${problemId}/solution-attempts`, {
+      name: solutionAttempt.name,
+      description: solutionAttempt.description
+    })
+    .then(response => {
+
+      const page = getCurrentProblemSolutionAttemptsPageFromProblemsReducer(getState().problems)
+      
+      dispatch(fetchAllSolutionAttempts(problemId, {page}))
     })
   }
 }
@@ -60,11 +103,27 @@ export const deleteById = (problemId: number) => {
 }
 
 export const deleteProblemComment = (problemId: number, commentId:number) => {
-  return (dispatch:any) => {
+  return (dispatch:any, getState:any) => {
 
     axios.delete(`/problems/${problemId}/comments/${commentId}`)
     .then(response => {
-      dispatch(fetchAllProblemComments(problemId))
+      
+      const page = getCurrentCommentPageFromProblemsReducer(getState().problems)
+      
+      dispatch(fetchAllProblemComments(problemId, {page}))
+    })
+  }
+}
+
+export const deleteSolutionAttempt = (problemId: number, solutionAttemptId:number) => {
+  return (dispatch:any, getState:any) => {
+
+    axios.delete(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`)
+    .then(response => {
+      
+      const page = getCurrentProblemSolutionAttemptsPageFromProblemsReducer(getState().problems)
+
+      dispatch(fetchAllSolutionAttempts(problemId, {page: page}))
     })
   }
 }
@@ -99,11 +158,18 @@ export const fetchAllProblemComments = (problemId:number, filters:any = {}) => {
   }
 }
 
+export const fetchAllSolutionAttempts = (problemId:number, filters:any = {}) => {
+  return (dispatch: any) => {
 
-export const setProblems = (problems: any) => {
-  return {
-    type: ProblemsActions.SET_PROBLEMS,
-    data: problems
+    if (filters.sort === undefined) filters.sort = 'createdAt,desc'    
+    const queryString = buildQueryString(filters)
+
+    axios.get(`/problems/${problemId}/solution-attempts${queryString}`)
+    .then(response => {
+      const data = response.data
+      dispatch(setCurrentProblemSolutionAttempts(data))
+    })
+    .catch(error => error)
   }
 }
 
@@ -142,6 +208,14 @@ export const loadingProblems = () => {
   }
 }
 
+
+export const setProblems = (problems: any) => {
+  return {
+    type: ProblemsActions.SET_PROBLEMS,
+    data: problems
+  }
+}
+
 export const setProblemCurrentPage = (currentPage: number) => {
   return {
     type: ProblemsActions.SET_CURRENT_PAGE,
@@ -156,16 +230,30 @@ export const setCurrentProblem = (problems: Problem) => {
   }
 }
 
-export const setCurrentProblemComments = (problemComments: ProblemComment) => {
+export const setCurrentProblemComments = (data: any) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS,
-    data: problemComments
+    data
+  }
+}
+
+export const setCurrentProblemSolutionAttempts = (data: any) => {
+  return {
+    type: ProblemsActions.SET_CURRENT_PROBLEM_SOLUTION_ATTEMPTS,
+    data
   }
 }
 
 export const setCurrentProblemCommentsPage = (page: number) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS_PAGE,
+    currentPage: page
+  }
+}
+
+export const setCurrentProblemSolutionAttemptsPage = (page: number) => {
+  return {
+    type: ProblemsActions.SET_CURRENT_PROBLEM_SOLUTION_ATTEMPTS_PAGE,
     currentPage: page
   }
 }

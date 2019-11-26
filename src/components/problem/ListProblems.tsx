@@ -42,9 +42,9 @@ class ListProblems extends Component<IProblemsProps> {
       itemsPerPage, totalItems, onFetchAllProblems, 
       currentPage, onSetCurrentPage } = this.props
 
-      const ButtonToDeleteProblem = (id:number) =>
+    const ButtonToDeleteProblem = (id:number) =>
       <button onClick={() => onDeleteById(id)} 
-         className="list__problems__deleteButton">
+        className="list__problems__deleteButton">
         Deletar
       </button>
 

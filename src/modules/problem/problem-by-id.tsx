@@ -7,6 +7,7 @@ import Problem from '../../models/Problem'
 import {  fetchProblemById } from '../../redux/actions/problemsActions'
 import ProblemBasicInfos from '../../components/problem/ProblemBasicInfos'
 import ProblemComments from '../../components/problem/ProblemComments'
+import ProblemSolutionAttempts from '../../components/problem/ProblemSolutionAttempts'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Problemas", "/problems"),
@@ -38,6 +39,7 @@ class ProblemById extends Component<IProblemByIdProps> {
 
         <ProblemBasicInfos problem={currentProblem} key={id} />
         <ProblemComments problem={currentProblem} key={(id !== undefined ? id + 1 : id)} />
+        <ProblemSolutionAttempts problem={currentProblem} key={(id !== undefined ? id + 2 : id)} />
       </Content>
     )
   }

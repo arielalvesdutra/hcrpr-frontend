@@ -93,13 +93,35 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
       onSetProblemCommentsCurrentPage, currentPage, comments,
       totalPages, onDeleteProblemComment } = this.props
 
-  
     const fetchAllCommentsForPagination = (filters ={}) => {
       onFetchAllProblemComments(problem.id, filters )
     }
 
+    const showFieldErrors = (errors: []) => errors.map((err:string, key:any) => 
+      <div key={key} className="row errorMessage">{err}</div>
+    )
+
+    const AddProblemComment = (
+      <form className="problemComments__addComent"
+        onSubmit={this.onCreateCommentFormSubmit}>
+        <h3 className="content__subtitle__h3">Cadastrar Comentário</h3>
+        <div className="row">
+          <textarea name="content"
+              value={content}
+              onChange={change}
+              className="problemComments__addComent__contentTextArea"
+              placeholder="Digite o conteúdo do comentário"></textarea>
+          {fieldErrors.content && (showFieldErrors(fieldErrors.content))}
+        </div>
+        <div className="row">
+          <button type="submit" className="problemComments__addComent__addButton">
+            Adicionar comentário</button>
+        </div>
+      </form>
+    )
+
     const ListComments = (comments:ProblemComment[]) => (
-      <ul className="problemComments__listComments">
+      <ul className="problemComments__list">
         {comments && comments.length > 0 && comments.map((comment, key) => (
           <li className="problemComments__listComments__item" key={key}>
             <div className="flex1">
@@ -121,53 +143,38 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
       </ul>
     )
 
-    const showFieldErrors = (errors: []) => errors.map((err:string, key:any) => 
-      <div key={key} className="row errorMessage">{err}</div>
+    const ListProblemCommentsWithPagination = (
+      <div className="problemComments__list__area">
+        <h3 className="content__subtitle__h3">Lista de comentários</h3>
+        {comments && (
+          <>
+            {ListComments(comments)}
+            <Pagination
+              currentPage={currentPage}
+              items={comments}
+              itemsPerPage={itemsPerPage}
+              totalItems={totalItems}
+              totalPages={totalPages}
+              setItemsCurrentPage={onSetProblemCommentsCurrentPage}
+              searchItemsCallback={fetchAllCommentsForPagination} />
+          </>
+        )}
+        {comments && comments.length <= 0 && (
+          <div className="row">
+            <strong>
+              Não há comentários cadastrados.
+            </strong>
+          </div>
+        )}
+      </div>
     )
 
     return (
       <section className="problemComments">
           <h2 className="content_subtitle">Comentários</h2>
           <div className="problemComments__container">
-            <form className="problemComments__addComent"
-              onSubmit={this.onCreateCommentFormSubmit}>
-              <h3 className="content__subtitle__h3">Cadastrar Comentário</h3>
-              <div className="row">
-                <textarea name="content"
-                    value={content}
-                    onChange={change}
-                    className="problemComments__addComent__contentTextArea"
-                    placeholder="Digite o conteúdo do comentário"></textarea>
-                {fieldErrors.content && (showFieldErrors(fieldErrors.content))}
-              </div>
-              <div className="row">
-                <button type="submit" className="problemComments__addComent__addButton">
-                  Adicionar comentário</button>
-              </div>
-            </form>
-            <div className="problemComments__listComments">
-              <h3 className="content__subtitle__h3">Lista de comentários</h3>
-              {comments && (
-                <>
-                  {ListComments(comments)}
-                  <Pagination
-                    currentPage={currentPage}
-                    items={comments}
-                    itemsPerPage={itemsPerPage}
-                    totalItems={totalItems}
-                    totalPages={totalPages}
-                    setItemsCurrentPage={onSetProblemCommentsCurrentPage}
-                    searchItemsCallback={fetchAllCommentsForPagination} />
-                </>
-              )}
-              {comments && comments.length <= 0 && (
-                <div className="row">
-                  <strong>
-                    Não há comentários cadastrados.
-                  </strong>
-                </div>
-              )}
-            </div>
+            {AddProblemComment}
+            {ListProblemCommentsWithPagination}
           </div>
       </section>
     )
