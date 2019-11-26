@@ -24,6 +24,7 @@ export enum ConceptsActions {
   SET_CURRENT_PAGE = "SET_CURRENT_PAGE"
 }
 
-export enum SolutionAttemptActions {
-  SET_CURRENT_SOLUTION
+export enum SolutionAttemptsActions {
+  SET_CURRENT_SOLUTION_ATTEMPT_COMMENTS,
+  SET_CURRENT_SOLUTION_ATTEMPT_COMMENTS_PAGE
 }

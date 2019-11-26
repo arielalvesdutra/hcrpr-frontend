@@ -1,7 +1,7 @@
 import { TechniquesActions } from '../actions/actionTypes'
 import Technique from '../../models/Technique'
 
-interface ITechniquesInitialState {
+export interface ITechniquesInitialState {
   techniques: Technique[]
   currentTechnique: Technique
   currentPage: number,

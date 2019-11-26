@@ -1,43 +1,12 @@
 import { ProblemsActions } from './actionTypes'
+import { IProblemsInitialState } from '../reducers/problemsReducer'
 import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
+
 import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
 import SolutionAttempt from '../../models/SolutionAttempt'
 
-
-const getCurrentPageFromProblemsReducer = (problemsReducer: any) => {
-  const { currentPage, totalItems, itemsPerPage } = problemsReducer
-  const currentTotalItems = totalItems -1
-  const maxOfPages = Math.ceil(currentTotalItems / itemsPerPage)
-  const page = (maxOfPages < currentPage)
-          ? maxOfPages 
-          : currentPage 
-  return page
-}
-
-const getCurrentCommentPageFromProblemsReducer = (problemsReducer: any) => {
-  const { currentProblemCommentsPage, currentProblemCommentsTotalItems, 
-    currentProblemCommentsItemsPerPage } = problemsReducer
-  const currentTotalItems = currentProblemCommentsTotalItems -1
-  const maxOfPages = Math.ceil(currentTotalItems / currentProblemCommentsItemsPerPage)
-  const page = (maxOfPages < currentProblemCommentsPage)
-          ? maxOfPages 
-          : currentProblemCommentsPage 
-  return page
-}
-
-const getCurrentProblemSolutionAttemptsPageFromProblemsReducer = (problemsReducer: any) => {
-  const { currentProblemSolutionAttemptsPage, 
-    currentProblemSolutionAttemptsTotalItems, 
-    currentProblemSolutionAttemptsItemsPerPage } = problemsReducer
-  const currentTotalItems = currentProblemSolutionAttemptsTotalItems -1
-  const maxOfPages = Math.ceil(currentTotalItems / currentProblemSolutionAttemptsItemsPerPage)
-  const page = (maxOfPages < currentProblemSolutionAttemptsPage)
-          ? maxOfPages 
-          : currentProblemSolutionAttemptsPage 
-  return page
-}
 
 export const createProblem = (problem:Problem) => {
   return (dispatch:any, getState:any) => {
@@ -49,7 +18,7 @@ export const createProblem = (problem:Problem) => {
     })
     .then(response => {
 
-      const page = getCurrentPageFromProblemsReducer(getState().problems)
+      const page = getCurrentPageAfterCreate(getState().problems)
 
       dispatch(fetchAllProblems({ page }))
     })
@@ -65,7 +34,7 @@ export const createProblemComment = (problemId:number, comment:ProblemComment) =
     })
     .then(response => {
 
-      const page = getCurrentCommentPageFromProblemsReducer(getState().problems)
+      const page = getCurrentCommentPageAfterCreateComment(getState().problems)
       
       dispatch(fetchAllProblemComments(problemId, {page}))
     })
@@ -82,7 +51,7 @@ export const createSolutionAttempt = (problemId:number, solutionAttempt:Solution
     })
     .then(response => {
 
-      const page = getCurrentProblemSolutionAttemptsPageFromProblemsReducer(getState().problems)
+      const page = getCurrentProblemSolutionAttemptsPageAfterCreateAttempt(getState().problems)
       
       dispatch(fetchAllSolutionAttempts(problemId, {page}))
     })
@@ -95,7 +64,7 @@ export const deleteById = (problemId: number) => {
 
     axios.delete(`/problems/${problemId}`)
     .then(response => {
-      const  page = getCurrentPageFromProblemsReducer(getState().problems)
+      const  page = getCurrentPageAfterDelete(getState().problems)
 
       dispatch(fetchAllProblems({ page }))
     })
@@ -108,7 +77,7 @@ export const deleteProblemComment = (problemId: number, commentId:number) => {
     axios.delete(`/problems/${problemId}/comments/${commentId}`)
     .then(response => {
       
-      const page = getCurrentCommentPageFromProblemsReducer(getState().problems)
+      const page = getCurrentCommentPageAfterDeleteComment(getState().problems)
       
       dispatch(fetchAllProblemComments(problemId, {page}))
     })
@@ -121,7 +90,7 @@ export const deleteSolutionAttempt = (problemId: number, solutionAttemptId:numbe
     axios.delete(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`)
     .then(response => {
       
-      const page = getCurrentProblemSolutionAttemptsPageFromProblemsReducer(getState().problems)
+      const page = getCurrentProblemSolutionAttemptsPageAfterDeleteAttempt(getState().problems)
 
       dispatch(fetchAllSolutionAttempts(problemId, {page: page}))
     })
@@ -205,9 +174,6 @@ export const updateProblem = (id:number, problem:Problem) => {
     })
     .then(response => {
 
-      const page = getCurrentPageFromProblemsReducer(getState().problems)
-
-      dispatch(fetchAllProblems({ page }))
       dispatch(fetchProblemById(id))
     })
   }
@@ -227,12 +193,12 @@ export const updateSolutionAttempt = (problemId:number, solutionAttemptId:number
   }
 }
 
+
 export const loadingProblems = () => {
   return {
     type: ProblemsActions.LOADING_PROBLEMS
   }
 }
-
 
 export const setProblems = (problems: any) => {
   return {
@@ -288,4 +254,71 @@ export const setCurrentProblemSolutionAttemptsPage = (page: number) => {
     type: ProblemsActions.SET_CURRENT_PROBLEM_SOLUTION_ATTEMPTS_PAGE,
     currentPage: page
   }
+}
+
+
+const getCurrentPageAfterCreate = (problemsReducer: IProblemsInitialState) => {
+  const { currentPage, totalItems, itemsPerPage } = problemsReducer
+  
+  return calcCurrentPage(currentPage, (totalItems + 1), itemsPerPage)
+}
+
+const getCurrentPageAfterDelete = (problemsReducer: IProblemsInitialState) => {
+  const { currentPage, totalItems, itemsPerPage } = problemsReducer
+  
+  return calcCurrentPage(currentPage, (totalItems -1), itemsPerPage)
+}
+
+const getCurrentCommentPageAfterCreateComment = (problemsReducer: IProblemsInitialState) => {
+  const { currentProblemCommentsPage, 
+    currentProblemCommentsTotalItems, 
+    currentProblemCommentsItemsPerPage } = problemsReducer
+    
+  return calcCurrentPage(
+          currentProblemCommentsPage, 
+          (currentProblemCommentsTotalItems + 1),
+          currentProblemCommentsItemsPerPage )
+}
+
+const getCurrentCommentPageAfterDeleteComment = (problemsReducer: IProblemsInitialState) => {
+  const { currentProblemCommentsPage, 
+    currentProblemCommentsTotalItems, 
+    currentProblemCommentsItemsPerPage } = problemsReducer
+    
+  return calcCurrentPage(
+          currentProblemCommentsPage, 
+          (currentProblemCommentsTotalItems -1),
+          currentProblemCommentsItemsPerPage )
+}
+
+const getCurrentProblemSolutionAttemptsPageAfterCreateAttempt = (problemsReducer: IProblemsInitialState) => {
+  const { currentProblemSolutionAttemptsPage, 
+    currentProblemSolutionAttemptsTotalItems, 
+    currentProblemSolutionAttemptsItemsPerPage } = problemsReducer
+
+  return calcCurrentPage(
+          currentProblemSolutionAttemptsPage,
+          (currentProblemSolutionAttemptsTotalItems + 1),
+          currentProblemSolutionAttemptsItemsPerPage)
+}
+
+const getCurrentProblemSolutionAttemptsPageAfterDeleteAttempt = (problemsReducer: IProblemsInitialState) => {
+  const { currentProblemSolutionAttemptsPage, 
+    currentProblemSolutionAttemptsTotalItems, 
+    currentProblemSolutionAttemptsItemsPerPage } = problemsReducer
+
+  return calcCurrentPage(
+          currentProblemSolutionAttemptsPage,
+          (currentProblemSolutionAttemptsTotalItems - 1),
+          currentProblemSolutionAttemptsItemsPerPage)
+}
+
+const calcCurrentPage = (actualPage:number, totalItems:number, itemsPerPage:number):number => {
+
+  const maxOfPages = Math.ceil(totalItems / itemsPerPage)
+  const calculatedPage = (maxOfPages < actualPage)
+      ? maxOfPages
+      : actualPage
+
+  return calculatedPage
 }

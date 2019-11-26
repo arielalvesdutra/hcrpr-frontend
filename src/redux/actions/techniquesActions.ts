@@ -2,17 +2,8 @@ import { TechniquesActions } from './actionTypes'
 import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
 import Technique from '../../models/Technique'
+import { ITechniquesInitialState } from '../reducers/techniquesReducer'
 
-
-const getCurrentPageFromTechniquesReducer = (techniquesReducer: any) => {
-  const { currentPage, totalItems, itemsPerPage } = techniquesReducer
-  const currentTotalItems = totalItems -1
-  const maxOfPages = Math.ceil(currentTotalItems / itemsPerPage)
-  const page = (maxOfPages < currentPage)
-          ? maxOfPages 
-          : currentPage 
-  return page
-}
 
 export const createTechnique = (technique:Technique) => {
   return (dispatch:any, getState:any) => {
@@ -24,7 +15,7 @@ export const createTechnique = (technique:Technique) => {
     })
     .then(response => {
 
-      const page = getCurrentPageFromTechniquesReducer(getState().techniques)
+      const page = getCurrentPageAfterCreate(getState().techniques)
 
       dispatch(fetchAllTechniques({ page }))
     })
@@ -37,7 +28,7 @@ export const deleteById = (techniqueId: number) => {
 
     axios.delete(`/techniques/${techniqueId}`)
     .then(response => {
-      const page = getCurrentPageFromTechniquesReducer(getState().techniques)
+      const page = getCurrentPageAfterDelete(getState().techniques)
 
       dispatch(fetchAllTechniques({ page }))
     })
@@ -80,9 +71,6 @@ export const updateTechnique = (id:number, technique:Technique) => {
     })
     .then(response => {
 
-      const page = getCurrentPageFromTechniquesReducer(getState().techniques)
-
-      dispatch(fetchAllTechniques({ page }))
       dispatch(fetchTechniqueById(id))
     })
   }
@@ -113,4 +101,27 @@ export const setTechniqueCurrentPage = (currentPage: number) => {
     type: TechniquesActions.SET_CURRENT_PAGE,
     currentPage: currentPage
   }
+}
+
+
+const getCurrentPageAfterCreate = (techniquesReducer: ITechniquesInitialState) => {
+  const { currentPage, totalItems, itemsPerPage } = techniquesReducer
+
+  return calcCurrentPage(currentPage, (totalItems + 1), itemsPerPage)
+}
+
+const getCurrentPageAfterDelete = (techniquesReducer: ITechniquesInitialState) => {
+  const { currentPage, totalItems, itemsPerPage } = techniquesReducer
+
+  return calcCurrentPage(currentPage, (totalItems - 1), itemsPerPage)
+}
+
+const calcCurrentPage = (actualPage:number, totalItems:number, itemsPerPage:number):number => {
+
+  const maxOfPages = Math.ceil(totalItems / itemsPerPage)
+  const calculatedPage = (maxOfPages < actualPage)
+      ? maxOfPages
+      : actualPage
+
+  return calculatedPage
 }
