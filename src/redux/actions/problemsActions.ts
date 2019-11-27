@@ -179,6 +179,18 @@ export const updateProblem = (id:number, problem:Problem) => {
   }
 }
 
+export const updateProblemRelatedConcepts = (problemId:number, conceptsIds:number[]) => {
+  return (dispatch:any, getState:any) => {
+
+    axios.put(`/problems/${problemId}/concepts`, {
+      conceptsIds: conceptsIds
+    })
+    .then(response => {
+      dispatch(fetchProblemById(problemId))
+    })
+  }
+}
+
 export const updateSolutionAttempt = (problemId:number, solutionAttemptId:number, attempt: SolutionAttempt) => {
   return (dispatch:any, getState:any) => {
 
