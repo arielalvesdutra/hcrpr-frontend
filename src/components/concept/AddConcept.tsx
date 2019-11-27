@@ -99,7 +99,7 @@ class AddConcept extends Component<IAddConceptProps> {
             <label className="add__concept__label">Descrição:</label>
             <textarea name="description" id="description" 
               value={this.state.description} onChange={this.change}
-              maxLength={254} rows={3} placeholder="Digite a descrição do conceito"
+              maxLength={3000} rows={3} placeholder="Digite a descrição do conceito"
               className="add__concept__textarea"></textarea>
 
             {fieldErrors.description && showFieldErrors(fieldErrors.description)}
