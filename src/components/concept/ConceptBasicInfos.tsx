@@ -127,7 +127,9 @@ class ConceptBasicInfos extends Component<IConceptBasicInfosProps, IConceptBasic
           <span className="conceptBasicInfos__show__title">
             Descrição: 
           </span>
-          {concept.description}
+          <span className="conceptBasicInfos__show__description">
+            {concept.description}
+          </span>
         </div>
       </div>
     )
@@ -155,7 +157,7 @@ class ConceptBasicInfos extends Component<IConceptBasicInfosProps, IConceptBasic
           <textarea name="description"
               value={description}
               onChange={this.change}
-              maxLength={3000} rows={3} placeholder="Digite a descrição do conceito"
+              maxLength={3000} rows={5} placeholder="Digite a descrição do conceito"
               className="conceptBasicInfos__edit__textArea"></textarea>
           {fieldErrors.description && showFieldErrors(fieldErrors.description)}
 

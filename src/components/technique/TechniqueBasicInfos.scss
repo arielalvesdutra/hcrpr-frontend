@@ -13,6 +13,10 @@
   margin-bottom: 15px;
 }
 
+.techniqueBasicInfos__show__description {
+  white-space: pre-wrap;
+}
+
 .techniqueBasicInfos__edit__cancelButton,
 .techniqueBasicInfos__show__editButton {
   @extend %formButton;

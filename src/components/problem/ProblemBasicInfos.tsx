@@ -127,7 +127,9 @@ class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasic
           <span className="problemBasicInfos__show__title">
             Descrição: 
           </span>
-          {problem.description}
+          <span className="problemBasicInfos__show__description">
+            {problem.description}
+          </span>
         </div>
       </div>
     )
@@ -155,7 +157,7 @@ class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasic
           <textarea name="description"
               value={description}
               onChange={this.change}
-              maxLength={3000} rows={3} placeholder="Digite a descrição do problema"
+              maxLength={3000} rows={5} placeholder="Digite a descrição do problema"
               className="problemBasicInfos__edit__textArea"></textarea>
           {fieldErrors.description && showFieldErrors(fieldErrors.description)}
 

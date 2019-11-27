@@ -13,6 +13,10 @@
   margin-bottom: 15px;
 }
 
+.conceptBasicInfos__show__description {
+  white-space: pre-wrap;
+}
+
 .conceptBasicInfos__edit__cancelButton,
 .conceptBasicInfos__show__editButton {
   @extend %formButton;
