@@ -3,8 +3,17 @@ import './NavAside.scss'
 
 const pathName = window.location.pathname
 
+const pathStartWith = (parameter:string):boolean => {
+  const startWith = new RegExp(`${parameter}`)
+  
+  if (startWith.test(pathName)) {
+    return true
+  }
+  return false
+}
+
 const isActive = (expectedPathName: string):string => {
-  if (expectedPathName === pathName) {
+  if (pathStartWith(expectedPathName)) {
     return 'active'
   }
   return ''
