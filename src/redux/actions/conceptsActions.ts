@@ -2,16 +2,8 @@ import { ConceptsActions } from './actionTypes'
 import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
 import Concept from '../../models/Concept'
+import { IConceptsInitialState } from '../reducers/conceptsReducer'
 
-const getCurrentPageFromConceptsReducer = (conceptsReducer: any) => {
-  const { currentPage, totalItems, itemsPerPage } = conceptsReducer
-  const currentTotalItems = totalItems -1
-  const maxOfPages = Math.ceil(currentTotalItems / itemsPerPage)
-  const page = (maxOfPages < currentPage)
-          ? maxOfPages 
-          : currentPage 
-  return page
-}
 
 export const createConcept = (concept:Concept) => {
   return (dispatch:any, getState:any) => {
@@ -23,7 +15,7 @@ export const createConcept = (concept:Concept) => {
     })
     .then(response => {
 
-      const page = getCurrentPageFromConceptsReducer(getState().concepts)
+      const page = getCurrentPageAfterCreate(getState().concepts)
 
       dispatch(fetchAllConcepts({ page }))
     })
@@ -36,7 +28,7 @@ export const deleteById = (conceptId: number) => {
 
     axios.delete(`/concepts/${conceptId}`)
     .then(response => {
-      const  page = getCurrentPageFromConceptsReducer(getState().concepts)
+      const  page = getCurrentPageAfterDelete(getState().concepts)
 
       dispatch(fetchAllConcepts({ page }))
     })
@@ -78,14 +70,12 @@ export const updateConcept = (id:number, concept:Concept) => {
       description: concept.description
     })
     .then(response => {
-
-      const page = getCurrentPageFromConceptsReducer(getState().concepts)
-
-      dispatch(fetchAllConcepts({ page }))
+      
       dispatch(fetchConceptById(id))
     })
   }
 }
+
 
 export const loadingConcepts = () => {
   return {
@@ -115,3 +105,24 @@ export const setCurrentConcept = (concepts: Concept) => {
 }
 
 
+const getCurrentPageAfterCreate = (conceptsReducer: IConceptsInitialState) => {
+  const { currentPage, totalItems, itemsPerPage } = conceptsReducer
+
+  return calcCurrentPage(currentPage, (totalItems + 1), itemsPerPage)
+}
+
+const getCurrentPageAfterDelete = (conceptsReducer: IConceptsInitialState) => {
+  const { currentPage, totalItems, itemsPerPage } = conceptsReducer
+
+  return calcCurrentPage(currentPage, (totalItems - 1), itemsPerPage)
+}
+
+const calcCurrentPage = (actualPage:number, totalItems:number, itemsPerPage:number):number => {
+
+  const maxOfPages = Math.ceil(totalItems / itemsPerPage)
+  const calculatedPage = (maxOfPages < actualPage)
+      ? maxOfPages
+      : actualPage
+
+  return calculatedPage
+}

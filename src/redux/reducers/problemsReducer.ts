@@ -3,7 +3,7 @@ import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
 import SolutionAttempt from '../../models/SolutionAttempt'
 
-interface IProblemsInitialState {
+export interface IProblemsInitialState {
   problems: Problem[]
   currentProblem: Problem
   currentPage: number

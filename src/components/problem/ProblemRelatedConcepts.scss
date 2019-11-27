@@ -1,0 +1,24 @@
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+.problemRelatedConcepts__container {
+  @extend %simpleContainer;
+}
+
+.problemRelatedConcepts__vinculateConcepts__saveButton {
+  @extend %formButton;
+  background: $button-background-success;
+  color: white;
+  margin: 0 5px 5px 0;
+}
+
+.problemRelatedConcepts__list__editButton,
+.problemRelatedConcepts__vinculateConcepts__cancelButton {
+  @extend %formButton;
+  background: #626262;
+  color: #ffffff;
+}
+
+.problemRelatedConcepts__list__editButton {
+  margin-left: 15px;;
+}

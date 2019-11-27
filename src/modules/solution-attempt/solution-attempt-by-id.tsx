@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Content from '../../layouts/Content'
-import SolutionAttemptBasicInfo from '../../components/solution-attempt/SolutionAttemptBasicInfo'
-import { fetchSolutionAttemptById } from '../../redux/actions/problemsActions'
 import SolutionAttempt from '../../models/SolutionAttempt'
+import { fetchSolutionAttemptById } from '../../redux/actions/problemsActions'
+import BreadcrumbLink from '../../types/BreadcrumbLink'
+import SolutionAttemptBasicInfo from '../../components/solution-attempt/SolutionAttemptBasicInfo'
+import SolutionAttemptComments from '../../components/solution-attempt/SolutionAttemptComments'
+
 
 interface ISolutionAttemptByIdProps {
   match: any
@@ -25,6 +27,7 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
 
     const problemId = this.props.match.params.id
     const { currentSolutionAttempt} = this.props
+    const { id } = currentSolutionAttempt
 
     const breadcrumbLinks = [
       new BreadcrumbLink("Problemas", "/problems"),
@@ -37,8 +40,10 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
           title="Detalhe da Tentativa de Solução"
           breadcrumbLinks={breadcrumbLinks}>
 
-        <SolutionAttemptBasicInfo key={currentSolutionAttempt.id} 
+        <SolutionAttemptBasicInfo key={id} 
               solutionAttempt={currentSolutionAttempt} />
+        <SolutionAttemptComments key={id ? id + 1 : ''}
+              solutionAttempt={currentSolutionAttempt}/>
       </Content>
     )
   }

@@ -1,0 +1,45 @@
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+.solutionAttemptComments {
+  margin-top: 5px;
+}
+
+.solutionAttemptComments__container {
+  @extend %simpleContainer;
+}
+
+.solutionAttemptComments__addComent {
+  margin-bottom: 20px;
+}
+
+.solutionAttemptComments__addComent__contentTextArea {
+  @extend %formTextArea;
+}
+
+.solutionAttemptComments__addComent__addButton {
+  @extend %formButton;
+  background: $button-background-success;
+  color: white;
+}
+
+.solutionAttemptComments__listComments__item {
+  margin: 10px 0px;
+  display: flex;
+}
+
+.solutionAttemptComments__listComments__itemContent{
+  display: block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.solutionAttemptComments__listComments__itemDateTime {
+  color: #999;
+}
+
+.solutionAttemptComments__listComments__itemDeleteButton {
+  @extend %listActionButton;
+  background: $button-background-danger;
+}

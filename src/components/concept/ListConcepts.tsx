@@ -7,7 +7,7 @@ import List, { ListItem } from '../../components/shared/List'
 import Pagination from '../../components/shared/Pagination'
 import './ListConcepts.scss'
 
-const mapConceptsToItems = (parameterConcepts:Concept[]):ListItem[] => {
+export const mapConceptsToItems = (parameterConcepts:Concept[]):ListItem[] => {
 
   return parameterConcepts.map((parameterConcept, key) => {
     return {

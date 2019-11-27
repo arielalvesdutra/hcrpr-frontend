@@ -8,6 +8,9 @@ import {  fetchProblemById } from '../../redux/actions/problemsActions'
 import ProblemBasicInfos from '../../components/problem/ProblemBasicInfos'
 import ProblemComments from '../../components/problem/ProblemComments'
 import ProblemSolutionAttempts from '../../components/problem/ProblemSolutionAttempts'
+import ProblemRelatedConcepts from '../../components/problem/ProblemRelatedConcepts'
+import { fetchAllConcepts } from '../../redux/actions/conceptsActions'
+import Concept from '../../models/Concept'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Problemas", "/problems"),
@@ -17,19 +20,23 @@ const breadcrumbLinks = [
 interface IProblemByIdProps {
   match: any
   currentProblem: Problem
+  concepts: Concept[]
   onFetchProblemById(id: number): any
+  onFetchAllConcepts(): any
 }
 
 class ProblemById extends Component<IProblemByIdProps> {
 
   componentDidMount = () => {
     const problemId = this.props.match.params.id
-    this.props.onFetchProblemById(problemId)
+    const { onFetchAllConcepts, onFetchProblemById } = this.props
+    onFetchProblemById(problemId)
+    onFetchAllConcepts()
   }
 
   render() {
 
-    const { currentProblem } = this.props
+    const { currentProblem, concepts } = this.props
     const { id } = currentProblem
 
     return (
@@ -40,6 +47,8 @@ class ProblemById extends Component<IProblemByIdProps> {
         <ProblemBasicInfos problem={currentProblem} key={id} />
         <ProblemComments problem={currentProblem} key={(id !== undefined ? id + 1 : id)} />
         <ProblemSolutionAttempts problem={currentProblem} key={(id !== undefined ? id + 2 : id)} />
+        <ProblemRelatedConcepts problem={currentProblem} concepts={concepts}
+            key={(id !== undefined ? id + 3 : id)}/>
       </Content>
     )
   }
@@ -47,13 +56,15 @@ class ProblemById extends Component<IProblemByIdProps> {
 
 const mapStateToProps = (props: any) => {
   return {
-    currentProblem: props.problems.currentProblem
+    currentProblem: props.problems.currentProblem,
+    concepts: props.concepts.concepts
    }
 }
 
 const mapDispatchToProps = (dispatch:any) => {
   return {
-    onFetchProblemById: (id:number) => dispatch(fetchProblemById(id))
+    onFetchProblemById: (id:number) => dispatch(fetchProblemById(id)),
+    onFetchAllConcepts: () => dispatch(fetchAllConcepts({ size: 100 }))
   }
 }
 
