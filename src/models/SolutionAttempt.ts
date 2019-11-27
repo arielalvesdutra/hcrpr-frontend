@@ -1,5 +1,6 @@
 import ProblemComment from "./ProblemComment";
 import Problem from "./Problem";
+import Technique from "./Technique";
 
 class SolutionAttempt {
   constructor(
@@ -7,7 +8,8 @@ class SolutionAttempt {
     public description: string,
     public id?: number,
     public problem?: Problem,
-    public comments?: ProblemComment[]
+    public comments?: ProblemComment[],
+    public techniques?: Technique[]
     ) {}
 }
 

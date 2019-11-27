@@ -2,6 +2,8 @@ import { SolutionAttemptsActions } from './actionTypes'
 import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
 import SolutionAttemptComment from '../../models/SolutionAttemptComment'
+import { fetchSolutionAttemptById } from './problemsActions'
+
 
 export const createSolutionAttemptComment = (
     problemId: number, solutionAttemptId:number, comment: SolutionAttemptComment) => {
@@ -50,6 +52,19 @@ export const fetchAllSolutionAttemptComments = (
     .catch(error => error)
   }
 }
+
+export const updateSolutionAttempTechniques = (problemId:number, attemptId:number, techniquesIds:number[]) => {
+  return (dispatch:any) => {
+
+    axios.put(`/problems/${problemId}/solution-attempts/${attemptId}/techniques`, {
+      techniquesIds: techniquesIds
+    })
+    .then(response => {
+      dispatch(fetchSolutionAttemptById(problemId, attemptId))
+    })
+  }
+}
+
 
 export const setCurrentSolutionAttemptComments = (data:any) => {
   return {

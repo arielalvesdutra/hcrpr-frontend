@@ -8,6 +8,17 @@ import Concept from '../../models/Concept'
 import { updateProblemRelatedConcepts } from '../../redux/actions/problemsActions'
 import { mapConceptsToItems } from '../concept/ListConcepts'
 import List from '../shared/List'
+import Option from '../../types/Option'
+
+const selectTheme = (theme:any) => ({
+  ...theme,
+  borderRadius: 0,
+  colors: {
+    ...theme.colors,
+    primary: '#aa4339',
+    primary25: '#ffb2aa',
+  },
+})
 
 const conceptsToOptions = (concepts: Concept[]):Option[] => concepts.map(concept => {
   return {
@@ -16,11 +27,6 @@ const conceptsToOptions = (concepts: Concept[]):Option[] => concepts.map(concept
   }
 })
 
-type Option = {
-  value?: number
-  label?: string
-}
-
 interface IProblemRelatedConceptProps {
   problem: Problem
   concepts: Concept[]
@@ -28,35 +34,33 @@ interface IProblemRelatedConceptProps {
 }
 
 interface IProblemRelatedConceptState {
-  related: Option[]
+  relatedConceptsOptions: Option[]
   isEditing: boolean
 }
 
 class ProblemRelatedConcepts extends  Component<IProblemRelatedConceptProps, IProblemRelatedConceptState> {
   state = {
-    related:[] as Option[],
+    relatedConceptsOptions:[] as Option[],
     isEditing: false
   }
 
   componentDidMount = () => {
     const { problem } = this.props
     const currentProblemRelatedConcepts = conceptsToOptions(problem.relatedConcepts || [])
-    
-    if (problem.id !== undefined) 
-      this.setState({related: currentProblemRelatedConcepts})
+    this.setState({relatedConceptsOptions: currentProblemRelatedConcepts})
   }
 
   onChangeRelatedConceptsSelect = (options:any) => {
-    this.setState({ related: options })
+    this.setState({ relatedConceptsOptions: options })
   }
 
-  onVinculateRelatedConceptsSubmut = (event:any) => {
+  onVinculateRelatedConceptsSubmit = (event:any) => {
     event.preventDefault()
     
-    const { related } = this.state
+    const { relatedConceptsOptions } = this.state
     const { onUpdateProblemRelatedConcepts, problem } = this.props
     const { toggleEditing } = this
-    const conceptsIds = (related && related.map(option => option.value)) || []
+    const conceptsIds = (relatedConceptsOptions && relatedConceptsOptions.map(option => option.value)) || []
 
     onUpdateProblemRelatedConcepts(problem.id, conceptsIds)
     toggleEditing()
@@ -69,23 +73,14 @@ class ProblemRelatedConcepts extends  Component<IProblemRelatedConceptProps, IPr
   render() {
     
     const { onChangeRelatedConceptsSelect, toggleEditing,
-      onVinculateRelatedConceptsSubmut } = this
+      onVinculateRelatedConceptsSubmit } = this
     const { concepts, problem } = this.props
-    const { related, isEditing } = this.state 
+    const { relatedConceptsOptions, isEditing } = this.state 
     const { relatedConcepts } = problem
 
-    const selectTheme = (theme:any) => ({
-      ...theme,
-      borderRadius: 0,
-      colors: {
-        ...theme.colors,
-        primary: '#aa4339',
-        primary25: '#ffb2aa',
-      },
-    })
 
     const VinculateRelatedConcepts = (
-      <form onSubmit={onVinculateRelatedConceptsSubmut}
+      <form onSubmit={onVinculateRelatedConceptsSubmit}
          className="problemRelatedConcepts__vinculateConcepts">
         <h3 className="content__subtitle__h3">Vincular conceitos</h3>
         <div className="row">
@@ -94,7 +89,7 @@ class ProblemRelatedConcepts extends  Component<IProblemRelatedConceptProps, IPr
               name="relatedConcepts"
               theme={selectTheme}
               onChange={onChangeRelatedConceptsSelect}
-              value={related}
+              value={relatedConceptsOptions}
               placeholder="Selecione os conceitos relacionados com o problema"
               isMulti />
         </div>
@@ -154,4 +149,3 @@ const mapDispatchToProps = (dispatch:any) => {
 }
 
 export default connect(null, mapDispatchToProps)(ProblemRelatedConcepts)
-
