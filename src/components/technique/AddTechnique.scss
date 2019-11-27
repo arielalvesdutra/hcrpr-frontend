@@ -23,6 +23,6 @@
 
 .add__technique__button {
   @extend %formButton;
-  background: #626262;
+  background: $button-background-success;
   color: #ffffff;
 }
