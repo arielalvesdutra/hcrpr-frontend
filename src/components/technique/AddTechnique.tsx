@@ -100,7 +100,7 @@ class AddTechnique extends Component<IAddTechniqueProps> {
             <label className="add__technique__label">Descrição:</label>
             <textarea name="description" id="description" 
               value={this.state.description} onChange={this.change}
-              maxLength={254} rows={3} placeholder="Digite a descrição da técnica"
+              maxLength={3000} rows={3} placeholder="Digite a descrição da técnica"
               className="add__technique__textarea"></textarea>
 
             {fieldErrors.description && showFieldErrors(fieldErrors.description)}

@@ -155,7 +155,7 @@ class TechniqueBasicInfos extends Component<ITechniqueBasicInfosProps, ITechniqu
           <textarea name="description"
               value={description}
               onChange={this.change}
-              maxLength={254} rows={3} placeholder="Digite a descrição da técnica"
+              maxLength={3000} rows={3} placeholder="Digite a descrição da técnica"
               className="techniqueBasicInfos__edit__textArea"></textarea>
           {fieldErrors.description && showFieldErrors(fieldErrors.description)}
 

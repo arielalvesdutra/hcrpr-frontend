@@ -99,7 +99,7 @@ class AddProblem extends Component<IAddProblemProps> {
             <label className="add__problem__label">Descrição:</label>
             <textarea name="description" id="description" 
               value={this.state.description} onChange={this.change}
-              maxLength={254} rows={3} placeholder="Digite a descrição do problema"
+              maxLength={3000} rows={3} placeholder="Digite a descrição do problema"
               className="add__problem__textarea"></textarea>
 
             {fieldErrors.description && showFieldErrors(fieldErrors.description)}
