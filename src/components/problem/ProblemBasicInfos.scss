@@ -14,6 +14,10 @@
   margin-bottom: 15px;
 }
 
+.problemBasicInfos__show__description {
+  white-space: pre-wrap;
+}
+
 .problemBasicInfos__edit__cancelButton,
 .problemBasicInfos__show__editButton {
   @extend %formButton;

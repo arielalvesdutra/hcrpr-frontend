@@ -139,7 +139,9 @@ class SolutionAttemptBasicInfo extends
           <span className="solutionAttemptBasicInfos__show__title">
             Descrição: 
           </span>
-          {solutionAttempt.description}
+          <span className="solutionAttemptBasicInfos__show__description">
+            {solutionAttempt.description}
+          </span>
         </div>
       </div>
     )
@@ -168,7 +170,7 @@ class SolutionAttemptBasicInfo extends
           <textarea name="description"
               value={description}
               onChange={this.change}
-              maxLength={3000} rows={3} 
+              maxLength={3000} rows={5} 
               placeholder="Digite a descrição da tentativa de solução"
               className="solutionAttemptBasicInfos__edit__textArea"></textarea>
           {fieldErrors.description && ShowFieldErrors(fieldErrors.description)}
