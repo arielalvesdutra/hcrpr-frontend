@@ -9,7 +9,7 @@ import Pagination from '../shared/Pagination'
 
 import './ListTechniques.scss'
 
-const mapTechniquesToItems = (parameterTechniques:Technique[]):ListItem[] => {
+export const mapTechniquesToItems = (parameterTechniques:Technique[]):ListItem[] => {
 
   return parameterTechniques.map((parameterTechnique, key) => {
     return {

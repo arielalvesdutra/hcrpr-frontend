@@ -1,0 +1,25 @@
+
+@import 'src/assets/sass/_colors.scss';
+@import 'src/assets/sass/_extends.scss';
+
+.solutionAttemptTechniques__container {
+  @extend %simpleContainer;  
+}
+
+.solutionAttemptTechniques__vinculateTechniques__saveButton {
+  @extend %formButton;
+  background: $button-background-success;
+  color: white;
+  margin: 0 5px 5px 0;
+}
+
+.solutionAttemptTechniques__list__editButton,
+.solutionAttemptTechniques__vinculateTechniques__cancelButton {
+  @extend %formButton;
+  background: #626262;
+  color: #ffffff;
+}
+
+.solutionAttemptTechniques__list__editButton {
+  margin-left: 15px;;
+}

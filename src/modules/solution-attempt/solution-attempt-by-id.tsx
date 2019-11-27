@@ -2,17 +2,22 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Content from '../../layouts/Content'
-import SolutionAttempt from '../../models/SolutionAttempt'
-import { fetchSolutionAttemptById } from '../../redux/actions/problemsActions'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
+import SolutionAttempt from '../../models/SolutionAttempt'
+import Technique from '../../models/Technique'
+import { fetchSolutionAttemptById } from '../../redux/actions/problemsActions'
+import { fetchAllTechniques } from '../../redux/actions/techniquesActions'
 import SolutionAttemptBasicInfo from '../../components/solution-attempt/SolutionAttemptBasicInfo'
 import SolutionAttemptComments from '../../components/solution-attempt/SolutionAttemptComments'
+import SolutionAttemptTechniques from '../../components/solution-attempt/SolutionAttemptTechniques'
 
 
 interface ISolutionAttemptByIdProps {
   match: any
   onFetchSolutionAttemptById:any
+  onFetchAllTechniques(): any
   currentSolutionAttempt: SolutionAttempt
+  techniques: Technique[]
 }
 
 class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
@@ -20,13 +25,16 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
   componentDidMount = () => {
     const problemId = this.props.match.params.id
     const solutionAttemptId = this.props.match.params.solutionAttemptId
-    this.props.onFetchSolutionAttemptById(problemId,solutionAttemptId)
+    const { onFetchAllTechniques, onFetchSolutionAttemptById } = this.props
+
+    onFetchSolutionAttemptById(problemId,solutionAttemptId)
+    onFetchAllTechniques()
   }
 
   render() {
 
     const problemId = this.props.match.params.id
-    const { currentSolutionAttempt} = this.props
+    const { currentSolutionAttempt, techniques} = this.props
     const { id } = currentSolutionAttempt
 
     const breadcrumbLinks = [
@@ -42,8 +50,10 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
 
         <SolutionAttemptBasicInfo key={id} 
               solutionAttempt={currentSolutionAttempt} />
-        <SolutionAttemptComments key={id ? id + 1 : ''}
+        <SolutionAttemptComments key={id ? id + 1 : '2'}
               solutionAttempt={currentSolutionAttempt}/>
+        <SolutionAttemptTechniques key={id ? id + 2 : '3'} 
+              solutionAttempt={currentSolutionAttempt} techniques={techniques}/>
       </Content>
     )
   }
@@ -51,16 +61,18 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
 
 const mapStateToProps = (props: any) => {
   const {currentProblemSolutionAttempt} = props.problems 
-  
+  const { techniques } = props.techniques
   return {
-    currentSolutionAttempt: currentProblemSolutionAttempt
+    currentSolutionAttempt: currentProblemSolutionAttempt,
+    techniques 
    }
 }
 
 const mapDispatchToProps = (dispatch:any) => {
   return {
     onFetchSolutionAttemptById: (problemId:number, attemptId:number) => 
-          dispatch(fetchSolutionAttemptById(problemId, attemptId))
+          dispatch(fetchSolutionAttemptById(problemId, attemptId)),
+    onFetchAllTechniques: () => dispatch(fetchAllTechniques())
   }
 }
 
