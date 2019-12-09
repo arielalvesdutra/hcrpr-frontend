@@ -36,14 +36,20 @@ class ListProblems extends Component<IProblemsProps> {
     this.props.onFetchAllProblems()
   }
 
+  onDeleteByIdWithConfirmation = (id: number) => {
+    const { onDeleteById } = this.props
+    if (window.confirm("Você tem certeza?")) onDeleteById(id)
+  }
+
   render() {
 
-    const { problems, loadingProblems, onDeleteById, totalPages,
+    const { problems, loadingProblems, totalPages,
       itemsPerPage, totalItems, onFetchAllProblems, 
       currentPage, onSetCurrentPage } = this.props
+    const { onDeleteByIdWithConfirmation } = this
 
     const ButtonToDeleteProblem = (id:number) =>
-      <button onClick={() => onDeleteById(id)} 
+      <button onClick={() => onDeleteByIdWithConfirmation(id)} 
         className="list__problems__deleteButton">
         Deletar
       </button>

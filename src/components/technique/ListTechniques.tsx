@@ -38,14 +38,20 @@ class ListTechniques extends Component<ITechniquesProps> {
     this.props.onFetchAllTechniques()
   }
 
+  onDeleteByIdWithConfirmation = (id: number) => {
+    const { onDeleteById } = this.props
+    if (window.confirm("Você tem certeza?")) onDeleteById(id)
+  }
+
   render() {
 
     const { techniques, loadingTechniques, onDeleteById, totalPages,
       itemsPerPage, totalItems, onFetchAllTechniques, 
       currentPage, onSetCurrentPage } = this.props
+    const { onDeleteByIdWithConfirmation } = this
 
     const ButtonToDeleteTechnique = (id:number) =>
-       <button onClick={() => onDeleteById(id)} 
+       <button onClick={() => onDeleteByIdWithConfirmation(id)} 
           className="list__techniques__deleteButton">
          Deletar
        </button>

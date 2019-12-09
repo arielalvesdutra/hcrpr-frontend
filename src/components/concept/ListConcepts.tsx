@@ -36,14 +36,20 @@ class ListConcepts extends Component<IConceptsProps> {
     this.props.onFetchAllConcepts({ page: 1})
   }
 
+  onDeleteByIdWithConfirmation = (id: number) => {
+    const { onDeleteById } = this.props
+    if (window.confirm("Você tem certeza?")) onDeleteById(id)
+  }
+
   render() {
 
-    const { concepts, loadingConcepts, onDeleteById, totalPages,
+    const { concepts, loadingConcepts, totalPages,
       itemsPerPage, totalItems, onFetchAllConcepts, 
       currentPage, onSetCurrentPage } = this.props
+    const { onDeleteByIdWithConfirmation } = this
 
     const ButtonToDeleteConcept = (id:number) =>
-       <button onClick={() => onDeleteById(id)} 
+       <button onClick={() => onDeleteByIdWithConfirmation(id)} 
           className="list__concepts__deleteButton">
          Deletar
        </button>

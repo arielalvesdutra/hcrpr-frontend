@@ -98,6 +98,11 @@ class ProblemSolutionAttempts extends Component<IProblemSolutionAttemptsProps, I
     }
   }
 
+  onDeleteAttemptByIdWithConfirmation = (problemId?: number, attemptId?: number) => {
+    const { onDeleteSolutionAttempt } = this.props
+    if (window.confirm("Você tem certeza?")) onDeleteSolutionAttempt(problemId, attemptId)
+  }
+
   onCreateAttemptFormSubmit = (event:any) => {
     event.preventDefault()
 
@@ -114,9 +119,10 @@ class ProblemSolutionAttempts extends Component<IProblemSolutionAttemptsProps, I
 
   render() {
 
-    const { onCreateAttemptFormSubmit, change } = this
+    const { onCreateAttemptFormSubmit, change, 
+      onDeleteAttemptByIdWithConfirmation } = this
     const { name, description, fieldErrors } = this.state
-    const { attempts, problem, onDeleteSolutionAttempt, 
+    const { attempts, problem, 
       onFetchAllSolutionAttempts, currentPage, itemsPerPage, 
       totalItems, totalPages, onSetCurrentSolutionAttemptsPage } = this.props
 
@@ -167,7 +173,7 @@ class ProblemSolutionAttempts extends Component<IProblemSolutionAttemptsProps, I
     )
 
     const ButtonToDeleteAttempt = (attemptId:number) =>
-      <button onClick={() => onDeleteSolutionAttempt(problem.id, attemptId)} 
+      <button onClick={() => onDeleteAttemptByIdWithConfirmation(problem.id, attemptId)} 
         className="problemSolutionAttempts__list__deleteButton">
         Deletar
       </button>
