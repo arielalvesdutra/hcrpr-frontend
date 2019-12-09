@@ -3,19 +3,36 @@
 .header {
   background: $primary-color-5;
   color: white;
-  height: 80px;
+  height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-.header__logoArea {
+.header__brand {
   display: flex;
   margin: 0 0 0 70px;
 }
 
-.header__logo {
-  background: $primary-color-3;
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
+.header__brand__link {
+  color: white;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
+
+.header__brand__logo {
+  height: 40px;
+  width: 40px;
+}
+
+.header__brand__name {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-left: 8px;
+}
+
+.header__links {
+  margin-right: 30px;
+}
+

@@ -5,6 +5,7 @@ import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import AddConcept from '../../components/concept/AddConcept'
 import ListConcepts from '../../components/concept/ListConcepts'
+import { usePageTitle } from '../../components/shared/UsePageTitle'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Conceitos", "/concepts")
@@ -13,6 +14,10 @@ const breadcrumbLinks = [
 interface IConceptsProps { }
 
 class Concepts extends Component<IConceptsProps> {
+
+  componentDidMount = () => {
+    usePageTitle(`Conceitos`)
+  }
   
   render() {
     

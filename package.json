@@ -1,5 +1,6 @@
 {
   "name": "hcrpr-frontend",
+  "description": "Habits & Cycles Related Problems Resolver",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
