@@ -10,6 +10,7 @@ import { fetchAllTechniques } from '../../redux/actions/techniquesActions'
 import SolutionAttemptBasicInfo from '../../components/solution-attempt/SolutionAttemptBasicInfo'
 import SolutionAttemptComments from '../../components/solution-attempt/SolutionAttemptComments'
 import SolutionAttemptTechniques from '../../components/solution-attempt/SolutionAttemptTechniques'
+import { usePageTitle } from '../../components/shared/UsePageTitle'
 
 
 interface ISolutionAttemptByIdProps {
@@ -30,6 +31,12 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
     onFetchSolutionAttemptById(problemId,solutionAttemptId)
     onFetchAllTechniques()
   }
+
+  componentDidUpdate = () => {
+    const { currentSolutionAttempt } = this.props
+  
+    if (currentSolutionAttempt !== undefined) usePageTitle(`Tentativa - ${currentSolutionAttempt.name}`)
+  }  
 
   render() {
 

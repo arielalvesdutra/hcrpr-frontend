@@ -12,7 +12,10 @@ const pathStartWith = (parameter:string):boolean => {
   return false
 }
 
-const isActive = (expectedPathName: string):string => {
+const isActive = ({expectedPathName = '', exact = false}):string => {
+
+  if (exact) return expectedPathName === pathName ? 'active' : ''
+
   if (pathStartWith(expectedPathName)) {
     return 'active'
   }
@@ -23,17 +26,19 @@ const NavAside = () =>
   <nav className="navAside">
     <ul>
       <li>
-        <a href="/problems" className={isActive('/problems')}>
+        <a href="/problems" 
+            className={isActive({expectedPathName: '/problems'}) ||
+                       isActive({expectedPathName: '/', exact: true})}>
           Problemas
         </a>
       </li>
       <li>
-        <a href="/techniques" className={isActive('/techniques')}>
+        <a href="/techniques" className={isActive({expectedPathName: '/techniques'})}>
           Técnicas
         </a>
       </li>
       <li>
-        <a href="/concepts" className={isActive('/concepts')}>
+        <a href="/concepts" className={isActive({expectedPathName: '/concepts'})}>
           Conceitos
         </a>
       </li>

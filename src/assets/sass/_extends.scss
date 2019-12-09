@@ -55,3 +55,16 @@
   padding: 15px;
   border-radius: 2px;;
 }
+
+%commentContent {
+  display: block;
+  font-size: 1.1rem;
+  background: #ebecf0;
+  margin: 10px 10px 0px 0px;
+  padding: 15px 15px;
+  white-space: pre-wrap;
+}
+
+%commentDate {
+  color: #999;
+}

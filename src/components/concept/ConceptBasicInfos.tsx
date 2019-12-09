@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Concept from '../../models/Concept'
 import './ConceptBasicInfos.scss'
 import { updateConcept } from '../../redux/actions/conceptsActions'
+import { formatAsDateTime } from '../shared/DateHelpers'
 
 interface IConceptBasicInfosProps {
   concept: Concept,
@@ -109,9 +110,15 @@ class ConceptBasicInfos extends Component<IConceptBasicInfosProps, IConceptBasic
     const ShowConceptBasicInfos = (
       <div className="conceptBasicInfos__show">
         <div className="row flex justifyBetween">
-          <span>
-            <strong>ID # </strong> {concept.id}
-          </span>
+          <div>
+            <span>
+              <strong>ID # </strong> {concept.id}
+            </span>
+            <span> | </span>
+            <span>
+              <strong>Cadastrado em:</strong>  {concept.createdAt && formatAsDateTime(concept.createdAt)}
+            </span>
+          </div>
           <span>
             <button onClick={toogleEditing}
               className="conceptBasicInfos__show__editButton">Editar</button>

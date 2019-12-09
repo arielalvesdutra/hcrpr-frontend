@@ -9,6 +9,7 @@ import './ProblemComments.scss'
 import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
 import Pagination from '../shared/Pagination'
+import { formatAsDateTime } from '../shared/DateHelpers'
 
 interface IProblemCommentsProps {
   problem: Problem  
@@ -125,11 +126,11 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
         {comments && comments.length > 0 && comments.map((comment, key) => (
           <li className="problemComments__listComments__item" key={key}>
             <div className="flex1">
+            <span className="problemComments__listComments__itemDateTime">
+                {comment.createdAt && formatAsDateTime(comment.createdAt)}
+              </span>
               <span className="problemComments__listComments__itemContent">
                 {comment.content} 
-              </span>
-              <span className="problemComments__listComments__itemDateTime">
-                {comment.createdAt}
               </span>
             </div>
             <div className="problemComments__listComments__actionButtonArea">

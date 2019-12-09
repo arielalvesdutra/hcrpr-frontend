@@ -5,6 +5,7 @@ import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import AddProblem from '../../components/problem/AddProblem'
 import ListProblems from '../../components/problem/ListProblems'
+import { usePageTitle } from '../../components/shared/UsePageTitle'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Problemas", "/problems")
@@ -13,6 +14,10 @@ const breadcrumbLinks = [
 interface IProblemsProps {}
 
 class Problems extends Component<IProblemsProps> {
+
+  componentDidMount = () => {
+    usePageTitle(`Problemas`)
+  }
 
   render() {
 

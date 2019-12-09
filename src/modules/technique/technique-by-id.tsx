@@ -6,6 +6,7 @@ import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Technique from '../../models/Technique'
 import {  fetchTechniqueById } from '../../redux/actions/techniquesActions'
 import TechniqueBasicInfo from '../../components/technique/TechniqueBasicInfos'
+import { usePageTitle } from '../../components/shared/UsePageTitle'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Técnicas", "/techniques"),
@@ -23,6 +24,12 @@ class TechniqueById extends Component<ITechniqueByIdProps> {
   componentDidMount = () => {
     const techniqueId = this.props.match.params.id
     this.props.onFetchTechniqueById(techniqueId)
+  }
+
+  componentDidUpdate = () => {
+    const { currentTechnique } = this.props
+  
+    if (currentTechnique !== undefined) usePageTitle(`Técnica - ${currentTechnique.name}`)
   }
 
   render() {

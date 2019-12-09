@@ -7,7 +7,8 @@ class Problem {
     public description: string,
     public id?: number,
     public comments?: ProblemComment[],
-    public relatedConcepts?: Concept[]
+    public relatedConcepts?: Concept[],
+    public createdAt?: Date
     ) {}
 }
 

@@ -11,6 +11,7 @@ import ProblemSolutionAttempts from '../../components/problem/ProblemSolutionAtt
 import ProblemRelatedConcepts from '../../components/problem/ProblemRelatedConcepts'
 import { fetchAllConcepts } from '../../redux/actions/conceptsActions'
 import Concept from '../../models/Concept'
+import { usePageTitle } from '../../components/shared/UsePageTitle'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Problemas", "/problems"),
@@ -32,6 +33,12 @@ class ProblemById extends Component<IProblemByIdProps> {
     const { onFetchAllConcepts, onFetchProblemById } = this.props
     onFetchProblemById(problemId)
     onFetchAllConcepts()
+  }
+
+  componentDidUpdate = () => {
+    const { currentProblem } = this.props
+
+    if (currentProblem !== undefined) usePageTitle(`Problema - ${currentProblem.name}`)
   }
 
   render() {

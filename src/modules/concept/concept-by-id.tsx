@@ -6,6 +6,7 @@ import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Concept from '../../models/Concept'
 import {  fetchConceptById } from '../../redux/actions/conceptsActions'
 import ConceptBasicInfos from '../../components/concept/ConceptBasicInfos'
+import { usePageTitle } from '../../components/shared/UsePageTitle'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Conceitos", "/concepts"),
@@ -23,6 +24,12 @@ class ConceptById extends Component<IConceptByIdProps> {
   componentDidMount = () => {
     const conceptId = this.props.match.params.id
     this.props.onFetchConceptById(conceptId)
+  }
+
+  componentDidUpdate = () => {
+    const { currentConcept } = this.props
+  
+    if (currentConcept !== undefined) usePageTitle(`Conceito - ${currentConcept.name}`)
   }
 
   render() {

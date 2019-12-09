@@ -7,6 +7,7 @@ import SolutionAttempt from '../../models/SolutionAttempt'
 import { fetchAllSolutionAttemptComments, createSolutionAttemptComment, deleteSolutionAttemptComment, setCurrentSolutionAttemptCommentsPage } from '../../redux/actions/solutionAttemptsActions'
 import SolutionAttemptComment from '../../models/SolutionAttemptComment'
 import './SolutionAttemptComments.scss'
+import { formatAsDateTime } from '../shared/DateHelpers'
 
 interface IProblemCommentsProps {
   solutionAttempt: SolutionAttempt
@@ -127,12 +128,12 @@ class SolutionAttemptComments extends Component<IProblemCommentsProps, IProblemC
         {comments && problem && comments.length > 0 && comments.map((comment, key) => (
           <li className="solutionAttemptComments__listComments__item" key={key}>
             <div className="flex1">
+              <span className="solutionAttemptComments__listComments__itemDateTime">
+                {comment.createdAt && formatAsDateTime(comment.createdAt)}
+              </span>
               <span className="solutionAttemptComments__listComments__itemContent">
                 {comment.content} 
-              </span>
-              <span className="solutionAttemptComments__listComments__itemDateTime">
-                {comment.createdAt}
-              </span>
+              </span>    
             </div>
             <div className="solutionAttemptComments__listComments__actionButtonArea">
               <button 
