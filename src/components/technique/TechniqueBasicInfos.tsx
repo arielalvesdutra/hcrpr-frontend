@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Technique from '../../models/Technique'
 import './TechniqueBasicInfos.scss'
 import { updateTechnique } from '../../redux/actions/techniquesActions'
+import { formatAsDateTime } from '../shared/DateHelpers'
 
 interface ITechniqueBasicInfosProps {
   technique: Technique,
@@ -109,9 +110,15 @@ class TechniqueBasicInfos extends Component<ITechniqueBasicInfosProps, ITechniqu
     const ShowTechniqueBasicInfos = (
       <div className="techniqueBasicInfos__show">
         <div className="row flex justifyBetween">
-          <span>
-            <strong>ID # </strong> {technique.id}
-          </span>
+        <div>
+            <span>
+              <strong>ID # </strong> {technique.id}
+            </span>
+            <span> | </span>
+            <span>
+              <strong>Cadastrada em:</strong>  {technique.createdAt && formatAsDateTime(technique.createdAt)}
+            </span>
+          </div>
           <span>
             <button onClick={toogleEditing}
               className="techniqueBasicInfos__show__editButton">Editar</button>

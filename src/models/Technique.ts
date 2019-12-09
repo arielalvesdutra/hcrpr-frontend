@@ -3,6 +3,7 @@ class Technique {
     public name: string,
     public description: string,
     public id?: number,
+    public createdAt?: Date
     ) {}
 }
 

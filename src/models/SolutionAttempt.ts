@@ -9,7 +9,8 @@ class SolutionAttempt {
     public id?: number,
     public problem?: Problem,
     public comments?: ProblemComment[],
-    public techniques?: Technique[]
+    public techniques?: Technique[],
+    public createdAt?: Date,
     ) {}
 }
 

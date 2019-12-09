@@ -5,6 +5,7 @@ import './SolutionAttemptBasicInfo.scss'
 import SolutionAttempt from '../../models/SolutionAttempt'
 import ShowFieldErrors from '../shared/ShowFieldErrors'
 import { updateSolutionAttempt } from '../../redux/actions/problemsActions'
+import { formatAsDateTime } from '../shared/DateHelpers'
 
 interface ISolutionAttemptBasicInfoProps {
   solutionAttempt: SolutionAttempt
@@ -121,6 +122,11 @@ class SolutionAttemptBasicInfo extends
             <span><strong>ID # </strong> {solutionAttempt.id}</span>
             <span> | </span>
             <span><strong>Problema:  </strong> {problem ? problem.name : '' }</span>
+            <div className="row">
+              <span>
+                <strong>Cadastrado em:</strong>  {solutionAttempt.createdAt && formatAsDateTime(solutionAttempt.createdAt)}
+             </span>
+            </div>
           </div>
           <span>
             <button onClick={this.toogleEditing}
@@ -129,6 +135,7 @@ class SolutionAttemptBasicInfo extends
             </button>
           </span>
         </div>
+        
         <div className="row">
           <span className="solutionAttemptBasicInfos__show__title">
             Nome: 

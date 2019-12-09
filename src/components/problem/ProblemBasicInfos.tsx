@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Problem from '../../models/Problem'
 import './ProblemBasicInfos.scss'
 import { updateProblem } from '../../redux/actions/problemsActions'
+import { formatAsDateTime } from '../shared/DateHelpers'
 
 interface IProblemBasicInfosProps {
   problem: Problem,
@@ -109,9 +110,15 @@ class ProblemBasicInfos extends Component<IProblemBasicInfosProps, IProblemBasic
     const ShowProblemBasicInfos = (
       <div className="problemBasicInfos__show">
         <div className="row flex justifyBetween">
-          <span>
-            <strong>ID # </strong> {problem.id}
-          </span>
+          <div>
+            <span>
+              <strong>ID # </strong> {problem.id}
+            </span>
+            <span> | </span>
+            <span>
+              <strong>Cadastrado em:</strong>  {problem.createdAt && formatAsDateTime(problem.createdAt)}
+            </span>
+          </div>
           <span>
             <button onClick={toogleEditing}
               className="problemBasicInfos__show__editButton">Editar</button>
