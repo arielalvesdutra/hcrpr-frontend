@@ -5,10 +5,17 @@
 
 .menuAside-and-content {
   display: flex;
+  flex-direction: column;
   flex: 1;
 }
 
 .view-routes {
   display: flex;
   flex: 1;
+}
+
+@media(min-width: 443px) {
+  .menuAside-and-content {
+    flex-direction: row;
+  }
 }
