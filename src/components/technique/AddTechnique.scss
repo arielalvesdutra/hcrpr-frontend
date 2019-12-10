@@ -6,10 +6,7 @@
 }
 
 .add__technique__addLink {
-  color: $primary-color-3;
-  margin-left: 15px;
-  text-decoration: underline;
-  cursor: pointer;
+  @extend %spanLink;
 }
 
 .add__technique__form {

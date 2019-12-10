@@ -56,7 +56,6 @@ class ListConcepts extends Component<IConceptsProps> {
      
     return (
       <section className="list_concepts">
-        <h2 className="content_subtitle">Lista de conceitos</h2>
         
         {concepts && (
           <>

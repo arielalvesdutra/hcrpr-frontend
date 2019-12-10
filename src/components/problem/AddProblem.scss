@@ -9,6 +9,10 @@
   @extend %container;
 }
 
+.add__problem__addLink {
+  @extend %spanLink;
+}
+
 .add__problem__label {
   @extend %formLabel;
 }
@@ -21,8 +25,13 @@
   @extend %formTextArea;
 }
 
-.add__problem__button {
+.add__problem__Addbutton {
   @extend %formButton;
   background: $button-background-success;
   color: #ffffff;
+  margin-right: 10px;
+}
+
+.add__problem__closeModalButton{
+  @extend %formButton;
 }
