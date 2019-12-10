@@ -5,6 +5,13 @@
   margin: 0 0 15px 0;
 }
 
+.add__technique__addLink {
+  color: $primary-color-3;
+  margin-left: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .add__technique__form {
   @extend %container;
 }
@@ -21,8 +28,13 @@
   @extend %formTextArea;
 }
 
-.add__technique__button {
+.add__technique__addButton {
   @extend %formButton;
   background: $button-background-success;
   color: #ffffff;
+  margin-right: 10px;
+}
+
+.add__technique__closeModalButton{
+  @extend %formButton;
 }

@@ -45,7 +45,7 @@ class ListTechniques extends Component<ITechniquesProps> {
 
   render() {
 
-    const { techniques, loadingTechniques, onDeleteById, totalPages,
+    const { techniques, loadingTechniques, totalPages,
       itemsPerPage, totalItems, onFetchAllTechniques, 
       currentPage, onSetCurrentPage } = this.props
     const { onDeleteByIdWithConfirmation } = this
@@ -57,9 +57,7 @@ class ListTechniques extends Component<ITechniquesProps> {
        </button>
 
     return (
-      <section className="list_techniques">
-        <h2 className="content_subtitle">Lista de técnicas</h2>
-        
+      <section className="list__techniques">        
         {techniques && (
           <>
             <List actionButtons={[ButtonToDeleteTechnique]}

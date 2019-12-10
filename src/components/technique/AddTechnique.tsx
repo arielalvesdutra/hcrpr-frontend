@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import './AddTechnique.scss'
 import Technique from '../../models/Technique'
 import { createTechnique } from '../../redux/actions/techniquesActions'
+import DefaultModal from '../shared/modals/DefaultModal'
 
 interface IAddTechniqueProps {
   onCreateTechnique(technique: Technique): any
@@ -13,13 +14,15 @@ interface IAddTechniqueState {
   name: string
   description: string
   fieldErrors: any
+  isModalOpen: boolean
 }
 
 class AddTechnique extends Component<IAddTechniqueProps> {
   state: IAddTechniqueState = {
     name: '',
     description: '',
-    fieldErrors: {}
+    fieldErrors: {},
+    isModalOpen: false
   }
 
   change = (event:any) => {
@@ -77,8 +80,13 @@ class AddTechnique extends Component<IAddTechniqueProps> {
     } catch(error) { console.log(error) }
   }
 
+  toggleModal = () => {
+    this.setState({ isModalOpen: !this.state.isModalOpen})
+  }
+
   render() {
-    const { fieldErrors } = this.state
+    const { fieldErrors, isModalOpen } = this.state
+    const { toggleModal } = this
 
     const showFieldErrors = (errors: []) => errors.map((err:string, key:any) => 
       <div key={key} className="row errorMessage">{err}</div>
@@ -86,30 +94,41 @@ class AddTechnique extends Component<IAddTechniqueProps> {
     
     return (
       <section className="add__technique">
-        <h2 className="content_subtitle">Cadastrar Técnica</h2>
-        <form className="add__technique__form" onSubmit={this.onSubmit}>
-          <div className="row">
-            <label className="add__technique__label">Nome:</label>
-            <input value={this.state.name} onChange={this.change}
-             type="text" placeholder="Digite o nome da técnica"
+        <div>
+          <span onClick={this.toggleModal}
+              className="add__technique__addLink">+ Adicionar
+          </span>
+        </div>
+        <DefaultModal isOpen={isModalOpen} closeCallback={toggleModal}>
+          <h2 className="content_subtitle">Adicionar técnica</h2>
+          <form className="add__technique__form" onSubmit={this.onSubmit}>
+            <div className="row">
+              <label className="add__technique__label">Nome:</label>
+              <input value={this.state.name} onChange={this.change}
+              type="text" placeholder="Digite o nome da técnica"
               name="name" className="add__technique__input" />
 
-            {fieldErrors.name  && showFieldErrors(fieldErrors.name)}
-          </div>
-          <div className="row">
-            <label className="add__technique__label">Descrição:</label>
-            <textarea name="description" id="description" 
-              value={this.state.description} onChange={this.change}
-              maxLength={3000} rows={3} placeholder="Digite a descrição da técnica"
-              className="add__technique__textarea"></textarea>
+              {fieldErrors.name  && showFieldErrors(fieldErrors.name)}
+            </div>
+            <div className="row">
+              <label className="add__technique__label">Descrição:</label>
+              <textarea name="description" id="description" 
+                value={this.state.description} onChange={this.change}
+                maxLength={3000} rows={3} placeholder="Digite a descrição da técnica"
+                className="add__technique__textarea"></textarea>
 
-            {fieldErrors.description && showFieldErrors(fieldErrors.description)}
-          </div>
-          <div className="row">
-            <button type="submit"
-              className="add__technique__button">Cadastrar</button>
-          </div>
-        </form>
+              {fieldErrors.description && showFieldErrors(fieldErrors.description)}
+            </div>
+            <div className="row">
+              <button type="submit"
+                className="add__technique__addButton">Cadastrar</button>
+              <button onClick={toggleModal}
+                className="add__technique__closeModalButton">
+                Fechar
+              </button>
+            </div>
+          </form>
+        </DefaultModal>
       </section>
     )
   }

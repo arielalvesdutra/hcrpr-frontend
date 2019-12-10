@@ -8,12 +8,14 @@
   width: 98%;
   padding: 7px 4px;
   font-size: 1.01rem;
+  border-radius: 2px;
 }
 
 %formTextArea {
   width: 98%;
   padding: 7px 4px;
   font-size: 1.01rem;
+  border-radius: 2px;
 }
 
 %simpleContainer {
@@ -30,6 +32,8 @@
   padding: 10px 15px;
   opacity: 1;
   transition: opacity 0.5s;
+  background: #626262;
+  color: white;
 }
 
 %formButton:hover {

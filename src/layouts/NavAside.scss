@@ -6,6 +6,7 @@
   font-size: 1.2rem;
   padding: 35px 5px 10px 25px;
   border-right: 2px solid #888;
+  display: none;
 }
 
 .navAside li {
@@ -22,4 +23,10 @@
 
 .navAside li a.active {
   background: #f3f1f1; 
+}
+
+@media(min-width: 443px) {
+  .navAside {
+    display: block;
+  }
 }
