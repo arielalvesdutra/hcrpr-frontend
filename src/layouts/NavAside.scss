@@ -1,17 +1,38 @@
 @import 'src/assets/sass/_colors.scss';
 
 .navAside {
-  width: 230px;
   font-weight: bold;
   font-size: 1.2rem;
-  padding: 35px 5px 10px 25px;
-  border-right: 2px solid #888;
+}
+
+.navAside__hamburguer {
+  display: block;
+  text-align: center;
+  background: #ddd;
+  background: $primary-color-4;;
+  padding: 12px 0 10px 0;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  margin: 0;
+  outline: none;
+  color: $primary-color-5;
+  font-weight: bold;
+}
+
+.navAside__hamburguer__img {
+  width: 40px;
+  height: 25px;
+}
+
+.navAside__mainLinks {
+  display: none;
 }
 
 .navAside li {
   display: flex;
   flex-direction: column;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 }
 
 .navAside li a {
@@ -22,4 +43,24 @@
 
 .navAside li a.active {
   background: #f3f1f1; 
+}
+
+@media(min-width: 443px) {
+  .navAside {
+    width: 230px;
+    padding: 35px 5px 10px 25px;
+    border-right: 2px solid #888;
+  }
+
+  .navAside__hamburguer {
+    display: none;
+  }
+
+  .navAside__mainLinks {
+    display: block;
+  }
+
+  .navAside li {
+    margin-bottom: 5px;
+  }
 }

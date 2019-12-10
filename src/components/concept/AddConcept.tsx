@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import './AddConcept.scss'
 import Concept from '../../models/Concept'
 import { createConcept } from '../../redux/actions/conceptsActions'
+import DefaultModal from '../shared/modals/DefaultModal'
 
 interface IAddConceptProps {
   onCreateConcept(concept: Concept): any
@@ -13,12 +14,14 @@ interface IAddConceptState {
   name: string
   description: string
   fieldErrors: any
+  isModalOpen: boolean
 }
 class AddConcept extends Component<IAddConceptProps> {
   state: IAddConceptState = {
     name: '',
     description: '',
-    fieldErrors: {}
+    fieldErrors: {},
+    isModalOpen: false
   }
 
   change = (event:any) => {
@@ -64,6 +67,10 @@ class AddConcept extends Component<IAddConceptProps> {
       throw new Error('Há erros de preenchimento de campos no formulário')
     }
   }
+
+  toggleModal = () => {
+    this.setState({ isModalOpen: !this.state.isModalOpen})
+  }
   
   onSubmit = (event: any) => {
     event.preventDefault()
@@ -77,7 +84,9 @@ class AddConcept extends Component<IAddConceptProps> {
   }
 
   render() {
-    const { fieldErrors } = this.state
+    const { fieldErrors, isModalOpen } = this.state
+    const { toggleModal } = this
+
 
     const showFieldErrors = (errors: []) => errors.map((err:string, key:any) => 
       <div key={key} className="row errorMessage">{err}</div>
@@ -85,30 +94,41 @@ class AddConcept extends Component<IAddConceptProps> {
     
     return (
       <section className="add__concept">
-        <h2 className="content_subtitle">Cadastrar Conceito</h2>
-        <form className="add__concept__form" onSubmit={this.onSubmit}>
-          <div className="row">
-            <label className="add__concept__label">Nome:</label>
-            <input value={this.state.name} onChange={this.change}
-             type="text" placeholder="Digite o nome do conceito"
-              name="name" className="add__concept__input" />
+        <div>
+          <span onClick={this.toggleModal}
+              className="add__concept__addLink">+ Adicionar
+          </span>
+        </div>
+        <DefaultModal isOpen={isModalOpen} closeCallback={toggleModal}>
+          <h2 className="content_subtitle">Cadastrar Conceito</h2>
+          <form className="add__concept__form" onSubmit={this.onSubmit}>
+            <div className="row">
+              <label className="add__concept__label">Nome:</label>
+              <input value={this.state.name} onChange={this.change}
+              type="text" placeholder="Digite o nome do conceito"
+                name="name" className="add__concept__input" />
 
-            {fieldErrors.name  && showFieldErrors(fieldErrors.name)}
-          </div>
-          <div className="row">
-            <label className="add__concept__label">Descrição:</label>
-            <textarea name="description" id="description" 
-              value={this.state.description} onChange={this.change}
-              maxLength={3000} rows={3} placeholder="Digite a descrição do conceito"
-              className="add__concept__textarea"></textarea>
+              {fieldErrors.name  && showFieldErrors(fieldErrors.name)}
+            </div>
+            <div className="row">
+              <label className="add__concept__label">Descrição:</label>
+              <textarea name="description" id="description" 
+                value={this.state.description} onChange={this.change}
+                maxLength={3000} rows={3} placeholder="Digite a descrição do conceito"
+                className="add__concept__textarea"></textarea>
 
-            {fieldErrors.description && showFieldErrors(fieldErrors.description)}
-          </div>
-          <div className="row">
-            <button type="submit"
-              className="add__concept__button">Cadastrar</button>
-          </div>
-        </form>
+              {fieldErrors.description && showFieldErrors(fieldErrors.description)}
+            </div>
+            <div className="row">
+              <button type="submit"
+                className="add__concept__addButton">Cadastrar</button>
+              <button onClick={toggleModal}
+                className="add__concept__closeModalButton">
+                Fechar
+              </button>
+            </div>
+          </form>
+        </DefaultModal>
       </section>
     )
   }

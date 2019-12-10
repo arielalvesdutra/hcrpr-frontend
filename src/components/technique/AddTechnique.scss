@@ -5,6 +5,10 @@
   margin: 0 0 15px 0;
 }
 
+.add__technique__addLink {
+  @extend %spanLink;
+}
+
 .add__technique__form {
   @extend %container;
 }
@@ -21,8 +25,13 @@
   @extend %formTextArea;
 }
 
-.add__technique__button {
+.add__technique__addButton {
   @extend %formButton;
   background: $button-background-success;
   color: #ffffff;
+  margin-right: 10px;
+}
+
+.add__technique__closeModalButton{
+  @extend %formButton;
 }

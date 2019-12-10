@@ -1,3 +1,5 @@
+@import './colors';
+
 %formLabel {
   margin-bottom: 10px;
   font-size: 1.3rem;
@@ -8,12 +10,14 @@
   width: 98%;
   padding: 7px 4px;
   font-size: 1.01rem;
+  border-radius: 2px;
 }
 
 %formTextArea {
   width: 98%;
   padding: 7px 4px;
   font-size: 1.01rem;
+  border-radius: 2px;
 }
 
 %simpleContainer {
@@ -30,6 +34,8 @@
   padding: 10px 15px;
   opacity: 1;
   transition: opacity 0.5s;
+  background: #626262;
+  color: white;
 }
 
 %formButton:hover {
@@ -67,4 +73,11 @@
 
 %commentDate {
   color: #999;
+}
+
+%spanLink {
+  color: $primary-color-3;
+  margin-left: 15px;
+  text-decoration: underline;
+  cursor: pointer;
 }

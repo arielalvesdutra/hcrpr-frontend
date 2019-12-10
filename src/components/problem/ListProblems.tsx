@@ -55,8 +55,7 @@ class ListProblems extends Component<IProblemsProps> {
       </button>
 
     return (
-      <section className="list_problems">
-        <h2 className="content_subtitle">Lista de problemas</h2>
+      <section className="list__problems">
         {problems && (
           <>
             <List actionButtons={[ButtonToDeleteProblem]}
