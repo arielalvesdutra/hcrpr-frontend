@@ -2,6 +2,7 @@ import React from 'react'
 import BreadcrumbLink from '../types/BreadcrumbLink'
 
 import './Breadcrumb.scss'
+import { Link } from 'react-router-dom'
 
 type Props = {
   links: BreadcrumbLink[]
@@ -10,7 +11,7 @@ type Props = {
 const Breadcrumb = ( props: Props) => 
   <div className="breadcrumb">
     {props.links.map((breadLink, key) => (
-      <span key={key}><a href={breadLink.link}>{breadLink.name} ></a> </span>
+      <span key={key}><Link to={breadLink.link}>{breadLink.name} ></Link> </span>
     ))}
   </div>
 

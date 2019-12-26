@@ -1,6 +1,7 @@
 import React from 'react'
 
 import './List.scss'
+import { Link } from 'react-router-dom'
 
 interface IListProps {
   items: ListItem[]
@@ -16,7 +17,7 @@ export interface ListItem {
 
 const parseItemLink = (item: ListItem, content: any) => {
   return item.hasOwnProperty("link") === true
-    ? (<a href={item.link} className="list__item__link">{content}</a>)
+    ? item.link && ( <Link to={item.link} className="list__item__link">{content}</Link>)
     : (<>{content}</>)
 }
 

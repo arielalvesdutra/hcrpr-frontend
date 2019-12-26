@@ -1,32 +1,28 @@
 import React, { useState } from 'react'
+import  { Link } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import './NavAside.scss'
 
-const pathName = window.location.pathname
-
-const pathStartWith = (parameter: string): boolean => {
-  const startWith = new RegExp(`${parameter}`)
-
-  if (startWith.test(pathName)) {
-    return true
-  }
-  return false
-}
-
-const isActive = ({ expectedPathName = '', exact = false }): string => {
-
-  if (exact) return expectedPathName === pathName ? 'active' : ''
-
-  if (pathStartWith(expectedPathName)) {
-    return 'active'
-  }
-  return ''
-}
-
-const NavAside = () => {
-
+const NavAside = (props: any) => {
+  const location = useLocation()
+  const pathName = location.pathname
   const [isHamburguerOpen, setIsHamburguerOpen] = useState(false)
+  
+  function pathStartWith (parameter: string): boolean {
+    const startWith = new RegExp(`${parameter}`)
+  
+    if (startWith.test(pathName)) 
+      return true
+    return false
+  }
 
-  function toggleHamburguer() {
+  function isActive ({ expectedPathName = '', exact = false }): string {
+    if (exact) return expectedPathName === pathName ? 'active' : ''
+    if (pathStartWith(expectedPathName)) return 'active'
+    return ''
+  }
+
+  function toggleHamburguer():void {
     setIsHamburguerOpen(!isHamburguerOpen)
   }
 
@@ -34,21 +30,21 @@ const NavAside = () => {
     <nav className="navAside">
       <ul className="navAside__mainLinks" style={{display: isHamburguerOpen ? 'block' :'' }}>
         <li>
-          <a href="/problems"
+          <Link to="/problems"
             className={isActive({ expectedPathName: '/problems' }) ||
               isActive({ expectedPathName: '/', exact: true })}>
             Problemas
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/techniques" className={isActive({ expectedPathName: '/techniques' })}>
+          <Link to="/techniques" className={isActive({ expectedPathName: '/techniques' })}>
             Técnicas
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/concepts" className={isActive({ expectedPathName: '/concepts' })}>
+          <Link to="/concepts" className={isActive({ expectedPathName: '/concepts' })}>
             Conceitos
-          </a>
+          </Link>
         </li>
       </ul>
       <button onClick={toggleHamburguer} className="navAside__hamburguer">
