@@ -32,6 +32,8 @@
 .navAside li {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  vertical-align: center;
   margin-bottom: 0px;
 }
 
@@ -39,10 +41,18 @@
   padding: 12px 15px;
   color: $primary-color-3;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .navAside li a.active {
   background: #f3f1f1; 
+}
+
+.navAside__mainLink__icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
 }
 
 @media(min-width: 443px) {
