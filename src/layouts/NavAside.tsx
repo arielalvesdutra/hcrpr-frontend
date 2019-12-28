@@ -33,17 +33,29 @@ const NavAside = (props: any) => {
           <Link to="/problems"
             className={isActive({ expectedPathName: '/problems' }) ||
               isActive({ expectedPathName: '/', exact: true })}>
-            Problemas
+            <img className="navAside__mainLink__icon"
+                src={require('../assets/img/problem.svg')} alt="Ícone de Problema"/>
+            <span>
+              Problemas
+            </span>
           </Link>
         </li>
         <li>
           <Link to="/techniques" className={isActive({ expectedPathName: '/techniques' })}>
-            Técnicas
+            <img className="navAside__mainLink__icon"
+                src={require('../assets/img/tools.svg')} alt="Ícone de Técnicas"/>
+            <span>
+              Técnicas
+            </span>
           </Link>
         </li>
         <li>
           <Link to="/concepts" className={isActive({ expectedPathName: '/concepts' })}>
-            Conceitos
+            <img className="navAside__mainLink__icon"
+                src={require('../assets/img/concepts.svg')} alt="Ícone de Conceitos"/>
+            <span>
+              Conceitos
+            </span>
           </Link>
         </li>
       </ul>
