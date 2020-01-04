@@ -127,6 +127,24 @@ export const fetchAllProblemComments = (problemId:number, filters:any = {}) => {
   }
 }
 
+export const fetchAllProblemRelatedConcepts = (problemId:number, filters:any = {}) => {
+  return (dispatch: any) => {
+
+    if (filters.sort === undefined) filters.sort = 'createdAt,desc'
+
+    filters.size = 100
+    
+    const queryString = buildQueryString(filters)
+
+    axios.get(`/problems/${problemId}/concepts${queryString}`)
+    .then(response => {
+      const data = response.data
+      dispatch(setCurrentProblemRelatedConcepts(data))
+    })
+    .catch(error => error)
+  }
+}
+
 export const fetchAllSolutionAttempts = (problemId:number, filters:any = {}) => {
   return (dispatch: any) => {
 
@@ -186,7 +204,7 @@ export const updateProblemRelatedConcepts = (problemId:number, conceptsIds:numbe
       conceptsIds: conceptsIds
     })
     .then(response => {
-      dispatch(fetchProblemById(problemId))
+      dispatch(fetchAllProblemRelatedConcepts(problemId))
     })
   }
 }
@@ -236,6 +254,13 @@ export const setCurrentProblem = (problems: Problem) => {
 export const setCurrentProblemComments = (data: any) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS,
+    data
+  }
+}
+
+export const setCurrentProblemRelatedConcepts = (data: any) => {
+  return {
+    type: ProblemsActions.SET_CURRENT_PROBLEM_RELATED_CONCEPTS,
     data
   }
 }

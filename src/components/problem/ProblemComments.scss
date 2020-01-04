@@ -9,18 +9,24 @@
   @extend %simpleContainer;
 }
 
-.problemComments__addComent {
+.problemComments__addComemnt {
   margin-bottom: 20px;
 }
 
-.problemComments__addComent__contentTextArea {
+.problemComments__addComment__contentTextArea {
   @extend %formTextArea;
 }
 
-.problemComments__addComent__addButton {
+.problemComments__addComment__addButton {
   @extend %formButton;
   background: $button-background-success;
   color: white;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.problemComments__addComment__clearButton {
+  @extend %formButton;
 }
 
 .problemComments__listComments__item {

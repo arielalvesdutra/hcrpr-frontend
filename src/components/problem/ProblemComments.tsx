@@ -50,6 +50,10 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
     })
   }
 
+  clearComment = () => {
+    this.setState({ content: ""})
+  }
+
   clearErrors = () => {
     this.setState({ fieldErrors: {}})
   }
@@ -89,7 +93,7 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
   render() {
     
     const { content, fieldErrors } = this.state
-    const { change } = this
+    const { change, clearComment } = this
     const { problem, onFetchAllProblemComments, totalItems, itemsPerPage,
       onSetProblemCommentsCurrentPage, currentPage, comments,
       totalPages, onDeleteProblemComment } = this.props
@@ -103,23 +107,31 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
     )
 
     const AddProblemComment = (
-      <form className="problemComments__addComent"
+      <form className="problemComments__addComment"
         onSubmit={this.onCreateCommentFormSubmit}>
         <h3 className="content__subtitle__h3">Cadastrar Comentário</h3>
         <div className="row">
           <textarea name="content"
               value={content}
               onChange={change}
-              className="problemComments__addComent__contentTextArea"
+              className="problemComments__addComment__contentTextArea"
               placeholder="Digite o conteúdo do comentário"></textarea>
           {fieldErrors.content && (showFieldErrors(fieldErrors.content))}
         </div>
         <div className="row">
-          <button type="submit" className="problemComments__addComent__addButton">
+          <button type="submit" className="problemComments__addComment__addButton">
             Adicionar comentário</button>
+          <button type="reset" onClick={clearComment}
+              className="problemComments__addComment__clearButton">
+            Limpar comentário</button>
         </div>
       </form>
     )
+
+    const onDeleteProblemCommentWithConfirmation = (problem: Problem, comment: ProblemComment) => {      
+      if (window.confirm("Você tem certeza?")) 
+        onDeleteProblemComment(problem.id, comment.id)
+    }
 
     const ListComments = (comments:ProblemComment[]) => (
       <ul className="problemComments__list">
@@ -134,7 +146,7 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
               </span>
             </div>
             <div className="problemComments__listComments__actionButtonArea">
-              <button onClick={() => onDeleteProblemComment(problem.id, comment.id)}
+              <button onClick={() => onDeleteProblemCommentWithConfirmation(problem, comment)}
                   className="problemComments__listComments__itemDeleteButton">
                 Deletar
               </button>

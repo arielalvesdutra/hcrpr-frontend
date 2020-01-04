@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Problem from '../../models/Problem'
-import {  fetchProblemById } from '../../redux/actions/problemsActions'
+import {  fetchProblemById, fetchAllProblemRelatedConcepts } from '../../redux/actions/problemsActions'
 import ProblemBasicInfos from '../../components/problem/ProblemBasicInfos'
 import ProblemComments from '../../components/problem/ProblemComments'
 import ProblemSolutionAttempts from '../../components/problem/ProblemSolutionAttempts'
@@ -22,17 +22,23 @@ interface IProblemByIdProps {
   match: any
   currentProblem: Problem
   concepts: Concept[]
+  relatedConcepts: Concept[]
   onFetchProblemById(id: number): any
   onFetchAllConcepts(): any
+  onFetchAllProblemRelatedConcepts(id: number): any
 }
 
 class ProblemById extends Component<IProblemByIdProps> {
 
   componentDidMount = () => {
     const problemId = this.props.match.params.id
-    const { onFetchAllConcepts, onFetchProblemById } = this.props
+    const { 
+      onFetchAllConcepts, 
+      onFetchProblemById, 
+      onFetchAllProblemRelatedConcepts } = this.props
     onFetchProblemById(problemId)
     onFetchAllConcepts()
+    onFetchAllProblemRelatedConcepts(problemId)
   }
 
   componentDidUpdate = () => {
@@ -43,7 +49,7 @@ class ProblemById extends Component<IProblemByIdProps> {
 
   render() {
 
-    const { currentProblem, concepts } = this.props
+    const { currentProblem, concepts, relatedConcepts } = this.props
     const { id } = currentProblem
 
     return (
@@ -54,7 +60,10 @@ class ProblemById extends Component<IProblemByIdProps> {
         <ProblemBasicInfos problem={currentProblem} key={id} />
         <ProblemComments problem={currentProblem} key={(id !== undefined ? id + 1 : id)} />
         <ProblemSolutionAttempts problem={currentProblem} key={(id !== undefined ? id + 2 : id)} />
-        <ProblemRelatedConcepts problem={currentProblem} concepts={concepts}
+        <ProblemRelatedConcepts 
+            problem={currentProblem} 
+            concepts={concepts}
+            relatedConcepts={relatedConcepts}  
             key={(id !== undefined ? id + 3 : id)}/>
       </Content>
     )
@@ -64,14 +73,17 @@ class ProblemById extends Component<IProblemByIdProps> {
 const mapStateToProps = (props: any) => {
   return {
     currentProblem: props.problems.currentProblem,
-    concepts: props.concepts.concepts
+    concepts: props.concepts.concepts,
+    relatedConcepts: props.problems.currentProblemRelatedConcepts
    }
 }
 
 const mapDispatchToProps = (dispatch:any) => {
   return {
     onFetchProblemById: (id:number) => dispatch(fetchProblemById(id)),
-    onFetchAllConcepts: () => dispatch(fetchAllConcepts({ size: 100 }))
+    onFetchAllConcepts: () => dispatch(fetchAllConcepts({ size: 100 })),
+    onFetchAllProblemRelatedConcepts: (problemId: number) => 
+        dispatch(fetchAllProblemRelatedConcepts(problemId))
   }
 }
 

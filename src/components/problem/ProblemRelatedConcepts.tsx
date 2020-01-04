@@ -5,10 +5,11 @@ import Select from 'react-select'
 import './ProblemRelatedConcepts.scss'
 import Problem from '../../models/Problem'
 import Concept from '../../models/Concept'
-import { updateProblemRelatedConcepts } from '../../redux/actions/problemsActions'
+import { updateProblemRelatedConcepts, fetchAllProblemRelatedConcepts } from '../../redux/actions/problemsActions'
 import { mapConceptsToItems } from '../concept/ListConcepts'
 import List from '../shared/List'
 import Option from '../../types/Option'
+import problemById from '../../modules/problem/problem-by-id'
 
 const selectTheme = (theme:any) => ({
   ...theme,
@@ -30,6 +31,7 @@ const conceptsToOptions = (concepts: Concept[]):Option[] => concepts.map(concept
 interface IProblemRelatedConceptProps {
   problem: Problem
   concepts: Concept[]
+  relatedConcepts: Concept[]
   onUpdateProblemRelatedConcepts: any
 }
 
@@ -45,8 +47,11 @@ class ProblemRelatedConcepts extends  Component<IProblemRelatedConceptProps, IPr
   }
 
   componentDidMount = () => {
-    const { problem } = this.props
-    const currentProblemRelatedConcepts = conceptsToOptions(problem.relatedConcepts || [])
+    const { relatedConcepts } = this.props
+
+    if (relatedConcepts === undefined) return
+    
+    const currentProblemRelatedConcepts = conceptsToOptions(relatedConcepts || [])
     this.setState({relatedConceptsOptions: currentProblemRelatedConcepts})
   }
 
@@ -74,10 +79,8 @@ class ProblemRelatedConcepts extends  Component<IProblemRelatedConceptProps, IPr
     
     const { onChangeRelatedConceptsSelect, toggleEditing,
       onVinculateRelatedConceptsSubmit } = this
-    const { concepts, problem } = this.props
-    const { relatedConceptsOptions, isEditing } = this.state 
-    const { relatedConcepts } = problem
-
+    const { concepts, relatedConcepts } = this.props
+    const { relatedConceptsOptions, isEditing } = this.state    
 
     const VinculateRelatedConcepts = (
       <form onSubmit={onVinculateRelatedConceptsSubmit}
@@ -144,7 +147,9 @@ class ProblemRelatedConcepts extends  Component<IProblemRelatedConceptProps, IPr
 const mapDispatchToProps = (dispatch:any) => {
   return {
     onUpdateProblemRelatedConcepts: (problemId:number, conceptsIds:number[]) => 
-          dispatch(updateProblemRelatedConcepts(problemId,conceptsIds))
+          dispatch(updateProblemRelatedConcepts(problemId,conceptsIds)),
+    onFetchAllProblemRelatedConcepts: (problemId: number) => 
+          dispatch(fetchAllProblemRelatedConcepts(problemId))
   }
 }
 
