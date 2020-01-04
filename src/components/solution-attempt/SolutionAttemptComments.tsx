@@ -8,6 +8,7 @@ import { fetchAllSolutionAttemptComments, createSolutionAttemptComment, deleteSo
 import SolutionAttemptComment from '../../models/SolutionAttemptComment'
 import './SolutionAttemptComments.scss'
 import { formatAsDateTime } from '../shared/DateHelpers'
+import Problem from '../../models/Problem'
 
 interface IProblemCommentsProps {
   solutionAttempt: SolutionAttempt
@@ -48,6 +49,10 @@ class SolutionAttemptComments extends Component<IProblemCommentsProps, IProblemC
       ...this.state,
       [event.target.name]: event.target.value
     })
+  }
+
+  clearComment = () => {
+    this.setState({ content: ""})
   }
 
   clearErrors = () => {
@@ -96,7 +101,7 @@ class SolutionAttemptComments extends Component<IProblemCommentsProps, IProblemC
     const { comments, onDeleteSolutionAttemptComment, solutionAttempt,
      onFetchAllSolutionAttemptComments, currentPage, itemsPerPage, 
      totalItems, totalPages, onSetSolutionAttemptCommentsCurrentPage } = this.props
-    const { change } = this
+    const { change, clearComment } = this
     const { problem } = solutionAttempt
 
     const fetchAllCommentsForPagination = (filters ={}) => {
@@ -105,23 +110,35 @@ class SolutionAttemptComments extends Component<IProblemCommentsProps, IProblemC
     }
 
     const AddSolutionAttemptComment = (
-      <form className="solutionAttemptComments__addComent"
+      <form className="solutionAttemptComments__addComment"
         onSubmit={this.onCreateCommentFormSubmit}>
         <h3 className="content__subtitle__h3">Cadastrar Comentário</h3>
         <div className="row">
           <textarea name="content"
               value={content}
               onChange={change}
-              className="solutionAttemptComments__addComent__contentTextArea"
+              className="solutionAttemptComments__addComment__contentTextArea"
               placeholder="Digite o conteúdo do comentário"></textarea>
           {fieldErrors.content && (ShowFieldErrors(fieldErrors.content))}
         </div>
         <div className="row">
-          <button type="submit" className="solutionAttemptComments__addComent__addButton">
+          <button type="submit" className="solutionAttemptComments__addComment__addButton">
             Adicionar comentário</button>
+          <button type="reset" onClick={clearComment}
+              className="solutionAttemptComments__addComment__clearButton">
+            Limpar comentário</button>
         </div>
       </form>
     )
+
+    const onDeleteSolutionAttemptCommentWithConfirmation = (
+        problem: Problem, 
+        solutionAttempt:SolutionAttempt, 
+        comment: SolutionAttemptComment) => {
+
+      if (window.confirm("Você tem certeza?")) 
+      onDeleteSolutionAttemptComment(problem.id, solutionAttempt.id, comment.id)
+    }
 
     const ListComments = (comments:SolutionAttemptComment[]) => (
       <ul className="solutionAttemptComments__list">
@@ -137,7 +154,8 @@ class SolutionAttemptComments extends Component<IProblemCommentsProps, IProblemC
             </div>
             <div className="solutionAttemptComments__listComments__actionButtonArea">
               <button 
-                    onClick={() => onDeleteSolutionAttemptComment(problem.id, solutionAttempt.id, comment.id)}
+                    onClick={() => 
+                      onDeleteSolutionAttemptCommentWithConfirmation(problem, solutionAttempt, comment)}
                     className="solutionAttemptComments__listComments__itemDeleteButton">
                 Deletar
               </button>

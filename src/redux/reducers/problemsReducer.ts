@@ -2,6 +2,7 @@ import { ProblemsActions } from '../actions/actionTypes'
 import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
 import SolutionAttempt from '../../models/SolutionAttempt'
+import Concept from '../../models/Concept'
 
 export interface IProblemsInitialState {
   problems: Problem[]
@@ -16,6 +17,7 @@ export interface IProblemsInitialState {
   currentProblemCommentsTotalItems: number
   currentProblemCommentsTotalPages: number
   currentProblemCommentsItemsPerPage: number
+  currentProblemRelatedConcepts: Concept[]
   currentProblemSolutionAttempt: SolutionAttempt
   currentProblemSolutionAttempts: SolutionAttempt[]
   currentProblemSolutionAttemptsPage: number
@@ -37,6 +39,7 @@ let initialState:IProblemsInitialState = {
   currentProblemCommentsTotalItems: 0,
   currentProblemCommentsTotalPages: 0,
   currentProblemCommentsItemsPerPage: 0,
+  currentProblemRelatedConcepts: [] as Concept[],
   currentProblemSolutionAttempt: {} as SolutionAttempt,
   currentProblemSolutionAttempts: {} as SolutionAttempt[],
   currentProblemSolutionAttemptsPage: 1,
@@ -45,7 +48,7 @@ let initialState:IProblemsInitialState = {
   currentProblemSolutionAttemptsItemsPerPage: 0,
 }
 
-export default (state: IProblemsInitialState = initialState, action:any) => {
+export default (state: IProblemsInitialState = initialState, action:any):IProblemsInitialState => {
   switch(action.type) {
     case ProblemsActions.LOADING_PROBLEMS: {
       return {
@@ -89,6 +92,12 @@ export default (state: IProblemsInitialState = initialState, action:any) => {
               ? action.data.totalPages
               : state.currentProblemCommentsPage
       }
+    }
+    case ProblemsActions.SET_CURRENT_PROBLEM_RELATED_CONCEPTS: {
+      return {
+        ...state,
+        currentProblemRelatedConcepts: action.data.content
+      }      
     }
     case ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS_PAGE: {
       return {
