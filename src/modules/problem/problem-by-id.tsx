@@ -64,7 +64,7 @@ class ProblemById extends Component<IProblemByIdProps> {
             problem={currentProblem} 
             concepts={concepts}
             relatedConcepts={relatedConcepts}  
-            key={(id !== undefined ? id + 3 : id)}/>
+            key={(relatedConcepts !== undefined ? relatedConcepts.length + 1000 : id)}/>
       </Content>
     )
   }
