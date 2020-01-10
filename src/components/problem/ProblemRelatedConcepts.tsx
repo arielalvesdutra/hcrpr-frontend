@@ -9,7 +9,6 @@ import { updateProblemRelatedConcepts, fetchAllProblemRelatedConcepts } from '..
 import { mapConceptsToItems } from '../concept/ListConcepts'
 import List from '../shared/List'
 import Option from '../../types/Option'
-import problemById from '../../modules/problem/problem-by-id'
 
 const selectTheme = (theme:any) => ({
   ...theme,
