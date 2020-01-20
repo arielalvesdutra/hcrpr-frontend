@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import { fetchAllProblems, deleteById, setProblemCurrentPage } from '../../redux/actions/problemsActions'
+import { IProblemsInitialState } from '../../redux/reducers/problemsReducer'
 import Problem from '../../models/Problem'
 import List, { ListItem } from '../../components/shared/List'
 import Pagination from '../../components/shared/Pagination'
+import Loading from '../shared/Loading'
 import './ListProblems.scss'
 
 const mapProblemsToItems = (parameterProblems:Problem[]):ListItem[] => {
@@ -21,7 +22,7 @@ const mapProblemsToItems = (parameterProblems:Problem[]):ListItem[] => {
 interface IProblemsProps {
   onFetchAllProblems: any
   onDeleteById: any
-  loadingProblems: boolean
+  isLoadingProblems: boolean
   onSetCurrentPage: any
   problems: Problem[]
   itemsPerPage:number
@@ -32,10 +33,6 @@ interface IProblemsProps {
 
 class ListProblems extends Component<IProblemsProps> {
 
-  componentDidMount = () => {
-    this.props.onFetchAllProblems()
-  }
-
   onDeleteByIdWithConfirmation = (id: number) => {
     const { onDeleteById } = this.props
     if (window.confirm("Você tem certeza?")) onDeleteById(id)
@@ -43,7 +40,7 @@ class ListProblems extends Component<IProblemsProps> {
 
   render() {
 
-    const { problems, loadingProblems, totalPages,
+    const { problems, isLoadingProblems, totalPages,
       itemsPerPage, totalItems, onFetchAllProblems, 
       currentPage, onSetCurrentPage } = this.props
     const { onDeleteByIdWithConfirmation } = this
@@ -54,24 +51,26 @@ class ListProblems extends Component<IProblemsProps> {
         Deletar
       </button>
 
+    if (isLoadingProblems) 
+      return <section className="list__problems"><Loading /></section>
+    
     return (
       <section className="list__problems">
         {problems && (
           <>
             <List actionButtons={[ButtonToDeleteProblem]}
                 items={mapProblemsToItems(problems)} />
-
             <Pagination
-            currentPage={currentPage}
-            items={problems}
-            itemsPerPage={itemsPerPage}
-            totalItems={totalItems}
-            totalPages={totalPages}
-            setItemsCurrentPage={onSetCurrentPage}
-            searchItemsCallback={onFetchAllProblems} />
+              currentPage={currentPage}
+              items={problems}
+              itemsPerPage={itemsPerPage}
+              totalItems={totalItems}
+              totalPages={totalPages}
+              setItemsCurrentPage={onSetCurrentPage}
+              searchItemsCallback={onFetchAllProblems} />
           </>
         )}
-        {loadingProblems === false && problems && problems.length <= 0 && (
+        {!isLoadingProblems && problems && problems.length <= 0 && (
         <div>
           <strong>
             Não há problemas cadastrados
@@ -85,13 +84,13 @@ class ListProblems extends Component<IProblemsProps> {
 
 const mapStateToProps = (props: any) => {
   const { problems, totalItems, itemsPerPage, 
-    loadingProblems, totalPages, currentPage } = props.problems
+    isLoadingProblems, totalPages, currentPage }:IProblemsInitialState = props.problems
   
   return {
     problems,
+    isLoadingProblems,
     totalItems,
     itemsPerPage,
-    loadingProblems,
     totalPages,
     currentPage
    }

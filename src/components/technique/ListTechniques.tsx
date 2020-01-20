@@ -3,10 +3,11 @@ import { connect } from 'react-redux'
 
 import { fetchAllTechniques, deleteById,
   setTechniqueCurrentPage } from '../../redux/actions/techniquesActions'
+import { ITechniquesInitialState } from '../../redux/reducers/techniquesReducer'
 import Technique from '../../models/Technique'
 import List, { ListItem } from '../shared/List'
 import Pagination from '../shared/Pagination'
-
+import Loading from '../shared/Loading'
 import './ListTechniques.scss'
 
 export const mapTechniquesToItems = (parameterTechniques:Technique[]):ListItem[] => {
@@ -25,7 +26,7 @@ interface ITechniquesProps {
   onDeleteById: any
   techniques: Technique[]
   onSetCurrentPage: any
-  loadingTechniques: boolean
+  isLoadingTechniques: boolean
   itemsPerPage:number
   totalItems: number
   totalPages: number
@@ -34,9 +35,6 @@ interface ITechniquesProps {
 
 class ListTechniques extends Component<ITechniquesProps> {
 
-  componentDidMount = () => {
-    this.props.onFetchAllTechniques()
-  }
 
   onDeleteByIdWithConfirmation = (id: number) => {
     const { onDeleteById } = this.props
@@ -45,7 +43,7 @@ class ListTechniques extends Component<ITechniquesProps> {
 
   render() {
 
-    const { techniques, loadingTechniques, totalPages,
+    const { techniques, isLoadingTechniques, totalPages,
       itemsPerPage, totalItems, onFetchAllTechniques, 
       currentPage, onSetCurrentPage } = this.props
     const { onDeleteByIdWithConfirmation } = this
@@ -55,6 +53,8 @@ class ListTechniques extends Component<ITechniquesProps> {
           className="list__techniques__deleteButton">
          Deletar
        </button>
+    
+    if (isLoadingTechniques) return <section className="list__techniques"><Loading /></section>
 
     return (
       <section className="list__techniques">        
@@ -71,10 +71,10 @@ class ListTechniques extends Component<ITechniquesProps> {
                 totalPages={totalPages}
                 setItemsCurrentPage={onSetCurrentPage}
                 searchItemsCallback={onFetchAllTechniques} />
-        </>
+          </>
         )}
 
-        {loadingTechniques === false && techniques && techniques.length <= 0 && (
+        {!isLoadingTechniques && techniques && techniques.length <= 0 && (
           <div>
             <strong>
               Não há técnicas cadastradas
@@ -88,13 +88,13 @@ class ListTechniques extends Component<ITechniquesProps> {
 
 const mapStateToProps = (props: any) => {
   const { techniques,  totalItems, itemsPerPage, 
-    loadingTechniques, totalPages, currentPage } = props.techniques
+    isLoadingTechniques, totalPages, currentPage }: ITechniquesInitialState = props.techniques
 
   return {
     techniques,
+    isLoadingTechniques,
     totalItems,
     itemsPerPage,
-    loadingTechniques,
     totalPages,
     currentPage
    }

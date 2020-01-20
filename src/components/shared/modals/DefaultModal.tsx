@@ -10,7 +10,8 @@ const customModalStyles = {
     right: 'auto',
     bottom: 'auto',
     color: 'black',
-    position: 'relative'
+    position: 'relative',
+    minWidth: '280px'
   },
   overlay: {
     background: 'rgba(0, 0, 0, 0.5)',

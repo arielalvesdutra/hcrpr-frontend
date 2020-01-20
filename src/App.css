@@ -15,7 +15,7 @@
   flex: 1;
 }
 
-@media(min-width: 443px) {
+@media(min-width: 550px) {
   .menuAside-and-content {
     flex-direction: row;
   }

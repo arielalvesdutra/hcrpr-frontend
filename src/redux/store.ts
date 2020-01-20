@@ -10,12 +10,14 @@ import conceptsReducer from './reducers/conceptsReducer'
 import tehcniquesReducer from './reducers/techniquesReducer'
 import problemsReducer from './reducers/problemsReducer'
 import solutionAttemptsReducer from './reducers/solutionAttemptsReducer'
+import errorsReducer from './reducers/errorsReducers'
 
 const reducers = combineReducers({
   concepts: conceptsReducer,
   techniques: tehcniquesReducer,
   problems: problemsReducer,
-  solutionAttempts: solutionAttemptsReducer
+  solutionAttempts: solutionAttemptsReducer,
+  errors: errorsReducer
 })
 
 const storeConfig = () => {

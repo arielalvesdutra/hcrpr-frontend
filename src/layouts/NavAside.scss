@@ -55,11 +55,11 @@
   margin-right: 10px;
 }
 
-@media(min-width: 443px) {
+@media(min-width: 550px) {
   .navAside {
     width: 230px;
-    padding: 35px 5px 10px 25px;
-    border-right: 2px solid #888;
+    padding: 40px 0 0 0;
+    border-right: 1px solid #e0e0e0;
   }
 
   .navAside__hamburguer {

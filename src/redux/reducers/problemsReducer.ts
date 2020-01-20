@@ -8,7 +8,9 @@ export interface IProblemsInitialState {
   problems: Problem[]
   currentProblem: Problem
   currentPage: number
-  loadingProblems: boolean
+  isLoadingCurrentProblem: boolean
+  isLoadingCurrentProblemSolutionAttempt: boolean
+  isLoadingProblems: boolean
   totalItems: number
   itemsPerPage: number
   totalPages: number
@@ -30,7 +32,9 @@ let initialState:IProblemsInitialState = {
   problems: [] as Problem[],
   currentProblem: {} as Problem,
   currentPage: 1,
-  loadingProblems: true,
+  isLoadingCurrentProblem: true,
+  isLoadingCurrentProblemSolutionAttempt: true,
+  isLoadingProblems: true,
   totalItems: 0,
   itemsPerPage: 0,
   totalPages: 0,
@@ -50,10 +54,22 @@ let initialState:IProblemsInitialState = {
 
 export default (state: IProblemsInitialState = initialState, action:any):IProblemsInitialState => {
   switch(action.type) {
-    case ProblemsActions.LOADING_PROBLEMS: {
+    case ProblemsActions.SET_IS_LOADING_PROBLEMS: {
       return {
         ...state,
-        loadingProblems: true
+        isLoadingProblems: action.isLoading
+      }
+    }
+    case ProblemsActions.SET_IS_LOADING_CURRENT_PROBLEM: {
+      return {
+        ...state,
+        isLoadingCurrentProblem: action.isLoading
+      }
+    }
+    case ProblemsActions.SET_IS_LOADING_CURRENT_PROBLEM_SOLUTION_ATTEMPT: {
+      return {
+        ...state,
+        isLoadingCurrentProblemSolutionAttempt: action.isLoading
       }
     }
     case ProblemsActions.SET_CURRENT_PAGE: {
@@ -66,7 +82,7 @@ export default (state: IProblemsInitialState = initialState, action:any):IProble
       return {
         ...state,
         problems: action.data.content,
-        loadingProblems: false,
+        isLoadingProblems: false,
         totalItems: action.data.totalElements,
         itemsPerPage: action.data.size,
         totalPages: action.data.totalPages,

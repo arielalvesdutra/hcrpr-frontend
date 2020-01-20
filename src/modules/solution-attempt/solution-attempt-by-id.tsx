@@ -5,15 +5,20 @@ import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import SolutionAttempt from '../../models/SolutionAttempt'
 import Technique from '../../models/Technique'
-import { fetchSolutionAttemptById } from '../../redux/actions/problemsActions'
-import { fetchAllTechniques } from '../../redux/actions/techniquesActions'
 import SolutionAttemptBasicInfo from '../../components/solution-attempt/SolutionAttemptBasicInfo'
 import SolutionAttemptComments from '../../components/solution-attempt/SolutionAttemptComments'
 import SolutionAttemptTechniques from '../../components/solution-attempt/SolutionAttemptTechniques'
 import { usePageTitle } from '../../components/shared/UsePageTitle'
+import Loading from '../../components/shared/Loading'
+import { ITechniquesInitialState } from '../../redux/reducers/techniquesReducer'
+import { fetchSolutionAttemptById } from '../../redux/actions/problemsActions'
+import { IProblemsInitialState } from '../../redux/reducers/problemsReducer'
+import { fetchAllTechniques } from '../../redux/actions/techniquesActions'
 
 
 interface ISolutionAttemptByIdProps {
+  isLoading: boolean
+  isLoadingTechniques: boolean
   match: any
   onFetchSolutionAttemptById:any
   onFetchAllTechniques(): any
@@ -41,7 +46,8 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
   render() {
 
     const problemId = this.props.match.params.id
-    const { currentSolutionAttempt, techniques} = this.props
+    const { currentSolutionAttempt, techniques,
+      isLoadingTechniques, isLoading} = this.props
     const { id } = currentSolutionAttempt
 
     const breadcrumbLinks = [
@@ -49,6 +55,9 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
       new BreadcrumbLink(`Detalhe`, `/problems/${problemId ? problemId : ''}`),
       new BreadcrumbLink("Tentativa de Solução", "#")
     ]
+
+    if (isLoading || isLoadingTechniques)
+      return <Content title="" breadcrumbLinks={[]}><Loading /></Content>
 
     return (
       <Content
@@ -67,11 +76,14 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
 }
 
 const mapStateToProps = (props: any) => {
-  const {currentProblemSolutionAttempt} = props.problems 
-  const { techniques } = props.techniques
+  const { currentProblemSolutionAttempt, 
+    isLoadingCurrentProblemSolutionAttempt }: IProblemsInitialState = props.problems
+  const { techniques, isLoadingTechniques }: ITechniquesInitialState = props.techniques
   return {
     currentSolutionAttempt: currentProblemSolutionAttempt,
-    techniques 
+    isLoading: isLoadingCurrentProblemSolutionAttempt,
+    techniques,
+    isLoadingTechniques    
    }
 }
 

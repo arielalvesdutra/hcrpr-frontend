@@ -3,11 +3,12 @@ import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
 import Concept from '../../models/Concept'
 import { IConceptsInitialState } from '../reducers/conceptsReducer'
+import { handlePageError } from './errorsActions'
 
 
 export const createConcept = (concept:Concept) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingConcepts())
+    dispatch(setIsLoadingConcepts(true))
 
     axios.post('/concepts', {
       name: concept.name,
@@ -24,7 +25,7 @@ export const createConcept = (concept:Concept) => {
 
 export const deleteById = (conceptId: number) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingConcepts())
+    dispatch(setIsLoadingConcepts(true))
 
     axios.delete(`/concepts/${conceptId}`)
     .then(response => {
@@ -37,49 +38,61 @@ export const deleteById = (conceptId: number) => {
 
 export const fetchAllConcepts = (filters:any = {}) => {
   return (dispatch: any) => {
-    
+    dispatch(setIsLoadingConcepts(true))
+
     filters.sort = 'id'
     const queryString = buildQueryString(filters)
 
     axios.get(`/concepts${queryString}`)
-    .then(response => {
-      const data = response.data
+    .then(({data}) => {
       dispatch(setConcepts(data))
     })
-    .catch(error => error)
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingConcepts(false)))
   }
 }
 
 export const fetchConceptById = (id: number) => {
   return (dispatch: any) => {
+    dispatch(setIsLoadingCurrentConcept(true))
+
     axios.get(`/concepts/${id}`)
     .then(response => {
       const data = response.data
       dispatch(setCurrentConcept(data))
+
     })
-    .catch(error => error)
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingCurrentConcept(false)))
   }
 }
 
 export const updateConcept = (id:number, concept:Concept) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingConcepts())
+    dispatch(setIsLoadingConcepts(true))
 
     axios.put(`/concepts/${id}`, {
       name: concept.name,
       description: concept.description
     })
-    .then(response => {
-      
-      dispatch(fetchConceptById(id))
-    })
+    .then(_ => dispatch(fetchConceptById(id)))
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingConcepts(false)))
   }
 }
 
 
-export const loadingConcepts = () => {
+export const setIsLoadingConcepts = (isLoading: boolean) => {
   return {
-    type: ConceptsActions.LOADING_CONCEPTS
+    type: ConceptsActions.SET_IS_LOADING_CONCEPTS,
+    isLoading
+  }
+}
+
+export const setIsLoadingCurrentConcept = (isLoading: boolean) => {
+  return {
+    type: ConceptsActions.SET_IS_LOADING_CURRENT_CONCEPT,
+    isLoading
   }
 }
 

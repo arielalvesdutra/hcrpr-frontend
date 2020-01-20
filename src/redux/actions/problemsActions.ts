@@ -6,11 +6,12 @@ import { buildQueryString } from '../../query-string-builder'
 import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
 import SolutionAttempt from '../../models/SolutionAttempt'
+import { handlePageError } from './errorsActions'
 
 
 export const createProblem = (problem:Problem) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingProblems())
+    dispatch(setIsLoadingProblems(true))
 
     axios.post('/problems', {
       name: problem.name,
@@ -27,7 +28,7 @@ export const createProblem = (problem:Problem) => {
 
 export const createProblemComment = (problemId:number, comment:ProblemComment) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingProblems())
+    dispatch(setIsLoadingProblems(true))
 
     axios.post(`/problems/${problemId}/comments`, {
       content: comment.content
@@ -43,7 +44,7 @@ export const createProblemComment = (problemId:number, comment:ProblemComment) =
 
 export const createSolutionAttempt = (problemId:number, solutionAttempt:SolutionAttempt) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingProblems())
+    dispatch(setIsLoadingProblems(true))
 
     axios.post(`/problems/${problemId}/solution-attempts`, {
       name: solutionAttempt.name,
@@ -60,7 +61,7 @@ export const createSolutionAttempt = (problemId:number, solutionAttempt:Solution
 
 export const deleteById = (problemId: number) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingProblems())
+    dispatch(setIsLoadingProblems(true))
 
     axios.delete(`/problems/${problemId}`)
     .then(response => {
@@ -99,7 +100,8 @@ export const deleteSolutionAttempt = (problemId: number, solutionAttemptId:numbe
 
 export const fetchAllProblems = (filters:any = {}) => {
   return (dispatch: any) => {
-    
+    dispatch(setIsLoadingProblems(true))
+
     filters.sort = 'id'
     const queryString = buildQueryString(filters)
 
@@ -108,7 +110,8 @@ export const fetchAllProblems = (filters:any = {}) => {
       const data = response.data
       dispatch(setProblems(data))
     })
-    .catch(error => error)
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingProblems(false)))
   }
 }
 
@@ -133,7 +136,6 @@ export const fetchAllProblemRelatedConcepts = (problemId:number, filters:any = {
     if (filters.sort === undefined) filters.sort = 'createdAt,desc'
 
     filters.size = 100
-    
     const queryString = buildQueryString(filters)
 
     axios.get(`/problems/${problemId}/concepts${queryString}`)
@@ -162,71 +164,86 @@ export const fetchAllSolutionAttempts = (problemId:number, filters:any = {}) => 
 
 export const fetchProblemById = (id: number) => {
   return (dispatch: any) => {
+    dispatch(setIsLoadingCurrentProblem(true))
+
     axios.get(`/problems/${id}`)
-    .then(response => {
-      const data = response.data
+    .then(({ data }) => {
       dispatch(setCurrentProblem(data))
     })
-    .catch(error => error)
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingCurrentProblem(false)))
   }
 }
 
 export const fetchSolutionAttemptById = (problemId: number, solutionAttemptId: number) => {
   return (dispatch: any) => {
+    dispatch(setIsLoadingCurrentSolutionAttempt(true))
+
     axios.get(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`)
     .then(response => {
       const data = response.data
       dispatch(setCurrentProblemSolutionAttempt(data))
     })
-    .catch(error => error)
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingCurrentSolutionAttempt(false)))
   }
 }
 
 export const updateProblem = (id:number, problem:Problem) => {
-  return (dispatch:any, getState:any) => {
-    dispatch(loadingProblems())
+  return (dispatch:any) => {
+    dispatch(setIsLoadingProblems(true))
 
     axios.put(`/problems/${id}`, {
       name: problem.name,
       description: problem.description
     })
-    .then(response => {
-
-      dispatch(fetchProblemById(id))
-    })
+    .then(_ => dispatch(fetchProblemById(id)))
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingCurrentProblem(false)))
   }
 }
 
 export const updateProblemRelatedConcepts = (problemId:number, conceptsIds:number[]) => {
-  return (dispatch:any, getState:any) => {
+  return (dispatch:any) => {
 
     axios.put(`/problems/${problemId}/concepts`, {
       conceptsIds: conceptsIds
     })
-    .then(response => {
-      dispatch(fetchAllProblemRelatedConcepts(problemId))
-    })
+    .then(_ => dispatch(fetchAllProblemRelatedConcepts(problemId)))
   }
 }
 
 export const updateSolutionAttempt = (problemId:number, solutionAttemptId:number, attempt: SolutionAttempt) => {
-  return (dispatch:any, getState:any) => {
+  return (dispatch:any) => {
 
     axios.put(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`, {
       name: attempt.name,
       description: attempt.description
     })
-    .then(response => {
-
-      dispatch(fetchSolutionAttemptById(problemId, solutionAttemptId))
-    })
+    .then(_ => dispatch(fetchSolutionAttemptById(problemId, solutionAttemptId)))
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingCurrentSolutionAttempt(false)))
   }
 }
 
-
-export const loadingProblems = () => {
+export const setIsLoadingCurrentProblem = (isLoading: boolean) => {
   return {
-    type: ProblemsActions.LOADING_PROBLEMS
+    type: ProblemsActions.SET_IS_LOADING_CURRENT_PROBLEM,
+    isLoading
+  }
+}
+
+export const setIsLoadingCurrentSolutionAttempt = (isLoading: boolean) => {
+  return {
+    type: ProblemsActions.SET_IS_LOADING_CURRENT_PROBLEM_SOLUTION_ATTEMPT,
+    isLoading
+  }
+}
+
+export const setIsLoadingProblems = (isLoading: boolean) => {
+  return {
+    type: ProblemsActions.SET_IS_LOADING_PROBLEMS,
+    isLoading
   }
 }
 
