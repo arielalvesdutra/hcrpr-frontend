@@ -4,6 +4,12 @@ Desenvolvido com React e TypeScript.
 
 Sem o uso de testes.
 
+## Tela
+
+Tela da área de cadastro e listagem de técnicas.
+
+![association graph](src/assets/img/v0.3.0.png)
+
 ## Descrição breve da estrutura
 
 - **Módulos:** os módulos representam as páginas. Os módulos podem conter layouts e componentes.
