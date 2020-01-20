@@ -5,7 +5,8 @@ export interface IConceptsInitialState {
   concepts: Concept[]
   currentConcept: Concept
   currentPage: number
-  loadingConcepts: boolean
+  isLoadingConcepts: boolean
+  isLoadingCurrentConcept: boolean
   totalItems: number
   itemsPerPage: number
   totalPages: number
@@ -15,7 +16,8 @@ let initialState:IConceptsInitialState = {
   concepts: [],
   currentConcept: {} as Concept,
   currentPage: 1,
-  loadingConcepts: true,
+  isLoadingConcepts: true,
+  isLoadingCurrentConcept: true,
   totalItems: 0,
   itemsPerPage: 0,
   totalPages: 0
@@ -23,17 +25,23 @@ let initialState:IConceptsInitialState = {
 
 export default (state = initialState, action:any) => {
   switch(action.type) {
-    case ConceptsActions.LOADING_CONCEPTS: {
+    case ConceptsActions.SET_IS_LOADING_CONCEPTS: {
       return {
         ...state,
-        loadingConcepts: true
+        isLoadingConcepts: action.isLoading
+      }
+    }
+    case ConceptsActions.SET_IS_LOADING_CURRENT_CONCEPT: {
+      return {
+        ...state,
+        isLoadingCurrentConcept: action.isLoading
       }
     }
     case ConceptsActions.SET_CONCEPTS: {
       return {
         ...state,
         concepts: action.data.content,
-        loadingConcepts: false,
+        isLoadingConcepts: false,
         totalItems: action.data.totalElements,
         itemsPerPage: action.data.size,
         totalPages: action.data.totalPages,

@@ -7,6 +7,8 @@ import Concept from '../../models/Concept'
 import {  fetchConceptById } from '../../redux/actions/conceptsActions'
 import ConceptBasicInfos from '../../components/concept/ConceptBasicInfos'
 import { usePageTitle } from '../../components/shared/UsePageTitle'
+import { IConceptsInitialState } from '../../redux/reducers/conceptsReducer'
+import Loading from '../../components/shared/Loading'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Conceitos", "/concepts"),
@@ -14,6 +16,7 @@ const breadcrumbLinks = [
 ]
 
 interface IConceptByIdProps {
+  isLoadingCurrentConcept: boolean
   match: any
   currentConcept: Concept
   onFetchConceptById(id: number): any
@@ -33,14 +36,16 @@ class ConceptById extends Component<IConceptByIdProps> {
   }
 
   render() {
+    const { currentConcept, isLoadingCurrentConcept } = this.props
 
-    const { currentConcept } = this.props
-    
+    if (isLoadingCurrentConcept)
+      return <Content title="" breadcrumbLinks={[]}><Loading /></Content>
+
     return (
       <Content
           title="Detalhe do Conceito"
           breadcrumbLinks={breadcrumbLinks}>
-
+            
         <ConceptBasicInfos key={currentConcept.id} concept={currentConcept} />
       </Content>
     )
@@ -49,10 +54,11 @@ class ConceptById extends Component<IConceptByIdProps> {
 
 const mapStateToProps = (props: any) => {
 
-  const { currentConcept } = props.concepts
+  const { currentConcept, isLoadingCurrentConcept }: IConceptsInitialState = props.concepts
 
   return {
-    currentConcept
+    currentConcept,
+    isLoadingCurrentConcept
    }
 }
 

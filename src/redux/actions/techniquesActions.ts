@@ -3,11 +3,12 @@ import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
 import Technique from '../../models/Technique'
 import { ITechniquesInitialState } from '../reducers/techniquesReducer'
+import { handlePageError } from './errorsActions'
 
 
 export const createTechnique = (technique:Technique) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingTechniques())
+    dispatch(setIsLoadingTechniques(true))
 
     axios.post('/techniques', {
       name: technique.name,
@@ -24,7 +25,7 @@ export const createTechnique = (technique:Technique) => {
 
 export const deleteById = (techniqueId: number) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingTechniques())
+    dispatch(setIsLoadingTechniques(true))
 
     axios.delete(`/techniques/${techniqueId}`)
     .then(response => {
@@ -37,7 +38,8 @@ export const deleteById = (techniqueId: number) => {
 
 export const fetchAllTechniques = (filters:any = {}) => {
   return (dispatch: any) => {
-    
+    dispatch(setIsLoadingTechniques(true))
+
     filters.sort = 'id'
     const queryString = buildQueryString(filters)
 
@@ -46,24 +48,28 @@ export const fetchAllTechniques = (filters:any = {}) => {
       const data = response.data      
       dispatch(setTechniques(data))
     })
-    .catch(error => error)
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingTechniques(false)))
   }
 }
 
 export const fetchTechniqueById = (id: number) => {
   return (dispatch: any) => {
+    dispatch(setIsLoadingCurrentTechnique(true))
+
     axios.get(`/techniques/${id}`)
     .then(response => {
       const data = response.data
       dispatch(setCurrentTechnique(data))
     })
-    .catch(error => error)
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingCurrentTechnique(false)))
   }
 }
 
 export const updateTechnique = (id:number, technique:Technique) => {
   return (dispatch:any, getState:any) => {
-    dispatch(loadingTechniques())
+    dispatch(setIsLoadingTechniques(true))
 
     axios.put(`/techniques/${id}`, {
       name: technique.name,
@@ -76,9 +82,17 @@ export const updateTechnique = (id:number, technique:Technique) => {
   }
 }
 
-export const loadingTechniques = () => {
+export const setIsLoadingCurrentTechnique = (isLoading: boolean) => {
   return {
-    type: TechniquesActions.LOADING_TECHNIQUES 
+    type: TechniquesActions.SET_IS_LOADING_CURRENT_TECHNIQUE,
+    isLoading
+  }
+}
+
+export const setIsLoadingTechniques = (isLoading: boolean) => {
+  return {
+    type: TechniquesActions.SET_IS_LOADING_TECHNIQUES,
+    isLoading
   }
 }
 

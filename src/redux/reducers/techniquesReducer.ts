@@ -5,7 +5,8 @@ export interface ITechniquesInitialState {
   techniques: Technique[]
   currentTechnique: Technique
   currentPage: number,
-  loadingTechniques: boolean,
+  isLoadingTechniques: boolean,
+  isLoadingCurrentTechnique: boolean,
   totalItems: number,
   itemsPerPage: number,
   totalPages: number
@@ -15,7 +16,8 @@ let initialState:ITechniquesInitialState = {
   techniques: [],
   currentTechnique: {} as Technique,
   currentPage: 1,
-  loadingTechniques: true,
+  isLoadingTechniques: true,
+  isLoadingCurrentTechnique: true,
   totalItems: 0,
   itemsPerPage: 0,
   totalPages: 0
@@ -23,17 +25,24 @@ let initialState:ITechniquesInitialState = {
 
 export default (state = initialState, action:any) => {
   switch(action.type) {
-    case TechniquesActions.LOADING_TECHNIQUES: {
+    case TechniquesActions.SET_IS_LOADING_TECHNIQUES: {
       return {
         ...state,
-        loadingTechniques: true
+        isLoadingTechniques: action.isLoading
+      }
+    }
+
+    case TechniquesActions.SET_IS_LOADING_CURRENT_TECHNIQUE: {
+      return {
+        ...state,
+        isLoadingCurrentTechnique: action.isLoading
       }
     }
     case TechniquesActions.SET_TECHNIQUES: {
       return {
         ...state,
         techniques: action.data.content,
-        loadingTechniques: false,
+        isLoadingTechniques: false,
         totalItems: action.data.totalElements,
         itemsPerPage: action.data.size,
         totalPages: action.data.totalPages,

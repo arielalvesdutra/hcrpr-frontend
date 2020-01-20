@@ -7,6 +7,8 @@ import Technique from '../../models/Technique'
 import {  fetchTechniqueById } from '../../redux/actions/techniquesActions'
 import TechniqueBasicInfo from '../../components/technique/TechniqueBasicInfos'
 import { usePageTitle } from '../../components/shared/UsePageTitle'
+import { ITechniquesInitialState } from '../../redux/reducers/techniquesReducer'
+import Loading from '../../components/shared/Loading'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Técnicas", "/techniques"),
@@ -14,6 +16,7 @@ const breadcrumbLinks = [
 ]
 
 interface ITechniqueByIdProps {
+  isLoadingCurrentTechnique: boolean
   match: any
   currentTechnique: Technique
   onFetchTechniqueById(id: number): any
@@ -33,21 +36,29 @@ class TechniqueById extends Component<ITechniqueByIdProps> {
   }
 
   render() {
-    const { currentTechnique } = this.props
+    const { currentTechnique, isLoadingCurrentTechnique } = this.props
+
+    if (isLoadingCurrentTechnique)
+      return <Content title="" breadcrumbLinks={[]}><Loading /></Content>
+
     return (
       <Content
           title="Detalhe da Técnica"
           breadcrumbLinks={breadcrumbLinks}>
           
-          <TechniqueBasicInfo technique={currentTechnique} key={currentTechnique.id}/>
+        <TechniqueBasicInfo technique={currentTechnique} key={currentTechnique.id}/>
       </Content>
     )
   }
 }
 
 const mapStateToProps = (props: any) => {
+  const { currentTechnique, 
+    isLoadingCurrentTechnique }: ITechniquesInitialState = props.techniques
+
   return {
-    currentTechnique: props.techniques.currentTechnique
+    currentTechnique,
+    isLoadingCurrentTechnique
    }
 }
 

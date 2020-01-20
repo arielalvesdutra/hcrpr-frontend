@@ -29,7 +29,7 @@ const NavAside = (props: any) => {
   return (
     <nav className="navAside">
       <ul className="navAside__mainLinks" style={{display: isHamburguerOpen ? 'block' :'' }}>
-        <li>
+        <li onClick={toggleHamburguer}>
           <Link to="/problems"
             className={isActive({ expectedPathName: '/problems' }) ||
               isActive({ expectedPathName: '/', exact: true })}>
@@ -40,7 +40,7 @@ const NavAside = (props: any) => {
             </span>
           </Link>
         </li>
-        <li>
+        <li onClick={toggleHamburguer}>
           <Link to="/techniques" className={isActive({ expectedPathName: '/techniques' })}>
             <img className="navAside__mainLink__icon"
                 src={require('../assets/img/tools.svg')} alt="Ícone de Técnicas"/>
@@ -49,7 +49,7 @@ const NavAside = (props: any) => {
             </span>
           </Link>
         </li>
-        <li>
+        <li onClick={toggleHamburguer}>
           <Link to="/concepts" className={isActive({ expectedPathName: '/concepts' })}>
             <img className="navAside__mainLink__icon"
                 src={require('../assets/img/concepts.svg')} alt="Ícone de Conceitos"/>

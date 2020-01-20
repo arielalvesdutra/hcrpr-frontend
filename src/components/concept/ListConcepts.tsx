@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Concept from '../../models/Concept'
-import { fetchAllConcepts, deleteById, setConceptCurrentPage } from '../../redux/actions/conceptsActions'
+import { fetchAllConcepts, deleteById, 
+  setConceptCurrentPage } from '../../redux/actions/conceptsActions'
+import { IConceptsInitialState } from '../../redux/reducers/conceptsReducer'
 import List, { ListItem } from '../../components/shared/List'
 import Pagination from '../../components/shared/Pagination'
+import Loading from '../shared/Loading'
 import './ListConcepts.scss'
 
 export const mapConceptsToItems = (parameterConcepts:Concept[]):ListItem[] => {
@@ -22,7 +25,7 @@ interface IConceptsProps {
   onFetchAllConcepts: any
   onDeleteById: any
   concepts: Concept[]
-  loadingConcepts: boolean
+  isLoadingConcepts: boolean
   itemsPerPage:number
   totalItems: number
   totalPages: number
@@ -32,18 +35,13 @@ interface IConceptsProps {
 
 class ListConcepts extends Component<IConceptsProps> {
 
-  componentDidMount = () => {
-    this.props.onFetchAllConcepts({ page: 1})
-  }
-
   onDeleteByIdWithConfirmation = (id: number) => {
     const { onDeleteById } = this.props
     if (window.confirm("Você tem certeza?")) onDeleteById(id)
   }
 
   render() {
-
-    const { concepts, loadingConcepts, totalPages,
+    const { concepts, isLoadingConcepts, totalPages,
       itemsPerPage, totalItems, onFetchAllConcepts, 
       currentPage, onSetCurrentPage } = this.props
     const { onDeleteByIdWithConfirmation } = this
@@ -53,9 +51,12 @@ class ListConcepts extends Component<IConceptsProps> {
           className="list__concepts__deleteButton">
          Deletar
        </button>
+
+    if (isLoadingConcepts) 
+      return <section className="list__concepts"><Loading /></section>
      
     return (
-      <section className="list_concepts">
+      <section className="list__concepts">
         
         {concepts && (
           <>
@@ -72,7 +73,7 @@ class ListConcepts extends Component<IConceptsProps> {
           </>
         )}
 
-        {loadingConcepts === false && concepts && concepts.length <= 0 && (
+        {!isLoadingConcepts && concepts && concepts.length <= 0 && (
           <div>
             <strong>
               Não há conceitos cadastrados
@@ -87,15 +88,15 @@ class ListConcepts extends Component<IConceptsProps> {
 const mapStateToProps = (props: any) => {
   
   const { concepts, totalItems, itemsPerPage, 
-    loadingConcepts, totalPages, currentPage } = props.concepts
+    isLoadingConcepts, totalPages, currentPage }:IConceptsInitialState = props.concepts
   
   return {
-    concepts: concepts,
-    totalItems: totalItems,
-    itemsPerPage: itemsPerPage,
-    loadingConcepts: loadingConcepts,
-    totalPages: totalPages,
-    currentPage: currentPage
+    concepts,
+    totalItems,
+    itemsPerPage,
+    isLoadingConcepts,
+    totalPages,
+    currentPage
    }
 }
 

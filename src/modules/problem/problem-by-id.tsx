@@ -4,14 +4,17 @@ import { connect } from 'react-redux'
 import Content from '../../layouts/Content'
 import BreadcrumbLink from '../../types/BreadcrumbLink'
 import Problem from '../../models/Problem'
-import {  fetchProblemById, fetchAllProblemRelatedConcepts } from '../../redux/actions/problemsActions'
+import Concept from '../../models/Concept'
+import Loading from '../../components/shared/Loading'
 import ProblemBasicInfos from '../../components/problem/ProblemBasicInfos'
 import ProblemComments from '../../components/problem/ProblemComments'
 import ProblemSolutionAttempts from '../../components/problem/ProblemSolutionAttempts'
 import ProblemRelatedConcepts from '../../components/problem/ProblemRelatedConcepts'
-import { fetchAllConcepts } from '../../redux/actions/conceptsActions'
-import Concept from '../../models/Concept'
 import { usePageTitle } from '../../components/shared/UsePageTitle'
+import { IProblemsInitialState } from '../../redux/reducers/problemsReducer'
+import { IConceptsInitialState } from '../../redux/reducers/conceptsReducer'
+import { fetchProblemById, fetchAllProblemRelatedConcepts } from '../../redux/actions/problemsActions'
+import { fetchAllConcepts } from '../../redux/actions/conceptsActions'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Problemas", "/problems"),
@@ -19,6 +22,8 @@ const breadcrumbLinks = [
 ]
 
 interface IProblemByIdProps {
+  isLoadingCurrentProblem: boolean
+  isLoadingConcepts: boolean
   match: any
   currentProblem: Problem
   concepts: Concept[]
@@ -49,14 +54,18 @@ class ProblemById extends Component<IProblemByIdProps> {
 
   render() {
 
-    const { currentProblem, concepts, relatedConcepts } = this.props
+    const { currentProblem, concepts, relatedConcepts,
+      isLoadingCurrentProblem, isLoadingConcepts } = this.props
     const { id } = currentProblem
+
+    if (isLoadingCurrentProblem || isLoadingConcepts)
+        return <Content title="" breadcrumbLinks={[]}><Loading /></Content>
 
     return (
       <Content
           title="Detalhe do Problema"
           breadcrumbLinks={breadcrumbLinks}>
-
+            
         <ProblemBasicInfos problem={currentProblem} key={id} />
         <ProblemComments problem={currentProblem} key={(id !== undefined ? id + 1 : id)} />
         <ProblemSolutionAttempts problem={currentProblem} key={(id !== undefined ? id + 2 : id)} />
@@ -71,10 +80,17 @@ class ProblemById extends Component<IProblemByIdProps> {
 }
 
 const mapStateToProps = (props: any) => {
+
+  const { currentProblem, isLoadingCurrentProblem,
+    currentProblemRelatedConcepts }: IProblemsInitialState = props.problems
+  const { concepts, isLoadingConcepts }: IConceptsInitialState = props.concepts
+
   return {
-    currentProblem: props.problems.currentProblem,
-    concepts: props.concepts.concepts,
-    relatedConcepts: props.problems.currentProblemRelatedConcepts
+    isLoadingCurrentProblem,
+    currentProblem,
+    isLoadingConcepts,
+    concepts,
+    relatedConcepts: currentProblemRelatedConcepts
    }
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "hcrpr-frontend",
   "description": "Habits & Cycles Related Problems Resolver",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@types/jest": "24.0.23",
@@ -25,6 +25,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
     "react-select": "^3.0.8",
+    "react-spinners": "^0.8.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "typescript": "3.7.2"
