@@ -3,6 +3,7 @@ import axios from '../../axios'
 import { buildQueryString } from '../../query-string-builder'
 import SolutionAttemptComment from '../../models/SolutionAttemptComment'
 import { fetchSolutionAttemptById } from './problemsActions'
+import { handlePageError } from './errorsActions'
 
 
 export const createSolutionAttemptComment = (
@@ -40,16 +41,15 @@ export const fetchAllSolutionAttemptComments = (
   
   return (dispatch:any) => {
 
+    dispatch(setIsLoadingSolutionAttemptComments(true))
+
     if (filters.sort === undefined) filters.sort = 'createdAt,desc'    
     const queryString = buildQueryString(filters)
 
     axios.get(`/problems/${problemId}/solution-attempts/${solutionAttemptId}/comments${queryString}`)
-    .then(response => {
-
-      const data = response.data
-      dispatch(setCurrentSolutionAttemptComments(data))
-    })
-    .catch(error => error)
+    .then(({ data }) => dispatch(setCurrentSolutionAttemptComments(data)))
+    .catch(error => handlePageError(error, dispatch))
+    .finally(() => dispatch(setIsLoadingSolutionAttemptComments(false)))
   }
 }
 
@@ -59,9 +59,7 @@ export const updateSolutionAttempTechniques = (problemId:number, attemptId:numbe
     axios.put(`/problems/${problemId}/solution-attempts/${attemptId}/techniques`, {
       techniquesIds: techniquesIds
     })
-    .then(response => {
-      dispatch(fetchSolutionAttemptById(problemId, attemptId))
-    })
+    .then(_ => dispatch(fetchSolutionAttemptById(problemId, attemptId)))
   }
 }
 
@@ -113,4 +111,12 @@ const calcCurrentPage = (actualPage:number, totalItems:number, itemsPerPage:numb
       : actualPage
 
   return calculatedPage
+}
+
+
+const setIsLoadingSolutionAttemptComments = (isLoading: boolean) => {
+  return {
+    type: SolutionAttemptsActions.SET_IS_LOADING_CURRENT_SOLUTION_ATTEMPT_COMMENTS,
+    isLoading
+  }
 }

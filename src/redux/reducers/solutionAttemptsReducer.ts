@@ -7,6 +7,7 @@ interface IProblemsInitialState {
   currentSolutionAttemptCommentsTotalItems: number
   currentSolutionAttemptCommentsTotalPages: number
   currentSolutionAttemptCommentsItemsPerPage: number
+  isLoadingComments: boolean
 }
 
 let initialState:IProblemsInitialState = {
@@ -14,7 +15,8 @@ let initialState:IProblemsInitialState = {
   currentSolutionAttemptCommentsPage: 1,
   currentSolutionAttemptCommentsTotalItems: 0,
   currentSolutionAttemptCommentsTotalPages: 0,
-  currentSolutionAttemptCommentsItemsPerPage: 0
+  currentSolutionAttemptCommentsItemsPerPage: 0,
+  isLoadingComments: true
 }
 
 export default (state: IProblemsInitialState = initialState, action:any) => {
@@ -36,6 +38,12 @@ export default (state: IProblemsInitialState = initialState, action:any) => {
       return {
         ...state,
         currentSolutionAttemptCommentsPage: action.currentPage
+      }
+    }
+    case SolutionAttemptsActions.SET_IS_LOADING_CURRENT_SOLUTION_ATTEMPT_COMMENTS: {
+      return {
+        ...state,
+        isLoadingComments: action.isLoading
       }
     }
     default: 

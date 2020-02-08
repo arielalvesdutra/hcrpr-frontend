@@ -14,6 +14,7 @@ import { ITechniquesInitialState } from '../../redux/reducers/techniquesReducer'
 import { fetchSolutionAttemptById } from '../../redux/actions/problemsActions'
 import { IProblemsInitialState } from '../../redux/reducers/problemsReducer'
 import { fetchAllTechniques } from '../../redux/actions/techniquesActions'
+import { keyWithMilliseconds } from '../../components/shared/UseKeyWithMilliseconds'
 
 
 interface ISolutionAttemptByIdProps {
@@ -33,7 +34,7 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
     const solutionAttemptId = this.props.match.params.solutionAttemptId
     const { onFetchAllTechniques, onFetchSolutionAttemptById } = this.props
 
-    onFetchSolutionAttemptById(problemId,solutionAttemptId)
+    onFetchSolutionAttemptById(problemId, solutionAttemptId)
     onFetchAllTechniques()
   }
 
@@ -64,7 +65,7 @@ class SolutionAttemptById extends Component<ISolutionAttemptByIdProps> {
           title="Detalhe da Tentativa de Solução"
           breadcrumbLinks={breadcrumbLinks}>
 
-        <SolutionAttemptBasicInfo key={id} 
+        <SolutionAttemptBasicInfo key={id ? keyWithMilliseconds(id) : '1'} 
               solutionAttempt={currentSolutionAttempt} />
         <SolutionAttemptComments key={id ? id + 1 : '2'}
               solutionAttempt={currentSolutionAttempt}/>

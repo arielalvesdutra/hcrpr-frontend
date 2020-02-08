@@ -15,6 +15,7 @@ import { IProblemsInitialState } from '../../redux/reducers/problemsReducer'
 import { IConceptsInitialState } from '../../redux/reducers/conceptsReducer'
 import { fetchProblemById, fetchAllProblemRelatedConcepts } from '../../redux/actions/problemsActions'
 import { fetchAllConcepts } from '../../redux/actions/conceptsActions'
+import { keyWithMilliseconds } from '../../components/shared/UseKeyWithMilliseconds'
 
 const breadcrumbLinks = [
   new BreadcrumbLink("Problemas", "/problems"),
@@ -67,7 +68,7 @@ class ProblemById extends Component<IProblemByIdProps> {
           breadcrumbLinks={breadcrumbLinks}>
             
         <ProblemBasicInfos problem={currentProblem} key={id} />
-        <ProblemComments problem={currentProblem} key={(id !== undefined ? id + 1 : id)} />
+        <ProblemComments problem={currentProblem} key={id !== undefined ? keyWithMilliseconds(id) : keyWithMilliseconds('comments')} />
         <ProblemSolutionAttempts problem={currentProblem} key={(id !== undefined ? id + 2 : id)} />
         <ProblemRelatedConcepts 
             problem={currentProblem} 

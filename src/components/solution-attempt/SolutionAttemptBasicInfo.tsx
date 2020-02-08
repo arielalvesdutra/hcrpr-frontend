@@ -40,7 +40,7 @@ class SolutionAttemptBasicInfo extends
     this.setState({ fieldErrors: {}})
   }
   
-  componentDidMount = () => {  
+  componentDidMount = () => {
     const { description, name } = this.props.solutionAttempt
     this.setState({
       name: name ? name : '',
@@ -113,7 +113,7 @@ class SolutionAttemptBasicInfo extends
     const { solutionAttempt } = this.props
     const { name, description, fieldErrors, isEditing } = this.state
     const { toogleEditing, handleSubmit } = this
-    const {problem} = solutionAttempt
+    const { problem } = solutionAttempt
 
     const ShowAttemptBasicInfo = (solutionAttempt &&
       <div className="solutionAttemptBasicInfos__show">
