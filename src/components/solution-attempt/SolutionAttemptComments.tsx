@@ -9,6 +9,7 @@ import SolutionAttemptComment from '../../models/SolutionAttemptComment'
 import './SolutionAttemptComments.scss'
 import { formatAsDateTime } from '../shared/DateHelpers'
 import Problem from '../../models/Problem'
+import Loading from '../shared/Loading'
 
 interface IProblemCommentsProps {
   solutionAttempt: SolutionAttempt
@@ -21,6 +22,7 @@ interface IProblemCommentsProps {
   itemsPerPage: number
   totalItems: number
   totalPages: number
+  isLoadingComments: boolean
 }
 
 interface IProblemCommentsState {
@@ -100,7 +102,8 @@ class SolutionAttemptComments extends Component<IProblemCommentsProps, IProblemC
     const { content, fieldErrors } = this.state
     const { comments, onDeleteSolutionAttemptComment, solutionAttempt,
      onFetchAllSolutionAttemptComments, currentPage, itemsPerPage, 
-     totalItems, totalPages, onSetSolutionAttemptCommentsCurrentPage } = this.props
+     totalItems, totalPages, isLoadingComments,
+     onSetSolutionAttemptCommentsCurrentPage } = this.props
     const { change, clearComment } = this
     const { problem } = solutionAttempt
 
@@ -168,6 +171,7 @@ class SolutionAttemptComments extends Component<IProblemCommentsProps, IProblemC
     const ListSolutionAttemptCommentsWithPagination = (
       <div className="solutionAttemptComments__list__area">
         <h3 className="content__subtitle__h3">Lista de comentários</h3>
+        {isLoadingComments && <Loading />}
         {comments && (
           <>
             {ListComments(comments)}
@@ -181,7 +185,7 @@ class SolutionAttemptComments extends Component<IProblemCommentsProps, IProblemC
               searchItemsCallback={fetchAllCommentsForPagination} />
           </>
         )}
-        {comments && comments.length <= 0 && (
+        {!isLoadingComments && comments && comments.length <= 0 && (
           <div className="row">
             <strong>
               Não há comentários cadastrados.
@@ -221,13 +225,15 @@ const mapStateToProps = (props: any)  => {
     currentSolutionAttemptCommentsPage,
     currentSolutionAttemptCommentsTotalItems,
     currentSolutionAttemptCommentsTotalPages,
-    currentSolutionAttemptCommentsItemsPerPage } = props.solutionAttempts
+    currentSolutionAttemptCommentsItemsPerPage,
+    isLoadingComments } = props.solutionAttempts
   return {
     comments: currentSolutionAttemptComments,
     currentPage: currentSolutionAttemptCommentsPage,
     itemsPerPage:   currentSolutionAttemptCommentsItemsPerPage,
     totalItems: currentSolutionAttemptCommentsTotalItems,
-    totalPages: currentSolutionAttemptCommentsTotalPages
+    totalPages: currentSolutionAttemptCommentsTotalPages,
+    isLoadingComments
   }
 }
 

@@ -10,6 +10,8 @@ import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
 import Pagination from '../shared/Pagination'
 import { formatAsDateTime } from '../shared/DateHelpers'
+import { IProblemsInitialState } from '../../redux/reducers/problemsReducer'
+import Loading from '../shared/Loading'
 
 interface IProblemCommentsProps {
   problem: Problem  
@@ -22,6 +24,7 @@ interface IProblemCommentsProps {
   itemsPerPage: number
   totalItems: number
   totalPages: number
+  isLoadingComments: boolean
 }
 
 interface IProblemCommentsState {
@@ -95,7 +98,8 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
     const { content, fieldErrors } = this.state
     const { change, clearComment } = this
     const { problem, onFetchAllProblemComments, totalItems, itemsPerPage,
-      onSetProblemCommentsCurrentPage, currentPage, comments,
+      onSetProblemCommentsCurrentPage, 
+      currentPage, comments, isLoadingComments,
       totalPages, onDeleteProblemComment } = this.props
 
     const fetchAllCommentsForPagination = (filters ={}) => {
@@ -159,6 +163,7 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
     const ListProblemCommentsWithPagination = (
       <div className="problemComments__list__area">
         <h3 className="content__subtitle__h3">Lista de comentários</h3>
+        {isLoadingComments && <Loading />}
         {comments && (
           <>
             {ListComments(comments)}
@@ -172,7 +177,7 @@ class ProblemComments extends Component<IProblemCommentsProps, IProblemCommentsS
               searchItemsCallback={fetchAllCommentsForPagination} />
           </>
         )}
-        {comments && comments.length <= 0 && (
+        {!isLoadingComments && comments && comments.length <= 0 && (
           <div className="row">
             <strong>
               Não há comentários cadastrados.
@@ -210,14 +215,16 @@ const mapStateToProps = (props:any)  => {
     currentProblemCommentsTotalItems, 
     currentProblemCommentsTotalPages, 
     currentProblemCommentsItemsPerPage,
-    currentProblemCommentsPage } = props.problems
+    currentProblemCommentsPage,
+    isLoadingComments }: IProblemsInitialState = props.problems
   
   return {
     comments: currentProblemComments,
     currentPage: currentProblemCommentsPage,
     itemsPerPage: currentProblemCommentsItemsPerPage,
     totalItems: currentProblemCommentsTotalItems,
-    totalPages: currentProblemCommentsTotalPages
+    totalPages: currentProblemCommentsTotalPages,
+    isLoadingComments
   }
 }
 

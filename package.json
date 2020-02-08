@@ -1,8 +1,7 @@
 {
   "name": "hcrpr-frontend",
   "description": "Habits & Cycles Related Problems Resolver",
-  "version": "0.3.0",
-  "private": true,
+  "version": "0.3.1",
   "dependencies": {
     "@types/jest": "24.0.23",
     "@types/node": "12.12.11",

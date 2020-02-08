@@ -117,16 +117,17 @@ export const fetchAllProblems = (filters:any = {}) => {
 
 export const fetchAllProblemComments = (problemId:number, filters:any = {}) => {
   return (dispatch: any) => {
+    dispatch(setIsLoadingCurrentProblemComments(true))    
 
     if (filters.sort === undefined) filters.sort = 'createdAt,desc'
     const queryString = buildQueryString(filters)
 
     axios.get(`/problems/${problemId}/comments${queryString}`)
-    .then(response => {
-      const data = response.data
+    .then(({ data }) =>  {
       dispatch(setCurrentProblemComments(data))
+      dispatch(setIsLoadingCurrentProblemComments(false))    
     })
-    .catch(error => error)
+    .catch(error => handlePageError(error, dispatch))
   }
 }
 
@@ -180,8 +181,7 @@ export const fetchSolutionAttemptById = (problemId: number, solutionAttemptId: n
     dispatch(setIsLoadingCurrentSolutionAttempt(true))
 
     axios.get(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`)
-    .then(response => {
-      const data = response.data
+    .then(({ data }) => {
       dispatch(setCurrentProblemSolutionAttempt(data))
     })
     .catch(error => handlePageError(error, dispatch))
@@ -229,6 +229,13 @@ export const updateSolutionAttempt = (problemId:number, solutionAttemptId:number
 export const setIsLoadingCurrentProblem = (isLoading: boolean) => {
   return {
     type: ProblemsActions.SET_IS_LOADING_CURRENT_PROBLEM,
+    isLoading
+  }
+}
+
+export const setIsLoadingCurrentProblemComments = (isLoading: boolean) => {
+  return {
+    type: ProblemsActions.SET_IS_LOADING_CURRENT_PROBLEM_COMMENTS,
     isLoading
   }
 }

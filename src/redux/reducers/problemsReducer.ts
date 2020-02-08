@@ -26,6 +26,7 @@ export interface IProblemsInitialState {
   currentProblemSolutionAttemptsTotalItems: number
   currentProblemSolutionAttemptsTotalPages: number
   currentProblemSolutionAttemptsItemsPerPage: number
+  isLoadingComments: boolean
 }
 
 let initialState:IProblemsInitialState = {
@@ -50,6 +51,7 @@ let initialState:IProblemsInitialState = {
   currentProblemSolutionAttemptsTotalItems: 0,
   currentProblemSolutionAttemptsTotalPages: 0,
   currentProblemSolutionAttemptsItemsPerPage: 0,
+  isLoadingComments: true
 }
 
 export default (state: IProblemsInitialState = initialState, action:any):IProblemsInitialState => {
@@ -64,6 +66,12 @@ export default (state: IProblemsInitialState = initialState, action:any):IProble
       return {
         ...state,
         isLoadingCurrentProblem: action.isLoading
+      }
+    }
+    case ProblemsActions.SET_IS_LOADING_CURRENT_PROBLEM_COMMENTS: {
+      return {
+        ...state,
+        isLoadingComments: action.isLoading
       }
     }
     case ProblemsActions.SET_IS_LOADING_CURRENT_PROBLEM_SOLUTION_ATTEMPT: {
