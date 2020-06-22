@@ -1,22 +1,22 @@
 # HCRPR - Habits & Cycles Related Problems Resolver
 
-Desenvolvido com React e TypeScript.
+Developed with React and Typescript.
 
-Sem o uso de testes.
+Without automated tests.
 
-## Tela
+## Screen
 
-Tela da área de cadastro e listagem de técnicas.
+Screen for creating and listing techniques.
 
 ![association graph](src/assets/img/v0.3.0.png)
 
-## Descrição breve da estrutura
+## Brief of the structure
 
-- **Módulos:** os módulos representam as páginas. Os módulos podem conter layouts e componentes.
-- **Layouts:** representam partes genéricas de uma página, como o menu ou cabeçalho.
-- **Componentes:** representam partes que serão exibidas nas páginas. Eles, normalmente, podem ser reaproveitados entre módulos.
+- **Modules**: modules represents pages. One module can have layouts and components.
+- **Layouts**: represents generics parts of one page, like a header or a menu.
+- **Components**: represents parts that will be displayed on the page. Normally, can be reused between modules.
 
-## Breve exemplo de situação para aplicar o sistema
+## Brief example of a situation of use (in portuguese)
 
 - **Contexto**: "vontade" de realizar 2 horas de leitura semanal
 - **Problema**: não conseguir ler por falta de organização ou motivação
