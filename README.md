@@ -16,6 +16,10 @@ Screen for creating and listing techniques.
 - **Layouts**: represents generics parts of one page, like a header or a menu.
 - **Components**: represents parts that will be displayed on the page. Normally, can be reused between modules.
 
+## Backend
+
+Link [here](https://github.com/arielalvesdutra/hcrpr-backend).
+
 ## Brief example of a situation of use (in portuguese)
 
 - **Contexto**: "vontade" de realizar 2 horas de leitura semanal
