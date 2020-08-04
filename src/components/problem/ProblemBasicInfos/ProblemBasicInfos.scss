@@ -1,17 +1,12 @@
 @import 'src/assets/sass/_colors.scss';
 @import 'src/assets/sass/_extends.scss';
 
-.problemBasicInfos__edit,
-.problemBasicInfos__show {
-  @extend %container;
-  margin-bottom: 15px;
+.problemBasicInfos {
+  @extend %containerWhiteSimple;
 }
 
 .problemBasicInfos__show__title {
-  font-weight: bold;
-  font-size: 1.3rem;
-  display: block;
-  margin-bottom: 15px;
+  @extend %h3Generic;
 }
 
 .problemBasicInfos__show__description {
@@ -19,16 +14,12 @@
 }
 
 .problemBasicInfos__edit__cancelButton,
-.problemBasicInfos__show__editButton {
-  @extend %formButton;
-  background: #626262;
-  color: #ffffff;
+.problemBasicInfos__editButton {
+  @extend %formButtonGray;
 }
 
 .problemBasicInfos__edit__saveButton {
-  @extend %formButton;
-  background: $button-background-success;
-  color: white;
+  @extend %formButtonGreen;
   margin-right: 10px;
 }
 

@@ -39,7 +39,7 @@
 
 .navAside li a {
   padding: 12px 15px;
-  color: $primary-color-3;
+  color: #222222;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -55,7 +55,7 @@
   margin-right: 10px;
 }
 
-@media(min-width: 550px) {
+@media(min-width: 1000px) {
   .navAside {
     width: 230px;
     padding: 40px 0 0 0;

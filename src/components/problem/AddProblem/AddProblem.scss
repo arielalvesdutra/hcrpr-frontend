@@ -2,15 +2,10 @@
 @import 'src/assets/sass/_extends.scss';
 
 .add__problem {
-  margin: 0 0 15px 0;
+  @extend %containerWhiteSimple;
 }
-
-.add__problem__form {
-  @extend %container;
-}
-
-.add__problem__addLink {
-  @extend %spanLink;
+.add__problem__addLinkButton {
+  @extend %formButtonGreen;
 }
 
 .add__problem__label {
@@ -26,9 +21,7 @@
 }
 
 .add__problem__Addbutton {
-  @extend %formButton;
-  background: $button-background-success;
-  color: #ffffff;
+  @extend %formButtonGreen;
   margin-right: 10px;
 }
 

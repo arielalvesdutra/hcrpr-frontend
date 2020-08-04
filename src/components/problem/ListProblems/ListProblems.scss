@@ -1,9 +1,9 @@
 @import 'src/assets/sass/_extends.scss';
 
-.list__concepts {
+.list__problems {
   @extend %containerWhiteSimple;
 }
 
-.list__concepts__deleteButton {
+.list__problems__deleteButton {
   @extend %listDeleteButton;
 }

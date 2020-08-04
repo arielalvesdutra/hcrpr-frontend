@@ -1,12 +1,8 @@
 @import 'src/assets/sass/_colors.scss';
 @import 'src/assets/sass/_extends.scss';
 
-.problemComments {
-  margin-top: 5px;
-}
-
-.problemComments__container {
-  @extend %simpleContainer;
+.problemComments {  
+  @extend %containerWhiteSimple;  
 }
 
 .problemComments__addComemnt {
@@ -18,9 +14,7 @@
 }
 
 .problemComments__addComment__addButton {
-  @extend %formButton;
-  background: $button-background-success;
-  color: white;
+  @extend %formButtonGreen;
   margin-right: 10px;
   margin-bottom: 10px;
 }
@@ -43,6 +37,5 @@
 }
 
 .problemComments__listComments__itemDeleteButton {
-  @extend %listActionButton;
-  background: $button-background-danger;
+  @extend %listDeleteButton;
 }

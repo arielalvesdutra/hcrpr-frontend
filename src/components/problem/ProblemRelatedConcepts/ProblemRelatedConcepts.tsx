@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import Select from 'react-select'
 
 import './ProblemRelatedConcepts.scss'
-import Problem from '../../models/Problem'
-import Concept from '../../models/Concept'
-import { updateProblemRelatedConcepts, fetchAllProblemRelatedConcepts } from '../../redux/actions/problemsActions'
-import { mapConceptsToItems } from '../concept/ListConcepts'
-import List from '../shared/List'
-import Option from '../../types/Option'
+import Problem from '../../../models/Problem'
+import Concept from '../../../models/Concept'
+import { updateProblemRelatedConcepts, fetchAllProblemRelatedConcepts } from '../../../redux/actions/problemsActions'
+import { mapConceptsToItems } from '../../concept/ListConcepts'
+import List from '../../shared/List'
+import Option from '../../../types/Option'
 
 const selectTheme = (theme:any) => ({
   ...theme,

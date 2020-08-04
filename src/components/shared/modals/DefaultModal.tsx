@@ -5,22 +5,34 @@ Modal.setAppElement("#root")
 
 const customModalStyles = {
   content : {
-    top: '70px',
-    left: 'auto',
-    right: 'auto',
-    bottom: 'auto',
-    color: 'black',
-    position: 'relative',
-    minWidth: '280px'
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',    
+    background: 'inherits',
+    border: 'none',
+    padding: '0',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: 'auto'
   },
   overlay: {
     background: 'rgba(0, 0, 0, 0.5)',
-    boxSizing: 'border-box',
     height: '100%',
     overflow: 'auto',
     display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',  
+  },
+  realContent: {
+    flex: 1,
+    background: 'white',
+    border: '1px solid #e0e0e0',
+    borderRadius: '2px',
+    minWidth: '280px',
+    maxWidth: '700px',
+    margin: '70px 10px 5px 10px',
+    padding: '20px'
   }
 }
 
@@ -33,13 +45,15 @@ interface DefaultModalProps {
 const DefaultModal = (props: DefaultModalProps) => {
   
   return (
-    <Modal
+    <Modal 
       contentLabel="modal"
       isOpen={props.isOpen}
       onRequestClose={props.closeCallback}
-      style={customModalStyles}>
-
-        {props.children}
+      style={customModalStyles}     
+      >
+        <div style={customModalStyles.realContent}>
+          {props.children}
+        </div>
     </Modal>
   )
 }

@@ -1,104 +1,113 @@
 import { ProblemsActions } from './actionTypes'
 import { IProblemsInitialState } from '../reducers/problemsReducer'
 import axios from '../../axios'
-import { buildQueryString } from '../../query-string-builder'
+import { buildQueryString } from '../../helpers/query-string-builder'
 
 import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
 import SolutionAttempt from '../../models/SolutionAttempt'
 import { handlePageError } from './errorsActions'
+import Concept from '../../models/Concept'
 
+export const clearCurrentProblemData = () => {
+  return (dispath: any) => {
+    dispath(setIsLoadingCurrentProblem(true))
+    dispath(setCurrentProblem({} as Problem))
+    dispath(setCurrentProblemComments([] as Comment[]))
+    dispath(setCurrentProblemRelatedConcepts([] as Concept[]))
+  }
+}
 
-export const createProblem = (problem:Problem) => {
-  return (dispatch:any, getState:any) => {
+export const createProblem = (problem: Problem) => {
+  return (dispatch: any, getState: any) => {
     dispatch(setIsLoadingProblems(true))
 
     axios.post('/problems', {
       name: problem.name,
       description: problem.description
     })
-    .then(response => {
+      .then(response => {
 
-      const page = getCurrentPageAfterCreate(getState().problems)
+        const page = getCurrentPageAfterCreate(getState().problems)
 
-      dispatch(fetchAllProblems({ page }))
-    })
+        dispatch(fetchAllProblems({ page }))
+      })
   }
 }
 
-export const createProblemComment = (problemId:number, comment:ProblemComment) => {
-  return (dispatch:any, getState:any) => {
+export const createProblemComment = (problemId: number, comment: ProblemComment) => {
+  return (dispatch: any, getState: any) => {
     dispatch(setIsLoadingProblems(true))
 
     axios.post(`/problems/${problemId}/comments`, {
       content: comment.content
     })
-    .then(response => {
+      .then(response => {
 
-      const page = getCurrentCommentPageAfterCreateComment(getState().problems)
-      
-      dispatch(fetchAllProblemComments(problemId, {page}))
-    })
+        const page = getCurrentCommentPageAfterCreateComment(getState().problems)
+
+        dispatch(fetchAllProblemComments(problemId, { page }))
+      })
   }
 }
 
-export const createSolutionAttempt = (problemId:number, solutionAttempt:SolutionAttempt) => {
-  return (dispatch:any, getState:any) => {
+export const createSolutionAttempt = (problemId: number, solutionAttempt: SolutionAttempt) => {
+  return (dispatch: any, getState: any) => {
     dispatch(setIsLoadingProblems(true))
 
     axios.post(`/problems/${problemId}/solution-attempts`, {
       name: solutionAttempt.name,
       description: solutionAttempt.description
     })
-    .then(response => {
+      .then(response => {
 
-      const page = getCurrentProblemSolutionAttemptsPageAfterCreateAttempt(getState().problems)
-      
-      dispatch(fetchAllSolutionAttempts(problemId, {page}))
-    })
+        const page = getCurrentProblemSolutionAttemptsPageAfterCreateAttempt(getState().problems)
+
+        dispatch(fetchAllSolutionAttempts(problemId, { page }))
+      })
   }
 }
 
 export const deleteById = (problemId: number) => {
-  return (dispatch:any, getState:any) => {
+  return (dispatch: any, getState: any) => {
     dispatch(setIsLoadingProblems(true))
 
     axios.delete(`/problems/${problemId}`)
-    .then(response => {
-      const  page = getCurrentPageAfterDelete(getState().problems)
+      .then(response => {
+        const page = getCurrentPageAfterDelete(getState().problems)
 
-      dispatch(fetchAllProblems({ page }))
-    })
+        dispatch(fetchAllProblems({ page }))
+      })
   }
 }
 
-export const deleteProblemComment = (problemId: number, commentId:number) => {
-  return (dispatch:any, getState:any) => {
+export const deleteProblemComment = (problemId: number, commentId: number) => {
+  return (dispatch: any, getState: any) => {
 
     axios.delete(`/problems/${problemId}/comments/${commentId}`)
-    .then(response => {
-      
-      const page = getCurrentCommentPageAfterDeleteComment(getState().problems)
-      
-      dispatch(fetchAllProblemComments(problemId, {page}))
-    })
+      .then(response => {
+
+        const page = getCurrentCommentPageAfterDeleteComment(getState().problems)
+
+        dispatch(fetchAllProblemComments(problemId, { page }))
+      })
   }
 }
 
-export const deleteSolutionAttempt = (problemId: number, solutionAttemptId:number) => {
-  return (dispatch:any, getState:any) => {
+export const deleteSolutionAttempt = (problemId: number, solutionAttemptId: number) => {
+  return (dispatch: any, getState: any) => {
 
     axios.delete(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`)
-    .then(response => {
-      
-      const page = getCurrentProblemSolutionAttemptsPageAfterDeleteAttempt(getState().problems)
+      .then(response => {
 
-      dispatch(fetchAllSolutionAttempts(problemId, {page: page}))
-    })
+        const page = getCurrentProblemSolutionAttemptsPageAfterDeleteAttempt(getState().problems)
+
+        dispatch(fetchAllSolutionAttempts(problemId, { page: page }))
+      })
   }
 }
 
-export const fetchAllProblems = (filters:any = {}) => {
+export const fetchAllProblems = (filters: any = {}) => {
   return (dispatch: any) => {
     dispatch(setIsLoadingProblems(true))
 
@@ -106,33 +115,31 @@ export const fetchAllProblems = (filters:any = {}) => {
     const queryString = buildQueryString(filters)
 
     axios.get(`/problems${queryString}`)
-    .then(response => {
-      const data = response.data
-      dispatch(setProblems(data))
-    })
-    .catch(error => handlePageError(error, dispatch))
-    .finally(() => dispatch(setIsLoadingProblems(false)))
+      .then(({data}) => dispatch(setProblems(data)))
+      .catch(error => handlePageError(error, dispatch))
+      .finally(() => dispatch(setIsLoadingProblems(false)))
   }
 }
 
-export const fetchAllProblemComments = (problemId:number, filters:any = {}) => {
+export const fetchAllProblemComments = (problemId: number, filters: any = {}) => {
   return (dispatch: any) => {
-    dispatch(setIsLoadingCurrentProblemComments(true))    
+    dispatch(setIsLoadingCurrentProblemComments(true))
 
     if (filters.sort === undefined) filters.sort = 'createdAt,desc'
     const queryString = buildQueryString(filters)
 
     axios.get(`/problems/${problemId}/comments${queryString}`)
-    .then(({ data }) =>  {
-      dispatch(setCurrentProblemComments(data))
-      dispatch(setIsLoadingCurrentProblemComments(false))    
-    })
-    .catch(error => handlePageError(error, dispatch))
+      .then(({ data }) => {
+        dispatch(setCurrentProblemComments(data))
+        dispatch(setIsLoadingCurrentProblemComments(false))
+      })
+      .catch(error => handlePageError(error, dispatch))
   }
 }
 
-export const fetchAllProblemRelatedConcepts = (problemId:number, filters:any = {}) => {
+export const fetchAllProblemRelatedConcepts = (problemId: number, filters: any = {}) => {
   return (dispatch: any) => {
+    dispatch(setCurrentProblemRelatedConcepts([]))
 
     if (filters.sort === undefined) filters.sort = 'createdAt,desc'
 
@@ -140,26 +147,26 @@ export const fetchAllProblemRelatedConcepts = (problemId:number, filters:any = {
     const queryString = buildQueryString(filters)
 
     axios.get(`/problems/${problemId}/concepts${queryString}`)
-    .then(response => {
-      const data = response.data
-      dispatch(setCurrentProblemRelatedConcepts(data))
-    })
-    .catch(error => error)
+      .then(response => {
+        const data = response.data
+        dispatch(setCurrentProblemRelatedConcepts(data))
+      })
+      .catch(error => error)
   }
 }
 
-export const fetchAllSolutionAttempts = (problemId:number, filters:any = {}) => {
+export const fetchAllSolutionAttempts = (problemId: number, filters: any = {}) => {
   return (dispatch: any) => {
 
-    if (filters.sort === undefined) filters.sort = 'createdAt,desc'    
+    if (filters.sort === undefined) filters.sort = 'createdAt,desc'
     const queryString = buildQueryString(filters)
 
     axios.get(`/problems/${problemId}/solution-attempts${queryString}`)
-    .then(response => {
-      const data = response.data
-      dispatch(setCurrentProblemSolutionAttempts(data))
-    })
-    .catch(error => error)
+      .then(response => {
+        const data = response.data
+        dispatch(setCurrentProblemSolutionAttempts(data))
+      })
+      .catch(error => error)
   }
 }
 
@@ -168,61 +175,60 @@ export const fetchProblemById = (id: number) => {
     dispatch(setIsLoadingCurrentProblem(true))
 
     axios.get(`/problems/${id}`)
-    .then(({ data }) => {
-      dispatch(setCurrentProblem(data))
-    })
-    .catch(error => handlePageError(error, dispatch))
-    .finally(() => dispatch(setIsLoadingCurrentProblem(false)))
+      .then(({ data }) => dispatch(setCurrentProblem(data)))
+      .catch(error => handlePageError(error, dispatch))
+      .finally(() => dispatch(setIsLoadingCurrentProblem(false)))
   }
 }
 
 export const fetchSolutionAttemptById = (problemId: number, solutionAttemptId: number) => {
   return (dispatch: any) => {
+    dispatch(setCurrentProblemSolutionAttempt({} as SolutionAttempt))
     dispatch(setIsLoadingCurrentSolutionAttempt(true))
 
     axios.get(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`)
-    .then(({ data }) => {
-      dispatch(setCurrentProblemSolutionAttempt(data))
-    })
-    .catch(error => handlePageError(error, dispatch))
-    .finally(() => dispatch(setIsLoadingCurrentSolutionAttempt(false)))
+      .then(({ data }) => {
+        dispatch(setCurrentProblemSolutionAttempt(data))
+      })
+
+      .catch(error => handlePageError(error, dispatch))
+      .finally(() => dispatch(setIsLoadingCurrentSolutionAttempt(false)))
   }
 }
 
-export const updateProblem = (id:number, problem:Problem) => {
-  return (dispatch:any) => {
-    dispatch(setIsLoadingProblems(true))
+export const updateProblem = (id: number, problem: Problem) => {
+  return (dispatch: any) => {
+    dispatch(setIsLoadingCurrentProblem(true))
 
     axios.put(`/problems/${id}`, {
       name: problem.name,
       description: problem.description
     })
-    .then(_ => dispatch(fetchProblemById(id)))
-    .catch(error => handlePageError(error, dispatch))
-    .finally(() => dispatch(setIsLoadingCurrentProblem(false)))
+      .then(_ => dispatch(fetchProblemById(id)))
+      .catch(error => handlePageError(error, dispatch))
   }
 }
 
-export const updateProblemRelatedConcepts = (problemId:number, conceptsIds:number[]) => {
-  return (dispatch:any) => {
+export const updateProblemRelatedConcepts = (problemId: number, conceptsIds: number[]) => {
+  return (dispatch: any) => {
 
     axios.put(`/problems/${problemId}/concepts`, {
       conceptsIds: conceptsIds
     })
-    .then(_ => dispatch(fetchAllProblemRelatedConcepts(problemId)))
+      .then(_ => dispatch(fetchAllProblemRelatedConcepts(problemId)))
   }
 }
 
-export const updateSolutionAttempt = (problemId:number, solutionAttemptId:number, attempt: SolutionAttempt) => {
-  return (dispatch:any) => {
+export const updateSolutionAttempt = (problemId: number, solutionAttemptId: number, attempt: SolutionAttempt) => {
+  return (dispatch: any) => {
 
     axios.put(`/problems/${problemId}/solution-attempts/${solutionAttemptId}`, {
       name: attempt.name,
       description: attempt.description
     })
-    .then(_ => dispatch(fetchSolutionAttemptById(problemId, solutionAttemptId)))
-    .catch(error => handlePageError(error, dispatch))
-    .finally(() => dispatch(setIsLoadingCurrentSolutionAttempt(false)))
+      .then(_ => dispatch(fetchSolutionAttemptById(problemId, solutionAttemptId)))
+      .catch(error => handlePageError(error, dispatch))
+      .finally(() => dispatch(setIsLoadingCurrentSolutionAttempt(false)))
   }
 }
 
@@ -275,21 +281,21 @@ export const setCurrentProblem = (problems: Problem) => {
   }
 }
 
-export const setCurrentProblemComments = (data: any) => {
+export const setCurrentProblemComments = (data: Comment[]) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS,
     data
   }
 }
 
-export const setCurrentProblemRelatedConcepts = (data: any) => {
+export const setCurrentProblemRelatedConcepts = (data: Concept[]) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM_RELATED_CONCEPTS,
     data
   }
 }
 
-export const setCurrentProblemSolutionAttempt = (data: any) => {
+export const setCurrentProblemSolutionAttempt = (data: SolutionAttempt) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM_SOLUTION_ATTEMPT,
     data
@@ -320,66 +326,66 @@ export const setCurrentProblemSolutionAttemptsPage = (page: number) => {
 
 const getCurrentPageAfterCreate = (problemsReducer: IProblemsInitialState) => {
   const { currentPage, totalItems, itemsPerPage } = problemsReducer
-  
+
   return calcCurrentPage(currentPage, (totalItems + 1), itemsPerPage)
 }
 
 const getCurrentPageAfterDelete = (problemsReducer: IProblemsInitialState) => {
   const { currentPage, totalItems, itemsPerPage } = problemsReducer
-  
-  return calcCurrentPage(currentPage, (totalItems -1), itemsPerPage)
+
+  return calcCurrentPage(currentPage, (totalItems - 1), itemsPerPage)
 }
 
 const getCurrentCommentPageAfterCreateComment = (problemsReducer: IProblemsInitialState) => {
-  const { currentProblemCommentsPage, 
-    currentProblemCommentsTotalItems, 
+  const { currentProblemCommentsPage,
+    currentProblemCommentsTotalItems,
     currentProblemCommentsItemsPerPage } = problemsReducer
-    
+
   return calcCurrentPage(
-          currentProblemCommentsPage, 
-          (currentProblemCommentsTotalItems + 1),
-          currentProblemCommentsItemsPerPage )
+    currentProblemCommentsPage,
+    (currentProblemCommentsTotalItems + 1),
+    currentProblemCommentsItemsPerPage)
 }
 
 const getCurrentCommentPageAfterDeleteComment = (problemsReducer: IProblemsInitialState) => {
-  const { currentProblemCommentsPage, 
-    currentProblemCommentsTotalItems, 
+  const { currentProblemCommentsPage,
+    currentProblemCommentsTotalItems,
     currentProblemCommentsItemsPerPage } = problemsReducer
-    
+
   return calcCurrentPage(
-          currentProblemCommentsPage, 
-          (currentProblemCommentsTotalItems -1),
-          currentProblemCommentsItemsPerPage )
+    currentProblemCommentsPage,
+    (currentProblemCommentsTotalItems - 1),
+    currentProblemCommentsItemsPerPage)
 }
 
 const getCurrentProblemSolutionAttemptsPageAfterCreateAttempt = (problemsReducer: IProblemsInitialState) => {
-  const { currentProblemSolutionAttemptsPage, 
-    currentProblemSolutionAttemptsTotalItems, 
+  const { currentProblemSolutionAttemptsPage,
+    currentProblemSolutionAttemptsTotalItems,
     currentProblemSolutionAttemptsItemsPerPage } = problemsReducer
 
   return calcCurrentPage(
-          currentProblemSolutionAttemptsPage,
-          (currentProblemSolutionAttemptsTotalItems + 1),
-          currentProblemSolutionAttemptsItemsPerPage)
+    currentProblemSolutionAttemptsPage,
+    (currentProblemSolutionAttemptsTotalItems + 1),
+    currentProblemSolutionAttemptsItemsPerPage)
 }
 
 const getCurrentProblemSolutionAttemptsPageAfterDeleteAttempt = (problemsReducer: IProblemsInitialState) => {
-  const { currentProblemSolutionAttemptsPage, 
-    currentProblemSolutionAttemptsTotalItems, 
+  const { currentProblemSolutionAttemptsPage,
+    currentProblemSolutionAttemptsTotalItems,
     currentProblemSolutionAttemptsItemsPerPage } = problemsReducer
 
   return calcCurrentPage(
-          currentProblemSolutionAttemptsPage,
-          (currentProblemSolutionAttemptsTotalItems - 1),
-          currentProblemSolutionAttemptsItemsPerPage)
+    currentProblemSolutionAttemptsPage,
+    (currentProblemSolutionAttemptsTotalItems - 1),
+    currentProblemSolutionAttemptsItemsPerPage)
 }
 
-const calcCurrentPage = (actualPage:number, totalItems:number, itemsPerPage:number):number => {
+const calcCurrentPage = (actualPage: number, totalItems: number, itemsPerPage: number): number => {
 
   const maxOfPages = Math.ceil(totalItems / itemsPerPage)
   const calculatedPage = (maxOfPages < actualPage)
-      ? maxOfPages
-      : actualPage
+    ? maxOfPages
+    : actualPage
 
   return calculatedPage
 }

@@ -1,26 +1,26 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, useLocation } from 'react-router-dom';
-import Problems from './modules/problem/problems'
-import ProblemById from './modules/problem/problem-by-id'
-import Concepts from './modules/concept/concepts'
-import Techniques from './modules/technique/techniques'
-import TechniqueById from './modules/technique/technique-by-id'
-import ConceptById from './modules/concept/concept-by-id';
-import SolutionAttemptById from './modules/solution-attempt/solution-attempt-by-id'
-import Error404 from './modules/errors/Error404';
-import ServiceUnavailable from './modules/errors/ServiceUnavailable';
-import Error400 from './modules/errors/Error400';
+import Problems from './pages/problem/problems'
+import ProblemById from './pages/problem/problem-by-id'
+import Concepts from './pages/concept/concepts'
+import Techniques from './pages/technique/techniques'
+import TechniqueById from './pages/technique/technique-by-id'
+import ConceptById from './pages/concept/concept-by-id';
+import SolutionAttemptById from './pages/solution-attempt/solution-attempt-by-id'
+import Error404 from './pages/errors/Error404';
+import ServiceUnavailable from './pages/errors/ServiceUnavailable';
+import Error400 from './pages/errors/Error400';
 import { IErrorsInitialState } from './redux/reducers/errorsReducers';
 import { clearPageErrors } from './redux/actions/errorsActions';
 import { ErrorConsts } from './redux/reducers/errorsReducers'
 
-interface IRoutesProps {
-  onClearPageErrors(): any
+interface RoutesProps {
+  onClearPageErrors(): void
   pageError: string
 }
 
-const Routes = (props: IRoutesProps) => { 
+const Routes = (props: RoutesProps) => { 
   const { pageError, onClearPageErrors } = props
   const location = useLocation()
 

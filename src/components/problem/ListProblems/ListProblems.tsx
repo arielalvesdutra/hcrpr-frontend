@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchAllProblems, deleteById, setProblemCurrentPage } from '../../redux/actions/problemsActions'
-import { IProblemsInitialState } from '../../redux/reducers/problemsReducer'
-import Problem from '../../models/Problem'
-import List, { ListItem } from '../../components/shared/List'
-import Pagination from '../../components/shared/Pagination'
-import Loading from '../shared/Loading'
+import { fetchAllProblems, deleteById, setProblemCurrentPage } from '../../../redux/actions/problemsActions'
+import { IProblemsInitialState } from '../../../redux/reducers/problemsReducer'
+import Problem from '../../../models/Problem'
+import List, { ListItem } from '../../../components/shared/List'
+import Pagination from '../../../components/shared/Pagination'
+import Loading from '../../shared/Loading'
 import './ListProblems.scss'
 
 const mapProblemsToItems = (parameterProblems:Problem[]):ListItem[] => {
@@ -56,6 +56,7 @@ class ListProblems extends Component<IProblemsProps> {
     
     return (
       <section className="list__problems">
+        <h2 className="content__subtitle">Lista de problemas</h2>
         {problems && (
           <>
             <List actionButtons={[ButtonToDeleteProblem]}

@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { createSolutionAttempt, fetchAllSolutionAttempts, deleteSolutionAttempt, 
-  setCurrentProblemSolutionAttemptsPage } from '../../redux/actions/problemsActions'
-import SolutionAttempt from '../../models/SolutionAttempt'
+  setCurrentProblemSolutionAttemptsPage } from '../../../redux/actions/problemsActions'
+import SolutionAttempt from '../../../models/SolutionAttempt'
 import './ProblemSolutionAttempts.scss'
-import Problem from '../../models/Problem'
-import Pagination from '../shared/Pagination'
-import List, {ListItem} from '../shared/List'
+import Problem from '../../../models/Problem'
+import Pagination from '../../shared/Pagination'
+import List, {ListItem} from '../../shared/List'
 
 interface IProblemSolutionAttemptsProps {
   problem: Problem

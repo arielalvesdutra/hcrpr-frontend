@@ -57,7 +57,8 @@ class ListTechniques extends Component<ITechniquesProps> {
     if (isLoadingTechniques) return <section className="list__techniques"><Loading /></section>
 
     return (
-      <section className="list__techniques">        
+      <section className="list__techniques">
+        <h2 className="content__subtitle">Lista de técnicas</h2>     
         {techniques && (
           <>
             <List actionButtons={[ButtonToDeleteTechnique]}

@@ -1,16 +1,12 @@
 @import 'src/assets/sass/_colors.scss';
 @import 'src/assets/sass/_extends.scss';
 
-.conceptBasicInfos__edit,
-.conceptBasicInfos__show {
-  @extend %container;
+.conceptBasicInfos {
+  @extend %containerWhiteSimple;
 }
 
 .conceptBasicInfos__show__title {
-  font-weight: bold;
-  font-size: 1.3rem;
-  display: block;
-  margin-bottom: 15px;
+  @extend %h3Generic;
 }
 
 .conceptBasicInfos__show__description {
@@ -19,15 +15,11 @@
 
 .conceptBasicInfos__edit__cancelButton,
 .conceptBasicInfos__show__editButton {
-  @extend %formButton;
-  background: #626262;
-  color: #ffffff;
+  @extend %formButtonGray;
 }
 
 .conceptBasicInfos__edit__saveButton {
-  @extend %formButton;
-  background: $button-background-success;
-  color: white;
+  @extend %formButtonGreen;
   margin-right: 10px;
 }
 

@@ -4,16 +4,16 @@ import './Content.scss'
 import BreadcrumbLink from '../types/BreadcrumbLink'
 import Breadcrumb from './Breadcrumb'
 
-interface IContentProps {
+interface ContentProps {
   children: any,
   title: string,
   breadcrumbLinks: BreadcrumbLink[]
 }
 
-const Content = (props: IContentProps) => 
+const Content = (props: ContentProps) =>
   <main className="content">
     <div>
-      <Breadcrumb links={props.breadcrumbLinks}/>
+      <Breadcrumb links={props.breadcrumbLinks} />
     </div>
     <h1 className="content__title">{props.title}</h1>
 
