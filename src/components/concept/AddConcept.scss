@@ -3,18 +3,16 @@
 
 .add__concept {
   margin: 0 0 15px 0;
+  @extend %containerWhiteSimple;
 }
 
-.add__concept__addLink {
-  @extend %spanLink;
+.add__concept__addLinkButton {
+  @extend %formButton;
+  background: $button-background-success;
 }
 
 .add__concept__closeModalButton {
   @extend %formButton;
-}
-
-.add__concept__form {
-  @extend %container;
 }
 
 .add__concept__label {

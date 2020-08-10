@@ -1,6 +1,0 @@
-@import 'src/assets/sass/_extends.scss';
-
-.list__problems__deleteButton {
-  @extend %listActionButton;
-  background: red;
-}

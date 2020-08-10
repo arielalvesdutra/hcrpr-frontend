@@ -1,16 +1,12 @@
 @import 'src/assets/sass/_colors.scss';
 @import 'src/assets/sass/_extends.scss';
 
-.techniqueBasicInfos__edit,
-.techniqueBasicInfos__show {
-  @extend %container;
+.techniqueBasicInfos {
+  @extend %containerWhiteSimple;
 }
 
 .techniqueBasicInfos__show__title {
-  font-weight: bold;
-  font-size: 1.3rem;
-  display: block;
-  margin-bottom: 15px;
+  @extend %h3Generic;
 }
 
 .techniqueBasicInfos__show__description {
@@ -20,14 +16,10 @@
 .techniqueBasicInfos__edit__cancelButton,
 .techniqueBasicInfos__show__editButton {
   @extend %formButton;
-  background: #626262;
-  color: #ffffff;
 }
 
 .techniqueBasicInfos__edit__saveButton {
-  @extend %formButton;
-  background: $button-background-success;
-  color: white;
+  @extend %formButtonSuccess;
   margin-right: 10px;
 }
 

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import './AddProblem.scss'
-import Problem from '../../models/Problem'
-import { createProblem } from '../../redux/actions/problemsActions'
-import DefaultModal from '../shared/modals/DefaultModal'
+import Problem from '../../../models/Problem'
+import { createProblem } from '../../../redux/actions/problemsActions'
+import DefaultModal from '../../shared/modals/DefaultModal'
 
 interface IAddProblemProps {
   onCreateProblem(problem: Problem): any
@@ -24,7 +24,7 @@ class AddProblem extends Component<IAddProblemProps> {
     isModalOpen: false
   }
 
-  change = (event:any) => {
+  change = (event: any) => {
     this.setState({
       ...this.state,
       [event.target.name]: event.target.value
@@ -32,16 +32,16 @@ class AddProblem extends Component<IAddProblemProps> {
   }
 
   clearErrors = () => {
-    this.setState({ fieldErrors: {}})
+    this.setState({ fieldErrors: {} })
   }
 
   toggleModal = () => {
-    this.setState({ isModalOpen: !this.state.isModalOpen})
+    this.setState({ isModalOpen: !this.state.isModalOpen })
   }
 
   validForm = () => {
-    let fieldErrors:any = {}
-    
+    let fieldErrors: any = {}
+
     if (!this.state.name) {
       if (fieldErrors.name === undefined) fieldErrors.name = []
       fieldErrors.name.push('O campo nome deve ser preenchido')
@@ -62,8 +62,8 @@ class AddProblem extends Component<IAddProblemProps> {
       fieldErrors.description.push('O campo descrição deve ter no mínimo 5 caracteres')
     }
 
-    if(Object.keys(fieldErrors).length > 0) {
-      
+    if (Object.keys(fieldErrors).length > 0) {
+
       this.setState({
         fieldErrors: fieldErrors
       })
@@ -71,32 +71,33 @@ class AddProblem extends Component<IAddProblemProps> {
       throw new Error('Há erros de preenchimento de campos no formulário')
     }
   }
-  
+
   onSubmit = (event: any) => {
     event.preventDefault()
-    
+
     try {
       this.clearErrors()
       this.validForm()
       const { name, description } = this.state
       this.props.onCreateProblem(new Problem(name, description))
-    } catch(error) { console.log(error) }
+    } catch (error) { console.log(error) }
   }
 
   render() {
     const { fieldErrors, isModalOpen } = this.state
     const { toggleModal } = this
 
-    const showFieldErrors = (errors: []) => errors.map((err:string, key:any) => 
+    const showFieldErrors = (errors: []) => errors.map((err: string, key: any) =>
       <div key={key} className="row errorMessage">{err}</div>
     )
-    
+
     return (
       <section className="add__problem">
-        <div>
-          <span onClick={this.toggleModal}
-              className="add__problem__addLink">+ Adicionar
-          </span>
+        <div>          
+          <h2 className="content__subtitle">Cadastrar Problema</h2>
+          <button onClick={this.toggleModal} className="add__problem__addLinkButton">
+            + Adicionar
+          </button>
         </div>
         <DefaultModal isOpen={isModalOpen} closeCallback={toggleModal}>
           <h2 className="content_subtitle">Cadastrar Problema</h2>
@@ -104,14 +105,14 @@ class AddProblem extends Component<IAddProblemProps> {
             <div className="row">
               <label className="add__problem__label">Nome:</label>
               <input value={this.state.name} onChange={this.change}
-              type="text" placeholder="Digite o nome do problema"
+                type="text" placeholder="Digite o nome do problema"
                 name="name" className="add__problem__input" />
 
-              {fieldErrors.name  && showFieldErrors(fieldErrors.name)}
+              {fieldErrors.name && showFieldErrors(fieldErrors.name)}
             </div>
             <div className="row">
               <label className="add__problem__label">Descrição:</label>
-              <textarea name="description" id="description" 
+              <textarea name="description" id="description"
                 value={this.state.description} onChange={this.change}
                 maxLength={3000} rows={3} placeholder="Digite a descrição do problema"
                 className="add__problem__textarea"></textarea>
@@ -133,7 +134,7 @@ class AddProblem extends Component<IAddProblemProps> {
   }
 }
 
-const mapDispatchToProps = (dispatch:any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     onCreateProblem: (problem: Problem) => dispatch(createProblem(problem))
   }

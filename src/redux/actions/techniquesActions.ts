@@ -1,6 +1,6 @@
 import { TechniquesActions } from './actionTypes'
 import axios from '../../axios'
-import { buildQueryString } from '../../query-string-builder'
+import { buildQueryString } from '../../helpers/query-string-builder'
 import Technique from '../../models/Technique'
 import { ITechniquesInitialState } from '../reducers/techniquesReducer'
 import { handlePageError } from './errorsActions'
@@ -55,6 +55,7 @@ export const fetchAllTechniques = (filters:any = {}) => {
 
 export const fetchTechniqueById = (id: number) => {
   return (dispatch: any) => {
+    dispatch(setCurrentTechnique({} as Technique))
     dispatch(setIsLoadingCurrentTechnique(true))
 
     axios.get(`/techniques/${id}`)

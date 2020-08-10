@@ -6,7 +6,7 @@ import './ConceptBasicInfos.scss'
 import { updateConcept } from '../../redux/actions/conceptsActions'
 import { formatAsDateTime } from '../shared/DateHelpers'
 
-interface IConceptBasicInfosProps {
+interface ConceptBasicInfosProps {
   concept: Concept,
   onUpdateConcept: any
 }
@@ -18,7 +18,7 @@ interface IConceptBasicInfosState {
   fieldErrors: any
 }
 
-class ConceptBasicInfos extends Component<IConceptBasicInfosProps, IConceptBasicInfosState> {
+class ConceptBasicInfos extends Component<ConceptBasicInfosProps, IConceptBasicInfosState> {
 
   state = {
     isEditing: false,

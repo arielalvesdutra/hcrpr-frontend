@@ -8,10 +8,10 @@ type Props = {
   links: BreadcrumbLink[]
 }
 
-const Breadcrumb = ( props: Props) => 
+const Breadcrumb = (props: Props) => 
   <div className="breadcrumb">
     {props.links.map((breadLink, key) => (
-      <span key={key}><Link to={breadLink.link}>{breadLink.name} ></Link> </span>
+      <span key={key}><Link to={breadLink.link}>{breadLink.name} {`>`}</Link> </span>
     ))}
   </div>
 

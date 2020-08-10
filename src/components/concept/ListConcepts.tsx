@@ -2,15 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Concept from '../../models/Concept'
-import { fetchAllConcepts, deleteById, 
-  setConceptCurrentPage } from '../../redux/actions/conceptsActions'
+import {
+  fetchAllConcepts, deleteById,
+  setConceptCurrentPage
+} from '../../redux/actions/conceptsActions'
 import { IConceptsInitialState } from '../../redux/reducers/conceptsReducer'
 import List, { ListItem } from '../../components/shared/List'
 import Pagination from '../../components/shared/Pagination'
 import Loading from '../shared/Loading'
 import './ListConcepts.scss'
 
-export const mapConceptsToItems = (parameterConcepts:Concept[]):ListItem[] => {
+export const mapConceptsToItems = (parameterConcepts: Concept[]): ListItem[] => {
 
   return parameterConcepts.map((parameterConcept, key) => {
     return {
@@ -26,7 +28,7 @@ interface IConceptsProps {
   onDeleteById: any
   concepts: Concept[]
   isLoadingConcepts: boolean
-  itemsPerPage:number
+  itemsPerPage: number
   totalItems: number
   totalPages: number
   currentPage?: number
@@ -42,27 +44,27 @@ class ListConcepts extends Component<IConceptsProps> {
 
   render() {
     const { concepts, isLoadingConcepts, totalPages,
-      itemsPerPage, totalItems, onFetchAllConcepts, 
+      itemsPerPage, totalItems, onFetchAllConcepts,
       currentPage, onSetCurrentPage } = this.props
     const { onDeleteByIdWithConfirmation } = this
 
-    const ButtonToDeleteConcept = (id:number) =>
-       <button onClick={() => onDeleteByIdWithConfirmation(id)} 
-          className="list__concepts__deleteButton">
-         Deletar
+    const ButtonToDeleteConcept = (id: number) =>
+      <button onClick={() => onDeleteByIdWithConfirmation(id)}
+        className="list__concepts__deleteButton">
+        Deletar
        </button>
 
-    if (isLoadingConcepts) 
+    if (isLoadingConcepts)
       return <section className="list__concepts"><Loading /></section>
-     
+
     return (
       <section className="list__concepts">
-        
+        <h2 className="content__subtitle">Lista de conceitos</h2>
         {concepts && (
           <>
-          <List actionButtons={[ButtonToDeleteConcept]}
+            <List actionButtons={[ButtonToDeleteConcept]}
               items={mapConceptsToItems(concepts)} />
-          <Pagination
+            <Pagination
               currentPage={currentPage}
               items={concepts}
               itemsPerPage={itemsPerPage}
@@ -86,10 +88,10 @@ class ListConcepts extends Component<IConceptsProps> {
 }
 
 const mapStateToProps = (props: any) => {
-  
-  const { concepts, totalItems, itemsPerPage, 
-    isLoadingConcepts, totalPages, currentPage }:IConceptsInitialState = props.concepts
-  
+
+  const { concepts, totalItems, itemsPerPage,
+    isLoadingConcepts, totalPages, currentPage }: IConceptsInitialState = props.concepts
+
   return {
     concepts,
     totalItems,
@@ -97,13 +99,13 @@ const mapStateToProps = (props: any) => {
     isLoadingConcepts,
     totalPages,
     currentPage
-   }
+  }
 }
 
-const mapDispatchToProps = (dispatch:any) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     onFetchAllConcepts: (filters = {}) => dispatch(fetchAllConcepts(filters)),
-    onDeleteById: (id:number) => dispatch(deleteById(id)),
+    onDeleteById: (id: number) => dispatch(deleteById(id)),
     onSetCurrentPage: (page: number) => dispatch(setConceptCurrentPage(page))
   }
 }

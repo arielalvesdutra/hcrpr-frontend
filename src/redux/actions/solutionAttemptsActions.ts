@@ -1,6 +1,6 @@
 import { SolutionAttemptsActions } from './actionTypes'
 import axios from '../../axios'
-import { buildQueryString } from '../../query-string-builder'
+import { buildQueryString } from '../../helpers/query-string-builder'
 import SolutionAttemptComment from '../../models/SolutionAttemptComment'
 import { fetchSolutionAttemptById } from './problemsActions'
 import { handlePageError } from './errorsActions'
@@ -39,7 +39,7 @@ export const deleteSolutionAttemptComment = (problemId: number, attemptId:number
 export const fetchAllSolutionAttemptComments = (
     problemId: number, solutionAttemptId:number, filters:any = {}) => {
   
-  return (dispatch:any) => {
+  return (dispatch:any) => {    
 
     dispatch(setIsLoadingSolutionAttemptComments(true))
 

@@ -95,12 +95,13 @@ class AddTechnique extends Component<IAddTechniqueProps> {
     return (
       <section className="add__technique">
         <div>
-          <span onClick={this.toggleModal}
-              className="add__technique__addLink">+ Adicionar
-          </span>
+          <h2 className="content__subtitle">Cadastrar Técnica</h2>
+          <button onClick={this.toggleModal}
+              className="add__technique__addLinkButton">+ Adicionar
+          </button>
         </div>
         <DefaultModal isOpen={isModalOpen} closeCallback={toggleModal}>
-          <h2 className="content_subtitle">Adicionar técnica</h2>
+          <h2 className="content_subtitle">Adicionar Técnica</h2>
           <form className="add__technique__form" onSubmit={this.onSubmit}>
             <div className="row">
               <label className="add__technique__label">Nome:</label>

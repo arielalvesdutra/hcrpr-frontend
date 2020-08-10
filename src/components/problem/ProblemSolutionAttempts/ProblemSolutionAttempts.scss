@@ -1,8 +1,8 @@
 @import 'src/assets/sass/_colors.scss';
 @import 'src/assets/sass/_extends.scss';
 
-.problemSolutionAttempts__container {
-  @extend %simpleContainer;
+.problemSolutionAttempts {
+  @extend %containerWhiteSimple;
 }
 
 .problemSolutionAttempts__addAttempt {
@@ -22,13 +22,10 @@
 }
 
 .problemSolutionAttempts__addAttempt__addButton {
-  @extend %formButton;
-  background: $button-background-success;
-  color: white;
+  @extend %formButtonGreen;
 }
 
 
 .problemSolutionAttempts__list__deleteButton {
-  @extend %listActionButton;
-  background: red;
+  @extend %listDeleteButton;
 }

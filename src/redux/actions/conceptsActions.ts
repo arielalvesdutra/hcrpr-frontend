@@ -1,6 +1,6 @@
 import { ConceptsActions } from './actionTypes'
 import axios from '../../axios'
-import { buildQueryString } from '../../query-string-builder'
+import { buildQueryString } from '../../helpers/query-string-builder'
 import Concept from '../../models/Concept'
 import { IConceptsInitialState } from '../reducers/conceptsReducer'
 import { handlePageError } from './errorsActions'
@@ -54,6 +54,7 @@ export const fetchAllConcepts = (filters:any = {}) => {
 
 export const fetchConceptById = (id: number) => {
   return (dispatch: any) => {
+    dispatch(setCurrentConcept({} as Concept))
     dispatch(setIsLoadingCurrentConcept(true))
 
     axios.get(`/concepts/${id}`)
