@@ -12,7 +12,7 @@ Screen for creating and listing techniques.
 
 ## Brief of the structure
 
-- **Pges**: pages. One page can have layouts and components.
+- **Pages**: pages. One page can have layouts and components.
 - **Layouts**: represents generics parts of one page, like a header or a menu.
 - **Components**: represents parts that will be displayed on the page. Normally, can be reused between pages.
 
