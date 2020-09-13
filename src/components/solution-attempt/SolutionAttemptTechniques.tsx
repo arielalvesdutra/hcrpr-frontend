@@ -4,7 +4,7 @@ import Select from 'react-select'
 
 import SolutionAttempt from "../../models/SolutionAttempt";
 import Technique from "../../models/Technique";
-import { updateSolutionAttempTechniques } from "../../redux/actions/solutionAttemptsActions";
+import { updateSolutionAttemptTechniques } from "../../redux/actions/solutionAttemptsActions";
 import './SolutionAttemptTechniques.scss'
 import List from '../shared/List'
 import { mapTechniquesToItems } from "../technique/ListTechniques";
@@ -152,7 +152,7 @@ class SolutionAttemptTechniques
 const mapDispatchToProps = (dispatch:any) => {
   return {
     onUpdateSolutionAttemptTechniques: (problemId:number, attemptId:number, conceptsIds:number[]) => 
-          dispatch(updateSolutionAttempTechniques(problemId, attemptId, conceptsIds))
+          dispatch(updateSolutionAttemptTechniques(problemId, attemptId, conceptsIds))
   }
 }
 

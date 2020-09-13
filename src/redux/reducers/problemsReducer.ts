@@ -4,6 +4,11 @@ import ProblemComment from '../../models/ProblemComment'
 import SolutionAttempt from '../../models/SolutionAttempt'
 import Concept from '../../models/Concept'
 
+interface CurrentProblemRelatedConcepts {
+  data: Concept[]
+  isLoading: boolean
+}
+
 export interface IProblemsInitialState {
   problems: Problem[]
   currentProblem: Problem
@@ -19,7 +24,7 @@ export interface IProblemsInitialState {
   currentProblemCommentsTotalItems: number
   currentProblemCommentsTotalPages: number
   currentProblemCommentsItemsPerPage: number
-  currentProblemRelatedConcepts: Concept[]
+  currentProblemRelatedConcepts: CurrentProblemRelatedConcepts
   currentProblemSolutionAttempt: SolutionAttempt
   currentProblemSolutionAttempts: SolutionAttempt[]
   currentProblemSolutionAttemptsPage: number
@@ -29,9 +34,8 @@ export interface IProblemsInitialState {
   isLoadingComments: boolean
 }
 
-let initialState:IProblemsInitialState = {
+const initialState:IProblemsInitialState = {
   problems: [] as Problem[],
-  currentProblem: {} as Problem,
   currentPage: 1,
   isLoadingCurrentProblem: true,
   isLoadingCurrentProblemSolutionAttempt: true,
@@ -39,12 +43,13 @@ let initialState:IProblemsInitialState = {
   totalItems: 0,
   itemsPerPage: 0,
   totalPages: 0,
+  currentProblem: {} as Problem,
   currentProblemComments: {} as ProblemComment[],
   currentProblemCommentsPage: 1,
   currentProblemCommentsTotalItems: 0,
   currentProblemCommentsTotalPages: 0,
   currentProblemCommentsItemsPerPage: 0,
-  currentProblemRelatedConcepts: [] as Concept[],
+  currentProblemRelatedConcepts: {} as CurrentProblemRelatedConcepts,
   currentProblemSolutionAttempt: {} as SolutionAttempt,
   currentProblemSolutionAttempts: {} as SolutionAttempt[],
   currentProblemSolutionAttemptsPage: 1,
@@ -120,7 +125,10 @@ export default (state: IProblemsInitialState = initialState, action:any):IProble
     case ProblemsActions.SET_CURRENT_PROBLEM_RELATED_CONCEPTS: {
       return {
         ...state,
-        currentProblemRelatedConcepts: action.data.content
+        currentProblemRelatedConcepts: {
+          data: action.data.content,
+          isLoading: action.isLoading
+        }
       }      
     }
     case ProblemsActions.SET_CURRENT_PROBLEM_COMMENTS_PAGE: {

@@ -79,7 +79,7 @@ class AddProblem extends Component<IAddProblemProps> {
       this.clearErrors()
       this.validForm()
       const { name, description } = this.state
-      this.props.onCreateProblem(new Problem(name, description))
+      this.props.onCreateProblem({ name, description})
     } catch (error) { console.log(error) }
   }
 

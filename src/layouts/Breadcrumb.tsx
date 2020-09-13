@@ -1,5 +1,5 @@
 import React from 'react'
-import BreadcrumbLink from '../types/BreadcrumbLink'
+import BreadcrumbLink from '../interfaces/BreadcrumbLink'
 
 import './Breadcrumb.scss'
 import { Link } from 'react-router-dom'

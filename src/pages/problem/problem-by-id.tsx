@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
 import Content from '../../layouts/Content'
-import BreadcrumbLink from '../../types/BreadcrumbLink'
+import BreadcrumbLink from '../../interfaces/BreadcrumbLink'
 import Problem from '../../models/Problem'
 import Concept from '../../models/Concept'
 import Loading from '../../components/shared/Loading'
@@ -19,9 +19,9 @@ import {
   clearCurrentProblemData } from '../../redux/actions/problemsActions'
 import { fetchAllConcepts } from '../../redux/actions/conceptsActions'
 
-const breadcrumbLinks = [
-  new BreadcrumbLink("Problemas", "/problems"),
-  new BreadcrumbLink("Detalhe", "#")
+const breadcrumbLinks: BreadcrumbLink[] = [
+  { name: "Problemas", link: "/problems" },
+  { name: "Detalhe", link:  "#" }
 ]
 
 interface ProblemByIdProps {
@@ -31,6 +31,7 @@ interface ProblemByIdProps {
   currentProblem: Problem
   concepts: Concept[]
   relatedConcepts: Concept[]
+  isLoadingRelatedConcepts: boolean
   onFetchProblemById(id: number): Problem
   onFetchAllConcepts(): Concept[]
   onFetchAllProblemRelatedConcepts(id: number): Concept[]
@@ -43,7 +44,8 @@ const ProblemById = (props: ProblemByIdProps) => {
   const { onClearCurrentProblemData } = props
   const { onFetchProblemById } = props
   const { onFetchAllConcepts, onFetchAllProblemRelatedConcepts } = props
-  const { currentProblem, concepts, relatedConcepts, isLoadingCurrentProblem } = props
+  const { currentProblem, concepts, isLoadingCurrentProblem } = props
+  const { relatedConcepts, isLoadingRelatedConcepts} = props
   const [isProblemFirstLoadCompleted, setIsProblemFirstLoadCompleted] = useState(false)
 
   useEffect(() => {
@@ -83,6 +85,7 @@ const ProblemById = (props: ProblemByIdProps) => {
         problem={currentProblem}
         concepts={concepts}
         relatedConcepts={relatedConcepts}
+        isLoading={isLoadingRelatedConcepts}
         key={`concepts`} />
     </Content>
   )
@@ -90,8 +93,7 @@ const ProblemById = (props: ProblemByIdProps) => {
 
 const mapStateToProps = (props: any) => {
 
-  const { currentProblem, isLoadingCurrentProblem,
-    currentProblemRelatedConcepts }: IProblemsInitialState = props.problems
+  const { currentProblem, isLoadingCurrentProblem, currentProblemRelatedConcepts }: IProblemsInitialState = props.problems
   const { concepts, isLoadingConcepts }: IConceptsInitialState = props.concepts
 
   return {
@@ -99,7 +101,8 @@ const mapStateToProps = (props: any) => {
     currentProblem,
     isLoadingConcepts,
     concepts,
-    relatedConcepts: currentProblemRelatedConcepts
+    relatedConcepts: currentProblemRelatedConcepts.data,
+    isLoadingRelatedConcepts: currentProblemRelatedConcepts.isLoading
   }
 }
 

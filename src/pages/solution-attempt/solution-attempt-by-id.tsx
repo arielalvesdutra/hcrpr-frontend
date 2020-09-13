@@ -6,7 +6,7 @@ import { fetchAllTechniques } from '../../redux/actions/techniquesActions'
 import { ITechniquesInitialState } from '../../redux/reducers/techniquesReducer'
 import { IProblemsInitialState } from '../../redux/reducers/problemsReducer'
 import Content from '../../layouts/Content'
-import BreadcrumbLink from '../../types/BreadcrumbLink'
+import BreadcrumbLink from '../../interfaces/BreadcrumbLink'
 import SolutionAttempt from '../../models/SolutionAttempt'
 import Technique from '../../models/Technique'
 import SolutionAttemptBasicInfo from '../../components/solution-attempt/SolutionAttemptBasicInfo'
@@ -47,10 +47,10 @@ const SolutionAttemptById = (props: SolutionAttemptByIdProps) => {
 
   usePageTitle(pageTitle)
 
-  const breadcrumbLinks = [
-    new BreadcrumbLink("Problemas", "/problems"),
-    new BreadcrumbLink(`Detalhe`, `/problems/${problemId ? problemId : ''}`),
-    new BreadcrumbLink("Tentativa de Solução", "#")
+  const breadcrumbLinks: BreadcrumbLink[] = [
+    { name: "Problemas", link:  "/problems"},
+    { name: `Detalhe`, link: `/problems/${problemId ? problemId : ''}`},
+    { name: "Tentativa de Solução", link: "#" }
   ]
 
   if (isLoading)
