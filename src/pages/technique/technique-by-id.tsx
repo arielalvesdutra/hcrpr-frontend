@@ -4,15 +4,15 @@ import { connect } from 'react-redux'
 import { fetchTechniqueById } from '../../redux/actions/techniquesActions'
 import { ITechniquesInitialState } from '../../redux/reducers/techniquesReducer'
 import Content from '../../layouts/Content'
-import BreadcrumbLink from '../../types/BreadcrumbLink'
+import BreadcrumbLink from '../../interfaces/BreadcrumbLink'
 import Technique from '../../models/Technique'
 import TechniqueBasicInfo from '../../components/technique/TechniqueBasicInfos'
 import { usePageTitle } from '../../components/shared/UsePageTitle'
 import Loading from '../../components/shared/Loading'
 
-const breadcrumbLinks = [
-  new BreadcrumbLink("Técnicas", "/techniques"),
-  new BreadcrumbLink("Detalhe", "#")
+const breadcrumbLinks: BreadcrumbLink[] = [
+  { name: "Técnicas", link: "/techniques" },
+  { name: "Detalhe", link: "#"}
 ]
 
 interface TechniqueByIdProps {

@@ -1,15 +1,11 @@
 import ProblemComment from "./ProblemComment";
 import Concept from "./Concept";
 
-class Problem {
-  constructor(
-    public name: string,
-    public description: string,
-    public id?: number,
-    public comments?: ProblemComment[],
-    public relatedConcepts?: Concept[],
-    public createdAt?: Date
-    ) {}
+export default interface Problem {  
+  id?: number
+  name: string
+  description: string
+  createdAt?: Date    
+  comments?: ProblemComment[]
+  relatedConcepts?: Concept[]
 }
-
-export default Problem

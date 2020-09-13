@@ -7,14 +7,14 @@ import Problem from '../../models/Problem'
 import ProblemComment from '../../models/ProblemComment'
 import SolutionAttempt from '../../models/SolutionAttempt'
 import { handlePageError } from './errorsActions'
-import Concept from '../../models/Concept'
+
 
 export const clearCurrentProblemData = () => {
-  return (dispath: any) => {
-    dispath(setIsLoadingCurrentProblem(true))
-    dispath(setCurrentProblem({} as Problem))
-    dispath(setCurrentProblemComments([] as Comment[]))
-    dispath(setCurrentProblemRelatedConcepts([] as Concept[]))
+  return (dispatch: any) => {
+    dispatch(setIsLoadingCurrentProblem(true))
+    dispatch(setCurrentProblem({} as Problem))
+    dispatch(setCurrentProblemComments([] as Comment[]))
+    dispatch(setCurrentProblemRelatedConcepts({ data: [], isLoading: false}))
   }
 }
 
@@ -139,7 +139,7 @@ export const fetchAllProblemComments = (problemId: number, filters: any = {}) =>
 
 export const fetchAllProblemRelatedConcepts = (problemId: number, filters: any = {}) => {
   return (dispatch: any) => {
-    dispatch(setCurrentProblemRelatedConcepts([]))
+    dispatch(setCurrentProblemRelatedConcepts({data: [], isLoading: true}))
 
     if (filters.sort === undefined) filters.sort = 'createdAt,desc'
 
@@ -147,10 +147,7 @@ export const fetchAllProblemRelatedConcepts = (problemId: number, filters: any =
     const queryString = buildQueryString(filters)
 
     axios.get(`/problems/${problemId}/concepts${queryString}`)
-      .then(response => {
-        const data = response.data
-        dispatch(setCurrentProblemRelatedConcepts(data))
-      })
+      .then(({data}) => dispatch(setCurrentProblemRelatedConcepts({data, isLoading: false})))
       .catch(error => error)
   }
 }
@@ -212,9 +209,9 @@ export const updateProblem = (id: number, problem: Problem) => {
 export const updateProblemRelatedConcepts = (problemId: number, conceptsIds: number[]) => {
   return (dispatch: any) => {
 
-    axios.put(`/problems/${problemId}/concepts`, {
-      conceptsIds: conceptsIds
-    })
+    dispatch(setCurrentProblemRelatedConcepts({data: [], isLoading: true}))
+    
+    axios.put(`/problems/${problemId}/concepts`, { conceptsIds })
       .then(_ => dispatch(fetchAllProblemRelatedConcepts(problemId)))
   }
 }
@@ -288,10 +285,11 @@ export const setCurrentProblemComments = (data: Comment[]) => {
   }
 }
 
-export const setCurrentProblemRelatedConcepts = (data: Concept[]) => {
+export const setCurrentProblemRelatedConcepts = ({ data = [], isLoading = false}) => {
   return {
     type: ProblemsActions.SET_CURRENT_PROBLEM_RELATED_CONCEPTS,
-    data
+    data,
+    isLoading
   }
 }
 

@@ -1,8 +1,6 @@
 import React from 'react'
 import Modal from 'react-modal'
 
-Modal.setAppElement("#root")
-
 const customModalStyles = {
   content : {
     display: 'flex',
@@ -59,5 +57,3 @@ const DefaultModal = (props: DefaultModalProps) => {
 }
 
 export default DefaultModal
-
-

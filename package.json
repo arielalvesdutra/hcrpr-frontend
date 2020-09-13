@@ -1,7 +1,7 @@
 {
   "name": "hcrpr-frontend",
   "description": "Habits & Cycles Related Problems Resolver",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "dependencies": {
     "axios": "^0.19.2",
     "formik": "^2.1.5",
@@ -15,7 +15,7 @@
     "react-redux": "^7.2.1",
     "react-redux-loading-bar": "^4.6.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^3.4.3",
     "react-select": "^3.1.0",
     "react-spinners": "^0.8.3",
     "redux": "^4.0.5",
@@ -23,6 +23,9 @@
     "yup": "^0.29.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
     "@types/jest": "24.0.23",
     "@types/node": "12.12.11",
     "@types/react": "16.9.11",
@@ -31,9 +34,9 @@
     "@types/react-modal": "^3.10.6",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
-    "@types/react-select": "^3.0.14",
-    "@types/yup": "^0.29.4",
-    "typescript": "3.7.2"
+    "@types/react-select": "^3.0.19",
+    "@types/yup": "^0.29.7",
+    "typescript": "3.7.4"
   },
   "scripts": {
     "start": "react-scripts start",

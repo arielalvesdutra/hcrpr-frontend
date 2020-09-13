@@ -59,7 +59,7 @@ const EditProblem = ({ problem, toggleEditing, onUpdateProblem }: EditProblemPro
       if (!problem.id) throw Error('Problem without id')             
 
       const { name, description } = values
-      onUpdateProblem(problem.id, new Problem(name, description))
+      onUpdateProblem(problem.id, { name, description })
       toggleEditing()
     } catch(error) { console.log(error)}
   }

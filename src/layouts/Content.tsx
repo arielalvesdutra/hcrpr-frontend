@@ -1,7 +1,7 @@
 import React from 'react'
 import './Content.scss'
 
-import BreadcrumbLink from '../types/BreadcrumbLink'
+import BreadcrumbLink from '../interfaces/BreadcrumbLink'
 import Breadcrumb from './Breadcrumb'
 
 interface ContentProps {

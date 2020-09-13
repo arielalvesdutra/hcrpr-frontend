@@ -53,7 +53,7 @@ export const fetchAllSolutionAttemptComments = (
   }
 }
 
-export const updateSolutionAttempTechniques = (problemId:number, attemptId:number, techniquesIds:number[]) => {
+export const updateSolutionAttemptTechniques = (problemId:number, attemptId:number, techniquesIds:number[]) => {
   return (dispatch:any) => {
 
     axios.put(`/problems/${problemId}/solution-attempts/${attemptId}/techniques`, {

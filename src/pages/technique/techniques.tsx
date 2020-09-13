@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import BreadcrumbLink from '../../types/BreadcrumbLink'
+import BreadcrumbLink from '../../interfaces/BreadcrumbLink'
 import Content from '../../layouts/Content'
 import AddTechnique from '../../components/technique/AddTechnique'
 import ListTechniques from '../../components/technique/ListTechniques'
@@ -10,8 +10,8 @@ import Loading from '../../components/shared/Loading'
 import { fetchAllTechniques } from '../../redux/actions/techniquesActions'
 import { ITechniquesInitialState } from '../../redux/reducers/techniquesReducer'
 
-const breadcrumbLinks = [
-  new BreadcrumbLink("Técnicas", "/techniques")
+const breadcrumbLinks: BreadcrumbLink[] = [
+  { name: "Técnicas", link: "/techniques" }
 ]
 
 interface TechniquesProps {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import Content from '../../layouts/Content'
-import BreadcrumbLink from '../../types/BreadcrumbLink'
+import BreadcrumbLink from '../../interfaces/BreadcrumbLink'
 import AddConcept from '../../components/concept/AddConcept'
 import ListConcepts from '../../components/concept/ListConcepts'
 import { usePageTitle } from '../../components/shared/UsePageTitle'
@@ -10,8 +10,8 @@ import Loading from '../../components/shared/Loading'
 import { IConceptsInitialState } from '../../redux/reducers/conceptsReducer'
 import { fetchAllConcepts } from '../../redux/actions/conceptsActions'
 
-const breadcrumbLinks = [
-  new BreadcrumbLink("Conceitos", "/concepts")
+const breadcrumbLinks: BreadcrumbLink[] = [
+  { name: "Conceitos", link: "/concepts" }
 ]
 
 interface ConceptsProps {

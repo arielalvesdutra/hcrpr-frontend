@@ -5,13 +5,13 @@
   @extend %containerWhiteSimple;
 }
 
-.problemRelatedConcepts__vinculateConcepts__saveButton {
+.problemRelatedConcepts__update__saveButton {
   @extend %formButtonGreen;
   margin: 0 5px 5px 0;
 }
 
 .problemRelatedConcepts__list__editButton,
-.problemRelatedConcepts__vinculateConcepts__cancelButton {
+.problemRelatedConcepts__update__cancelButton {
   @extend %formButton;
 }
 

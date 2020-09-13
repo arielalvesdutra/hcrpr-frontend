@@ -4,15 +4,15 @@ import { connect } from 'react-redux'
 import { fetchConceptById } from '../../redux/actions/conceptsActions'
 import { IConceptsInitialState } from '../../redux/reducers/conceptsReducer'
 import Content from '../../layouts/Content'
-import BreadcrumbLink from '../../types/BreadcrumbLink'
+import BreadcrumbLink from '../../interfaces/BreadcrumbLink'
 import Concept from '../../models/Concept'
 import ConceptBasicInfos from '../../components/concept/ConceptBasicInfos'
 import { usePageTitle } from '../../components/shared/UsePageTitle'
 import Loading from '../../components/shared/Loading'
 
-const breadcrumbLinks = [
-  new BreadcrumbLink("Conceitos", "/concepts"),
-  new BreadcrumbLink("Detalhe", "#")
+const breadcrumbLinks: BreadcrumbLink[] = [
+  { name: "Conceitos", link: "/concepts" },
+  { name: "Detalhe", link: "#" } 
 ]
 
 interface ConceptByIdProps {
